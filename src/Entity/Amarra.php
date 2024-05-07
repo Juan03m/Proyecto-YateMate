@@ -14,62 +14,22 @@ class Amarra
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $Sector = null;
-
-    #[ORM\Column]
-    private ?int $Marina = null;
-
-    #[ORM\Column]
-    private ?int $Posicion = null;
-
-    #[ORM\Column]
-    private ?int $tamaño = null;
+    private ?int $Numero = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSector(): ?int
+    public function getNumero(): ?int
     {
-        return $this->$Sector;
+        return $this->Numero;
     }
 
-    public function setSector(int $Sector): static
+    public function setNumero(int $Numero): static
     {
-        $this->Sector = $Sector;
+        $this->Numero = $Numero;
 
         return $this;
     }
-
-    public function getMarina(): ?int
-    {
-        return $this->$Marina;
-    }
-
-    public function setMarina(int $Marina): ?int
-    {
-        $this ->Marina = $Marina;
-    }
-    
-    public function getPosicion(): ?int
-    {
-        return $this->posicion;
-    }
-
-    public function setPosicion(?int $posicion): void
-    {
-        $this->posicion = $posicion;
-    }
-
-    public function getTamaño(): ?int
-    {
-        return $this->tamaño;
-    }
-
-    public function setTamaño(?int $tamaño): void
-    {
-        $this->tamaño = $tamaño;
-    }
-    
 }
