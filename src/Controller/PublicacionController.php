@@ -31,11 +31,17 @@ class PublicacionController extends AbstractController
         $publicacion = new Publicacion();
         $form = $this->createForm(PublicacionType::class, $publicacion);
         $form->handleRequest($request);
-
+     
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $publicacion->setFecha(new \DateTime('now'));
+            //agregar tambien que el id del usuario sea el que esta usando el form
+
+
+
             $entityManager->persist($publicacion);
             $entityManager->flush();
-            $publicacion->setFecha(new \DateTime('now'));
+
 
 
 

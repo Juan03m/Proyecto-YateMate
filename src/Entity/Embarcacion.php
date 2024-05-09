@@ -35,6 +35,10 @@ class Embarcacion
     #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
     private ?Publicacion $publicacion = null;
 
+    #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
+    private ?Amarra $amarra = null;
+
+
     // Getters and setters for id
     public function getId(): ?int
     {
@@ -136,5 +140,27 @@ class Embarcacion
                 ->atPath('Nombre')
                 ->addViolation();
         }
+    }
+
+    public function getAmarra(): ?Amarra
+    {
+        return $this->amarra;
+    }
+
+    public function setAmarra(?Amarra $amarra): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($amarra === null && $this->amarra !== null) {
+            $this->amarra->setEmbarcacion(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($amarra !== null && $amarra->getEmbarcacion() !== $this) {
+            $amarra->setEmbarcacion($this);
+        }
+
+        $this->amarra = $amarra;
+
+        return $this;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,6 +35,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, Bien>
+     */
+    #[ORM\OneToMany(targetEntity: Bien::class, mappedBy: 'owner', orphanRemoval: true)]
+    private Collection $bienes;
+
+    public function __construct()
+    {
+        $this->bienes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -117,6 +130,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bien>
+     */
+    public function getBienes(): Collection
+    {
+        return $this->bienes;
+    }
+
+    public function addBiene(Bien $biene): static
+    {
+        if (!$this->bienes->contains($biene)) {
+            $this->bienes->add($biene);
+            $biene->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBiene(Bien $biene): static
+    {
+        if ($this->bienes->removeElement($biene)) {
+            // set the owning side to null (unless already changed)
+            if ($biene->getOwner() === $this) {
+                $biene->setOwner(null);
+            }
+        }
 
         return $this;
     }
