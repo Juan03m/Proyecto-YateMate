@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UsuarioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,9 +43,44 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Bien::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $bienes;
 
+    /**
+     * @var Collection<int, Embarcacion>
+     */
+    #[ORM\OneToMany(targetEntity: Embarcacion::class, mappedBy: 'usuario')]
+    private Collection $embarcaciones;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dni = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cuil = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nombre = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apellido = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telefono = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $direccion = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Amarra $amarra = null;
+
+    /**
+     * @var Collection<int, Publicacion>
+     */
+    #[ORM\OneToMany(targetEntity: Publicacion::class, mappedBy: 'usuario', orphanRemoval: true)]
+    private Collection $publicaciones;
+
     public function __construct()
     {
         $this->bienes = new ArrayCollection();
+        $this->embarcaciones = new ArrayCollection();
+        $this->publicaciones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,4 +199,149 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Embarcacion>
+     */
+    public function getEmbarcaciones(): Collection
+    {
+        return $this->embarcaciones;
+    }
+
+    public function addEmbarcacione(Embarcacion $embarcacione): static
+    {
+        if (!$this->embarcaciones->contains($embarcacione)) {
+            $this->embarcaciones->add($embarcacione);
+            $embarcacione->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmbarcacione(Embarcacion $embarcacione): static
+    {
+        if ($this->embarcaciones->removeElement($embarcacione)) {
+            // set the owning side to null (unless already changed)
+            if ($embarcacione->getUsuario() === $this) {
+                $embarcacione->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDni(): ?string
+    {
+        return $this->dni;
+    }
+
+    public function setDni(?string $dni): static
+    {
+        $this->dni = $dni;
+
+        return $this;
+    }
+
+    public function getCuil(): ?string
+    {
+        return $this->cuil;
+    }
+
+    public function setCuil(?string $cuil): static
+    {
+        $this->cuil = $cuil;
+
+        return $this;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): static
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getApellido(): ?string
+    {
+        return $this->apellido;
+    }
+
+    public function setApellido(?string $apellido): static
+    {
+        $this->apellido = $apellido;
+
+        return $this;
+    }
+
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(?string $telefono): static
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    public function getDireccion(): ?string
+    {
+        return $this->direccion;
+    }
+
+    public function setDireccion(?string $direccion): static
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    public function getAmarra(): ?Amarra
+    {
+        return $this->amarra;
+    }
+
+    public function setAmarra(?Amarra $amarra): static
+    {
+        $this->amarra = $amarra;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Publicacion>
+     */
+    public function getPublicaciones(): Collection
+    {
+        return $this->publicaciones;
+    }
+
+    public function addPublicacione(Publicacion $publicacione): static
+    {
+        if (!$this->publicaciones->contains($publicacione)) {
+            $this->publicaciones->add($publicacione);
+            $publicacione->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicacione(Publicacion $publicacione): static
+    {
+        if ($this->publicaciones->removeElement($publicacione)) {
+            // set the owning side to null (unless already changed)
+            if ($publicacione->getUsuario() === $this) {
+                $publicacione->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

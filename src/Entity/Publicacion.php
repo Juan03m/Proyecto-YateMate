@@ -28,6 +28,10 @@ class Publicacion
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fecha = null;
 
+    #[ORM\ManyToOne(inversedBy: 'publicaciones')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $usuario = null;
+
 
     
     public function getId(): ?int
@@ -81,6 +85,18 @@ class Publicacion
     public function setFecha(\DateTimeInterface $fecha): static
     {
         $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

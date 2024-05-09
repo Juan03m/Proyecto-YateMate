@@ -38,6 +38,10 @@ class Embarcacion
     #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
     private ?Amarra $amarra = null;
 
+    #[ORM\ManyToOne(inversedBy: 'embarcaciones')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $usuario = null;
+
 
     // Getters and setters for id
     public function getId(): ?int
@@ -160,6 +164,18 @@ class Embarcacion
         }
 
         $this->amarra = $amarra;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }
