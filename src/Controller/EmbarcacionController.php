@@ -22,6 +22,7 @@ class EmbarcacionController extends AbstractController
         ]);
     }
 
+    
     #[Route('/new', name: 'app_embarcacion_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -30,6 +31,7 @@ class EmbarcacionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $entityManager->persist($embarcacion);
             $entityManager->flush();
 
