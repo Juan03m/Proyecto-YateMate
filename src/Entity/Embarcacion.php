@@ -28,6 +28,9 @@ class Embarcacion
     #[ORM\Column(length: 255)]
     private ?string $Tipo = null;
 
+    #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
+    private ?Publicacion $publicacion = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,23 @@ class Embarcacion
     public function setTipo(string $Tipo): static
     {
         $this->Tipo = $Tipo;
+
+        return $this;
+    }
+
+    public function getPublicacion(): ?Publicacion
+    {
+        return $this->publicacion;
+    }
+
+    public function setPublicacion(Publicacion $publicacion): static
+    {
+        // set the owning side of the relation if necessary
+        if ($publicacion->getEmbarcacion() !== $this) {
+            $publicacion->setEmbarcacion($this);
+        }
+
+        $this->publicacion = $publicacion;
 
         return $this;
     }
