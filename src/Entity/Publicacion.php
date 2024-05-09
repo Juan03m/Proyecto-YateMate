@@ -6,6 +6,7 @@ use App\Repository\PublicacionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: PublicacionRepository::class)]
 class Publicacion
 {
@@ -27,6 +28,8 @@ class Publicacion
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fecha = null;
 
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -56,6 +59,8 @@ class Publicacion
         return $this;
     }
 
+
+
     public function getDescripcion(): ?string
     {
         return $this->descripcion;
@@ -79,4 +84,7 @@ class Publicacion
 
         return $this;
     }
+
+
+
 }

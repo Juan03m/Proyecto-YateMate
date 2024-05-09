@@ -17,9 +17,12 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]
     public function index(PublicacionRepository $repositorioPublicaciones): Response
     {
+            $publicaciones=$repositorioPublicaciones->findAll();
+
 
     
     return $this->render('dashboard/index.html.twig',[
+        'publicaciones'=> $publicaciones
     ]);
 
     }

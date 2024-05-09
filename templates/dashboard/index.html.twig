@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% for publicacion in publicaciones %}
+    <div class="publicacion_container">
+        <h1>publacion.titulo</h1>
+        <p>publicacion.descripçion</p>
+
+
+    </div>
+    {% endfor %}
+
     
 {% endblock %}
