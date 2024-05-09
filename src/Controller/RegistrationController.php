@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
-
+    /*
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
@@ -80,4 +80,7 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
+
+    */
+
 }
