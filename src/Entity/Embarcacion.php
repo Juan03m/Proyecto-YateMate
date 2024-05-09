@@ -34,7 +34,7 @@ class Embarcacion
 
     #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
     private ?Publicacion $publicacion = null;
-
+    
     #[ORM\OneToOne(mappedBy: 'embarcacion', cascade: ['persist', 'remove'])]
     private ?Amarra $amarra = null;
 
