@@ -17,6 +17,9 @@ class Publicacion
     #[ORM\JoinColumn(nullable: false)]
     private ?Embarcacion $embarcacion = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $titulo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +33,18 @@ class Publicacion
     public function setEmbarcacion(Embarcacion $embarcacion): static
     {
         $this->embarcacion = $embarcacion;
+
+        return $this;
+    }
+
+    public function getTitulo(): ?string
+    {
+        return $this->titulo;
+    }
+
+    public function setTitulo(string $titulo): static
+    {
+        $this->titulo = $titulo;
 
         return $this;
     }
