@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: EmbarcacionRepository::class)]
+#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
 class Embarcacion
 {
     #[ORM\Id]
