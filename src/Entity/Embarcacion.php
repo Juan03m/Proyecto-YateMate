@@ -131,9 +131,9 @@ class Embarcacion
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload)
+    public function validate(ExecutionContextInterface $context, $payload,EmbarcacionRepository $embarcacionRepository)
     {
-        $existingEmbarcacion = $this->embarcacionRepository->findOneBy(['Nombre' => $this->Nombre]);
+        $existingEmbarcacion = $embarcacionRepository->findOneBy(['Nombre' => $this->Nombre]);
 
         if ($existingEmbarcacion && ($existingEmbarcacion->getId() !== $this->id)) {
             $context->buildViolation('El nombre de la embarcación ya está registrado.')
