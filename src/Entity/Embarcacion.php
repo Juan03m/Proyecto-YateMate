@@ -24,7 +24,7 @@ class Embarcacion
     private ?string $Nombre = null;
 
     #[ORM\Column]
-    private ?float $Tamano = null;
+    private ?string $Tamano = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Bandera = null;
@@ -76,7 +76,7 @@ class Embarcacion
     }
 
     // Getters and setters for Tamano
-    public function getTamano(): ?float
+    public function getTamano(): ?string
     {
         return $this->Tamano;
     }

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Amarra;
 use App\Entity\Embarcacion;
+use App\Entity\Usuario;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -46,5 +47,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Embarcaciones','fas fa-list',Embarcacion::class);
         yield MenuItem::linkToCrud('Amarras', 'fas fa-list', Amarra::class);
+        yield MenuItem::linkToCrud('Usuarios', 'fas fa-list', Usuario::class);
     }
 }
