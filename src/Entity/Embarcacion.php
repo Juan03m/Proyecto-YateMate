@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 #[ORM\Entity(repositoryClass: EmbarcacionRepository::class)]
 #[UniqueEntity(
     fields: ["Matricula"],
-    message: "La matricula ya está en uso",
+    message: "La matricula ya esta registrada",
     groups: ["new"]
 )]
  
@@ -142,7 +142,7 @@ class Embarcacion
     {
         $metadata->addConstraint(new UniqueEntity([
             'fields' => 'Matricula',
-            'message' => 'Esta Matricula ya está en uso',
+            'message' => 'Esta Matricula ya está registrada',
         ]));
 
         $metadata->addPropertyConstraint('Nombre', new Assert\NotBlank([

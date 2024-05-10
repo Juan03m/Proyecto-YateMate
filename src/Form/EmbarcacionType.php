@@ -27,7 +27,7 @@ class EmbarcacionType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Embarcacion::class,
             'constraints' => [
-                new UniqueEntity(fields: ['Nombre']),
+                new UniqueEntity(fields: ['Matricula']),
             ],
         ]);
     }
