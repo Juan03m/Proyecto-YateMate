@@ -6,9 +6,17 @@ use App\Repository\EmbarcacionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+
 
 #[ORM\Entity(repositoryClass: EmbarcacionRepository::class)]
-//#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
+#[UniqueEntity(
+    fields: ["Matricula"],
+    message: "La matricula ya esta registrada",
+    groups: ["new"]
+)]
+ 
 class Embarcacion
 {
     #[ORM\Id]
@@ -83,8 +91,6 @@ class Embarcacion
         return $this;
     }
 
-   
-
     // Getters and setters for Bandera
     public function getBandera(): ?string
     {
@@ -132,16 +138,18 @@ class Embarcacion
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload,EmbarcacionRepository $embarcacionRepository)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        $existingEmbarcacion = $embarcacionRepository->findOneBy(['Nombre' => $this->Nombre]);
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'Matricula',
+            'message' => 'Esta Matricula ya está registrada',
+        ]));
 
-        if ($existingEmbarcacion && ($existingEmbarcacion->getId() !== $this->id)) {
-            $context->buildViolation('El nombre de la embarcación ya está registrado.')
-                ->atPath('Nombre')
-                ->addViolation();
-        }
+        $metadata->addPropertyConstraint('Nombre', new Assert\NotBlank([
+            'message' => 'La Matricula no puede estar vacío',
+        ]));
     }
+
 
     public function getAmarra(): ?Amarra
     {
@@ -219,4 +227,5 @@ class Embarcacion
 
         return $this;
     }
+
 }
