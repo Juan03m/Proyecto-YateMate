@@ -1,23 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registro{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <div class="centered-form">
+        <h1 style="text-align: center;">¡Registrate!</h1>
 
-    {{ form_errors(registrationForm) }}
+        {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, {'attr': {'class': 'form-group'}})}}
+            {{ form_row(registrationForm.email, {
+                'attr': {'class': 'form-control', 'placeholder': 'email@ejemplo'}
+            }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                'label': 'Contraseña',
+                'attr': {'class': 'form-control'}
+            }) }}
+            <small id="passwordHelp" class="form-text text-muted">La contraseña debe tener un mínimo de 6 caracteres, y debe incluir al menos un carácter especial, una mayúscula y un número.</small>
+            <div class="form-check">
+                <label class="form-check-label">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                    Acepto los términos y condiciones
+                </label>
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <button type="submit" class="btn btn-secondary">Registrarse</button>
+
+
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

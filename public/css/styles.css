@@ -1,0 +1,42 @@
+body {
+    background-color: #040e1b;
+}
+
+.navbar {
+    background-color: #071a32;
+}
+
+.btn-outline-primary {
+    color: #c2a26b;
+    border-color: #c2a26b;
+}
+
+.btn-outline-primary:hover {
+    background-color: #c2a26b;
+    color: black;
+}
+
+/* Rectángulo del registro */
+.centered-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    padding: 20px;
+    width: 50%;
+    background-color: #c2a26b; 
+    border-radius: 10px; 
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+.btn-secondary {
+    background-color: #071a32; /* color de fondo del botón */
+    color: white; /* color del texto del botón */
+}
+
+
+
