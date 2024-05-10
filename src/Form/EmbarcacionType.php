@@ -12,7 +12,7 @@ class EmbarcacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Matricula')
+            ->add('Matricula', TextType::class,['constraints' => [new Length(['min' => 10])]])
             ->add('Nombre')
             ->add('alto')
             ->add('ancho')
@@ -26,6 +26,11 @@ class EmbarcacionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Embarcacion::class,
+            'constraints' => [
+                new UniqueEntity(fields: ['Nombre']),
+            ],
         ]);
     }
+
+    
 }
