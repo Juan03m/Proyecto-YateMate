@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PublicacionType extends AbstractType
 {
@@ -21,6 +22,14 @@ class PublicacionType extends AbstractType
                 'widget' => 'single_text',
             ])
             */
+            ->add('foto', FileType::class, [
+                'label' => 'Foto (PNG, JPEG)',
+                'mapped' => false, // No mapear a ninguna propiedad de la entidad
+                'required' => false, // No requerido
+                'attr' => [
+                    'accept' => 'image/*', // Aceptar solo archivos de imagen
+                ],
+            ])
             ->add('embarcacion', EntityType::class, [
                 'class' => Embarcacion::class,
                 'choice_label' => 'id',
