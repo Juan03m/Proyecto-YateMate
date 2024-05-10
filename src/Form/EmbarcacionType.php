@@ -14,7 +14,9 @@ class EmbarcacionType extends AbstractType
         $builder
             ->add('Matricula')
             ->add('Nombre')
-            ->add('Tamano')
+            ->add('alto')
+            ->add('ancho')
+            ->add('largo')
             ->add('Bandera')
             ->add('Tipo')
         ;

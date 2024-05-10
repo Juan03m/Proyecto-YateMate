@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: EmbarcacionRepository::class)]
-#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
+//#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
 class Embarcacion
 {
     #[ORM\Id]
@@ -24,8 +24,6 @@ class Embarcacion
     
     private ?string $Nombre = null;
 
-    #[ORM\Column]
-    private ?string $Tamano = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Bandera = null;
@@ -42,6 +40,15 @@ class Embarcacion
     #[ORM\ManyToOne(inversedBy: 'embarcaciones')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
+
+    #[ORM\Column]
+    private ?float $alto = null;
+
+    #[ORM\Column]
+    private ?float $ancho = null;
+
+    #[ORM\Column]
+    private ?float $largo = null;
 
 
     // Getters and setters for id
@@ -76,18 +83,7 @@ class Embarcacion
         return $this;
     }
 
-    // Getters and setters for Tamano
-    public function getTamano(): ?string
-    {
-        return $this->Tamano;
-    }
-
-    public function setTamano(?float $Tamano): self
-    {
-        $this->Tamano = $Tamano;
-
-        return $this;
-    }
+   
 
     // Getters and setters for Bandera
     public function getBandera(): ?string
@@ -177,6 +173,49 @@ class Embarcacion
     public function setUsuario(?Usuario $usuario): static
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        $embarcacion='Matricula:  '.$this->getMatricula().' '.'Nombre: '.$this->getNombre();
+        return $embarcacion;
+    }
+
+    public function getAlto(): ?float
+    {
+        return $this->alto;
+    }
+
+    public function setAlto(float $alto): static
+    {
+        $this->alto = $alto;
+
+        return $this;
+    }
+
+    public function getAncho(): ?float
+    {
+        return $this->ancho;
+    }
+
+    public function setAncho(float $ancho): static
+    {
+        $this->ancho = $ancho;
+
+        return $this;
+    }
+
+    public function getLargo(): ?float
+    {
+        return $this->largo;
+    }
+
+    public function setLargo(float $largo): static
+    {
+        $this->largo = $largo;
 
         return $this;
     }

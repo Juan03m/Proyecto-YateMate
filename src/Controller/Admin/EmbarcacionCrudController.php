@@ -6,6 +6,7 @@ use App\Entity\Embarcacion;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -25,9 +26,11 @@ class EmbarcacionCrudController extends AbstractCrudController
             TextField::new('matricula'),
             TextField::new('nombre'),
             CountryField::new('bandera'),
-            TextField::new('tamano'),
+            Field::new('alto'),
+            Field::new('ancho'),
+            Field::new('largo'),
             TextField::new('tipo'),
-            AssociationField::new('usuario'),
+            AssociationField::new('usuario')->autocomplete(),
         ];
     }
     
