@@ -29,7 +29,7 @@ class HomePageController extends AbstractController
            if ($form->isSubmitted() && $form->isValid()) {
                 
                 
-   //         }
+           }
     
 
     return $this->render('dashboard/index.html.twig',[
