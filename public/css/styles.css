@@ -1,5 +1,6 @@
 body {
     background-color: #040e1b;
+    color: #071a32; /* Agregado para cambiar el color del texto */
 }
 
 .navbar {
@@ -37,6 +38,3 @@ body {
     background-color: #071a32; /* color de fondo del botón */
     color: white; /* color del texto del botón */
 }
-
-
-
