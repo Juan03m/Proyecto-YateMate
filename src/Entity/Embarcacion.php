@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\EmbarcacionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: EmbarcacionRepository::class)]
-//#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
+#[UniqueEntity(fields: ["Nombre"], message: "Este nombre ya está en uso.")]
 class Embarcacion
 {
     #[ORM\Id]
