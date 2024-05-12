@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Publicacion{% endblock %}
+{% block title %}Nueva Publicación{% endblock %}
 
 {% block body %}
-    <h1>Create new Publicacion</h1>
+    <div class="centered-form">
+        <h1 style="text-align: center;">Crear nueva publicación</h1>
 
-    {{ include('publicacion/_form.html.twig') }}
-
-    <a href="{{ path('app_publicacion_index') }}">back to list</a>
+        {{ form_start(form, {'attr': {'class': 'form-group'}})}}
+            {{ form_row(form.titulo, {
+                'attr': {'class': 'form-control', 'placeholder': 'Título de la publicación'}
+            }) }}
+            {{ form_row(form.descripcion, {
+                'label': 'Descripción',
+                'attr': {'class': 'form-control'}
+            }) }}
+            <small id="descripcionHelp" class="form-text text-muted">La descripción debe ser clara y concisa.</small>
+            {{ form_row(form.foto, {
+                'label': 'Foto (PNG, JPEG)',
+                'attr': {'class': 'form-control-file'}
+            }) }}
+            {{ form_row(form.embarcacion, {
+                'label': 'Embarcación',
+                'attr': {'class': 'form-control', 'style': 'width: auto;'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Publicar</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
