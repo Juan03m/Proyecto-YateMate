@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Email;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -360,9 +361,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
 {
-    $metadata->addPropertyConstraint('password', new NotBlank([
-        'message' => 'La contraseña no puede estar vacía',
-    ]));
 
     $metadata->addPropertyConstraint('password', new Length([
         'min' => 8,
