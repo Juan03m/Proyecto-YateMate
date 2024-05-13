@@ -54,3 +54,7 @@ body {
     background-color: gray;
     color: white;
 }
+
+.publication-data {
+    color: #c2a26b; /* Color del texto de los datos de la publicación */
+}

@@ -3,32 +3,47 @@
 {% block title %}Publicacion{% endblock %}
 
 {% block body %}
-    <h1>Publicacion</h1>
+<div style="text-align: center; color: #c2a26b;">
+    <h1>{{ publicacion.titulo }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ publicacion.id }}</td>
-            </tr>
-            <tr>
-                <th>Titulo</th>
-                <td>{{ publicacion.titulo }}</td>
-            </tr>
-            <tr>
-                <th>Descripcion</th>
-                <td>{{ publicacion.descripcion }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{{ publicacion.fecha ? publicacion.fecha|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div style="display: flex;">
+        <div style="flex: 50%;">
+            <img src="{{ asset('images/gomon.jpg') }}" alt="{{ publicacion.titulo }}" style="max-width: 100%;">
+        </div>
+        <div style="flex: 50%;">
+            <table class="table publication-data"> 
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ publicacion.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripcion</th>
+                        <td>{{ publicacion.descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha</th>
+                        <td>{{ publicacion.fecha ? publicacion.fecha|date('d-m-Y') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('app_publicacion_index') }}">back to list</a>
+<div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <div>
+        <a href="{{ path('app_publicacion_index') }}" class="btn btn-3">Volver a la lista</a>
+    </div>
 
-    <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}">edit</a>
-
-    {{ include('publicacion/_delete_form.html.twig') }}
+    {% if app.user %}
+        {% if app.user.id == publicacion.usuario.id %}
+            <div>
+                <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-3">Editar Publicacion</a>
+                {{ include('publicacion/_delete_form.html.twig') }}
+            </div>
+        {% endif %}    
+    {% endif %}
+</div>
 {% endblock %}
+
