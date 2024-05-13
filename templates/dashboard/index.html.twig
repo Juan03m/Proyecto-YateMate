@@ -8,24 +8,26 @@
 {% endblock %}
 
 {% block body %}
+<div style="text-align: center; color: #c2a26b;">
 
-<div class="row">
+    <div class="row">
     
-    {% for publicacion in publicaciones %}
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
-                 <img src="{{ asset('images/gomon.jpg') }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
-                <div class="card-body">
-                    <h5 class="card-title">{{ publicacion.titulo }}</h5>
-                    <p class="card-text">{{ publicacion.descripcion }}</p>
-                    <a href="{{ path('app_publicacion_show', {'id': publicacion.id}) }}" class="btn btn-primary">Ver detalles</a>
-                    <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-secondary">Editar</a>
+        {% for publicacion in publicaciones %}
+            <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ asset('images/gomon.jpg') }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
+                    <div class="card-body">
+                        <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                        <p class="card-text">{{ publicacion.descripcion }}</p>
+                        <a href="{{ path('app_publicacion_show', {'id': publicacion.id}) }}" class="btn btn-primary">Ver detalles</a>
+                        <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-secondary">Editar</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% else %}
-        <p>No se encontraron publicaciones.</p>
-    {% endfor %}
+        {% else %}
+            <p>No se encontraron publicaciones.</p>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}
 
