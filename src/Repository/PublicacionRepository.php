@@ -16,20 +16,19 @@ class PublicacionRepository extends ServiceEntityRepository
         parent::__construct($registry, Publicacion::class);
     }
 
-    //    /**
-    //     * @return Publicacion[] Returns an array of Publicacion objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       /**
+         * @return Publicacion[] Returns an array of Publicacion objects
+         */
+        public function buscarPorTitulo($titulo): array
+        {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.titulo LIKE :val')
+                ->setParameter('val', $titulo)
+                ->orderBy('p.fecha', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
     //    public function findOneBySomeField($value): ?Publicacion
     //    {

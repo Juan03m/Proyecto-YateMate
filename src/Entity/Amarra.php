@@ -79,4 +79,11 @@ class Amarra
 
         return $this;
     }
+
+
+    public function __toString()
+    {
+        $string='Nro'.$this->getNumero().'  '.'Sector:'.$this->getSector();
+        return $string;
+    }
 }

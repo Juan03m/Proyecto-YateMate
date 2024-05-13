@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
+use App\Repository\EmbarcacionRepository;
 use App\Repository\UsuarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,8 +44,11 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(Usuario $usuario): Response
+    public function show(Usuario $usuario,EmbarcacionRepository $er): Response
     {
+        $embarcaciones=$er->buscarPorUsuario($usuario);
+
+      //  dd($embarcaciones);
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
         ]);

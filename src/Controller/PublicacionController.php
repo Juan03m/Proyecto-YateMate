@@ -20,18 +20,25 @@ class PublicacionController extends AbstractController
     #[Route('/', name: 'app_publicacion_index', methods: ['GET'])]
     public function index(PublicacionRepository $publicacionRepository): Response
     {
+
+
+
+
+
         return $this->render('publicacion/index.html.twig', [
-            'publicacions' => $publicacionRepository->findAll(),
+            'publicaciones' => $publicacionRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_publicacion_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $publicacion = new Publicacion();
-        $form = $this->createForm(PublicacionType::class, $publicacion);
-        $form->handleRequest($request);
+        $publicacion = new Publicacion();  
         $user = $this->getUser();
+
+        $form = $this->createForm(PublicacionType::class, $publicacion,['user'=>$user]);
+        $form->handleRequest($request);
+      
         if ($form->isSubmitted() && $form->isValid()) {
 
             $publicacion->setFecha(new \DateTime('now'));

@@ -20,18 +20,28 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]
     public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
+         
+       
+     
+   
+        $form = $this->createForm(BusquedaType::class);
 
-            $publicaciones=$repositorioPublicaciones->findAll();
-
-            $form = $this->createForm(BusquedaType::class);
-            $form->handleRequest($request);
-    
+        $form->handleRequest($request);
+        
            if ($form->isSubmitted() && $form->isValid()) {
-                
-                
+
+                    $data=$form->getData();
+                    $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
+
+           }
+
+           else{
+            $publicaciones=$repositorioPublicaciones->findAll();
            }
     
 
+
+          
     return $this->render('dashboard/index.html.twig',[
         'publicaciones'=> $publicaciones,
         'form'=> $form,

@@ -31,6 +31,7 @@ class EmbarcacionCrudController extends AbstractCrudController
             Field::new('largo'),
             TextField::new('tipo'),
             AssociationField::new('usuario')->autocomplete(),
+            AssociationField::new('amarra')
         ];
     }
     
