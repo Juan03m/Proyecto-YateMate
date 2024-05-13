@@ -38,15 +38,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Por favor, ingresa una contraseña.")
-     * @Assert\Length(min=5, minMessage="La contraseña debe tener al menos {{ limit }} caracteres.")
-     * @Assert\Regex(
-     *     pattern="/^(?=.*[A-Z])(?=.*\W).+$/",
-     *     message="La contraseña debe contener al menos una mayúscula y un carácter especial."
-     * )
-     */
     private ?string $password = null;
 
     #[ORM\Column]
@@ -359,19 +350,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
-{
-
-    $metadata->addPropertyConstraint('password', new Length([
-        'min' => 8,
-        'minMessage' => 'La contraseña debe tener al menos {{ limit }} caracteres',
-    ]));
-
-    $metadata->addPropertyConstraint('password', new Regex([
-        'pattern' => '/^(?=.*[A-Z])(?=.*[^a-zA-Z\d]).+$',
-        'message' => 'La contraseña debe contener al menos una mayúscula y un carácter especial',
-    ]));
-}
     /*
     public function __toString()
     {
