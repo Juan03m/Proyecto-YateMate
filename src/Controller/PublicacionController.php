@@ -21,10 +21,6 @@ class PublicacionController extends AbstractController
     public function index(PublicacionRepository $publicacionRepository): Response
     {
 
-
-
-
-
         return $this->render('publicacion/index.html.twig', [
             'publicaciones' => $publicacionRepository->findAll(),
         ]);
@@ -36,7 +32,7 @@ class PublicacionController extends AbstractController
         $publicacion = new Publicacion();  
         $user = $this->getUser();
 
-        $form = $this->createForm(PublicacionType::class, $publicacion,['user'=>$user]);
+        $form = $this->createForm(PublicacionType::class, $publicacion);
         $form->handleRequest($request);
       
         if ($form->isSubmitted() && $form->isValid()) {

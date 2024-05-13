@@ -1,15 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% block search %}
+    <form class="d-flex" action="{{ path('app_home_page') }}" method="get"> 
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="titulo"> 
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+{% endblock %}
+
 {% block body %}
 
+<div class="row">
+    
     {% for publicacion in publicaciones %}
-    <div class="publicacion_container">
-        <h1></h1>
-        <p>{{publicacion.descripcion}}</p>
-    </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                 <img src="{{ asset('images/gomon.jpg') }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
+                <div class="card-body">
+                    <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                    <p class="card-text">{{ publicacion.descripcion }}</p>
+                    <a href="{{ path('app_publicacion_show', {'id': publicacion.id}) }}" class="btn btn-primary">Ver detalles</a>
+                    <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-secondary">Editar</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No se encontraron publicaciones.</p>
     {% endfor %}
-
-    
-
-    
+    </div>
 {% endblock %}
+

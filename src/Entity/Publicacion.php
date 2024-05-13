@@ -101,6 +101,16 @@ class Publicacion
         return $this;
     }
 
+    public function findByTitle($title)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.titulo LIKE :title')
+            ->setParameter('title', '%'.$title.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
 
 }
