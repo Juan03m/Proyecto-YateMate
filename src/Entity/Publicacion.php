@@ -32,6 +32,15 @@ class Publicacion
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $sector = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $marina = null;
+
 
     
     public function getId(): ?int
@@ -97,6 +106,43 @@ class Publicacion
     public function setUsuario(?Usuario $usuario): static
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getSector(): ?int
+    {
+        return $this->sector;
+    }
+
+    public function setSector(?int $sector): static
+    {
+    
+         $this->sector = $sector;
+
+        return $this;
+    }
+
+    public function getMarina(): ?string
+    {
+        return $this->marina;
+    }
+
+    public function setMarina(?string $marina): static
+    {
+        $this->marina = $marina;
 
         return $this;
     }

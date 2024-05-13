@@ -30,6 +30,7 @@ class PublicacionController extends AbstractController
         ]);
     }
 
+
     #[Route('/new', name: 'app_publicacion_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -40,10 +41,18 @@ class PublicacionController extends AbstractController
         $form->handleRequest($request);
       
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            
 
             $publicacion->setFecha(new \DateTime('now'));
             //agregar tambien que el id del usuario sea el que esta usando el form
             $publicacion->setUsuario($user);
+            $amarra=$data->getEmbarcacion()->getAmarra();
+            if($amarra){
+                    $publicacion->setMarina($amarra->getMarina());
+            }
+
+
 
             $entityManager->persist($publicacion);
             $entityManager->flush();
