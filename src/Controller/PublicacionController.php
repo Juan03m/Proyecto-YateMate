@@ -38,15 +38,30 @@ class PublicacionController extends AbstractController
       
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            
+
+
+            $archivo=$form->get('foto')->getData();
+
+            if($archivo){
+                $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+                $archivo->move(
+                    $this->getParameter('directorio_imagenes'), // Directorio destino
+                    $nombreArchivo
+                );
+
+                $publicacion->setImage($nombreArchivo);
+            }
+
 
             $publicacion->setFecha(new \DateTime('now'));
             //agregar tambien que el id del usuario sea el que esta usando el form
             $publicacion->setUsuario($user);
             $amarra=$data->getEmbarcacion()->getAmarra();
+
             if($amarra){
                     $publicacion->setMarina($amarra->getMarina());
             }
+
 
 
 

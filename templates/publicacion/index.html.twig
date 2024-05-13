@@ -10,8 +10,8 @@
         {% for publicacion in publicaciones %}
             <div class="col-sm-4">
                 <div class="card" style="width: 18rem;">
-                    {# <img src="{{ publicacion.imagen }}" class="card-img-top" alt="{{ publicacion.titulo }}"> #}
-                     <img src="{{ asset('images/gomon.jpg') }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
+                     <img src="{{ asset('images/' ~ publicacion.image) }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
+                  
                     <div class="card-body">
                         <h5 class="card-title">{{ publicacion.titulo }}</h5>
                         <p class="card-text">{{ publicacion.descripcion }}</p>
