@@ -39,13 +39,18 @@ body {
     color: white; /* color del texto del botón */
 }
 
-.card-body{
+.card-body {
     background-color: #c2a26b;
 }
 
-.card-title{
+.card-title {
     color: #071a32;
 }
-.card-text{
+.card-text {
     color: #071a32;
+}
+
+.btn-3 {
+    background-color: gray;
+    color: white;
 }
