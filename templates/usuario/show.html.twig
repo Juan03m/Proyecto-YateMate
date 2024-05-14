@@ -3,60 +3,24 @@
 {% block title %}Usuario{% endblock %}
 
 {% block body %}
-    <h1>Usuario</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ usuario.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ usuario.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ usuario.roles ? usuario.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ usuario.password }}</td>
-            </tr>
-            <tr>
-                <th>IsVerified</th>
-                <td>{{ usuario.isVerified ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Dni</th>
-                <td>{{ usuario.dni }}</td>
-            </tr>
-            <tr>
-                <th>Cuil</th>
-                <td>{{ usuario.cuil }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ usuario.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Apellido</th>
-                <td>{{ usuario.apellido }}</td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td>{{ usuario.telefono }}</td>
-            </tr>
-            <tr>
-                <th>Direccion</th>
-                <td>{{ usuario.direccion }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
-
-    <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
-
-    {{ include('usuario/_delete_form.html.twig') }}
+    <h1 class="text-center" style="color: #c2a26b;">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+    <div class="centered-form">
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Email:</strong> {{ usuario.email }}</p>
+                <p><strong>DNI:</strong> {{ usuario.dni }}</p>
+                <p><strong>CUIL:</strong> {{ usuario.cuil }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Telefono:</strong> {{ usuario.telefono }}</p>
+                <p><strong>Direccion:</strong> {{ usuario.direccion }}</p>
+                <p><strong>Verificado:</strong> {{ usuario.isVerified ? 'Yes' : 'No' }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="btn btn-secondary">Editar mis datos</a>
+        </div>
+    </div>
 {% endblock %}
