@@ -68,10 +68,11 @@ class UsuarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+        
             $roles[]=$usuario->getRoles();
             $roles[]='ROLE_CLIENT';
             $usuario->setRoles($roles);
+       
 
             $entityManager->flush();
 
