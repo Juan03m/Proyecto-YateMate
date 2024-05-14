@@ -30,7 +30,8 @@
             </div>
         {% endfor %}
         </div>
-
-        <a href="{{ path('app_publicacion_new') }}" class="btn btn-secondary">Publicar</a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('app_publicacion_new') }}" class="btn btn-secondary">Publicar</a>
+        {% endif %}
     </div>
 {% endblock %}

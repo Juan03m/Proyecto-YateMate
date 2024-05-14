@@ -11,12 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use function Symfony\Component\Clock\now;
 
 #[Route('/publicacion')]
 class PublicacionController extends AbstractController
-{
+{   
     #[Route('/', name: 'app_publicacion_index', methods: ['GET'])]
     public function index(PublicacionRepository $publicacionRepository): Response
     {
@@ -26,8 +27,8 @@ class PublicacionController extends AbstractController
         ]);
     }
 
-
     #[Route('/new', name: 'app_publicacion_new', methods: ['GET', 'POST'])]
+    #(i)
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $publicacion = new Publicacion();  

@@ -22,7 +22,7 @@ class BienType extends AbstractType
                     'Inmueble' => 'Inmueble',
                     'Tecnologia' => 'Tecnologia',
                 ],
-                'placeholder' => 'Selecciona el tipo de bien',
+                'placeholder' => 'Tipo de bien',
                 'label' => 'Tipo de bien',
             ])
             ->add('nombre')
