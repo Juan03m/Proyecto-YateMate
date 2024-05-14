@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Bien{% endblock %}
+{% block title %}Editar Bien{% endblock %}
 
 {% block body %}
-    <h1>Edit Bien</h1>
+    <div class="centered-form">
+        <h1 style="text-align: center;">Editar Bien</h1>
 
-    {{ include('bien/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ form_start(form, {'attr': {'class': 'form-group'}})}}
+            {{ form_row(form.tipo, {
+                'attr': {'class': 'form-control', 'placeholder': 'Tipo del bien'}
+            }) }}
+            {{ form_row(form.nombre, {
+                'label': 'Nombre',
+                'attr': {'class': 'form-control'}
+            }) }}
+            {{ form_row(form.descripcion, {
+                'label': 'Descripción',
+                'attr': {'class': 'form-control'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;" onclick="this.innerHTML='<span class=\'spinner-border spinner-border-sm\' role=\'status\' aria-hidden=\'true\'></span> Actualizando...'">Actualizar</button>
+        {{ form_end(form) }}
 
-    <a href="{{ path('app_bien_index') }}">back to list</a>
-
-    {{ include('bien/_delete_form.html.twig') }}
+        <a href="{{ path('app_bien_index') }}" class="btn btn-3">Volver a la lista</a>
+    </div>
 {% endblock %}

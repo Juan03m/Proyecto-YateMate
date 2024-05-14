@@ -18,6 +18,7 @@ class HomePageController extends AbstractController
 
   
     #[Route('/', name: 'app_home_page')]
+    #[IsGranted('ROLE_USER')]
     public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
          
@@ -52,7 +53,6 @@ class HomePageController extends AbstractController
 
     }
 
-    #[IsGranted('ROLE_CLIENT')]
     #[Route('/contacto', name: 'contacto')]
     public function action(): Response
     {

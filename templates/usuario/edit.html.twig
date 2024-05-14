@@ -1,13 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Usuario{% endblock %}
+{% block title %}Editar datos de usuario{% endblock %}
 
 {% block body %}
-    <h1>Edit Usuario</h1>
+    <div class="centered-form">
+        <h1 style="text-align: center;">Editar datos de usuario</h1>
 
-    {{ include('usuario/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ form_start(form, {'attr': {'class': 'form-group'}})}}
+            {{ form_row(form.email, {
+                'attr': {'class': 'form-control', 'placeholder': 'Correo electrónico'}
+            }) }}
+            {{ form_row(form.dni, {
+                'label': 'DNI',
+                'attr': {'class': 'form-control', 'placeholder': 'Número de DNI'}
+            }) }}
+            {{ form_row(form.cuil, {
+                'label': 'CUIL',
+                'attr': {'class': 'form-control', 'placeholder': 'Número de CUIL'}
+            }) }}
+            {{ form_row(form.nombre, {
+                'attr': {'class': 'form-control', 'placeholder': 'Nombre del usuario'}
+            }) }}
+            {{ form_row(form.apellido, {
+                'label': 'Apellido',
+                'attr': {'class': 'form-control'}
+            }) }}
+            {{ form_row(form.telefono, {
+                'label': 'Teléfono',
+                'attr': {'class': 'form-control'}
+            }) }}
+            {{ form_row(form.direccion, {
+                'label': 'Dirección',
+                'attr': {'class': 'form-control'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;" onclick="this.innerHTML='<span class=\'spinner-border spinner-border-sm\' role=\'status\' aria-hidden=\'true\'></span> Actualizando...'">Actualizar</button>
 
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
+        {{ form_end(form) }}
 
-    {{ include('usuario/_delete_form.html.twig') }}
+        <a href="{{ path('app_usuario_index') }}" class="btn btn-3">Volver a la lista de usuarios</a>
+    </div>
 {% endblock %}
