@@ -84,7 +84,6 @@ class PublicacionController extends AbstractController
     #[Route('/{id}', name: 'app_publicacion_show', methods: ['GET'])]
     public function show(Publicacion $publicacion): Response
     {
-        dd($publicacion);
 
         return $this->render('publicacion/show.html.twig', [
             'publicacion' => $publicacion,
