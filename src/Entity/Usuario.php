@@ -38,15 +38,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Por favor, ingresa una contraseña.")
-     * @Assert\Length(min=5, minMessage="La contraseña debe tener al menos {{ limit }} caracteres.")
-     * @Assert\Regex(
-     *     pattern="/^(?=.*[A-Z])(?=.*\W).+$/",
-     *     message="La contraseña debe contener al menos una mayúscula y un carácter especial."
-     * )
-     */
     private ?string $password = null;
 
     #[ORM\Column]
