@@ -23,7 +23,8 @@ class HomePageController extends AbstractController
          
        
      
-   
+        $opciones=['Opcion 1','Opcion 2','Opcion 3'];
+
         $form = $this->createForm(BusquedaType::class);
 
         $form->handleRequest($request);
@@ -31,11 +32,13 @@ class HomePageController extends AbstractController
            if ($form->isSubmitted() && $form->isValid()) {
 
                     $data=$form->getData();
+                 //   dd($data['titulo']);
                     $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
 
            }
 
            else{
+
             $publicaciones=$repositorioPublicaciones->findAll();
            }
     

@@ -368,15 +368,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     ]));
 
     $metadata->addPropertyConstraint('password', new Regex([
-        'pattern' => '/^(?=.*[A-Z])(?=.*[^a-zA-Z\d]).+$',
+        'pattern' => '/^(?=.*[A-Z])(?=.*[^a-zA-Z\d]).+$/',
         'message' => 'La contraseña debe contener al menos una mayúscula y un carácter especial',
     ]));
 }
-    /*
+
     public function __toString()
     {
         $usuario= 'ID  '.$this->getId().'  '.'Email '.$this->getEmail();
         return $usuario;
     }
-*/
+
+    
+
 }

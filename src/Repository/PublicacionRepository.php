@@ -23,7 +23,7 @@ class PublicacionRepository extends ServiceEntityRepository
         {
             return $this->createQueryBuilder('p')
                 ->andWhere('p.titulo LIKE :val')
-                ->setParameter('val', $titulo)
+                ->setParameter('val', '%' . $titulo . '%')
                 ->orderBy('p.fecha', 'ASC')
                 ->getQuery()
                 ->getResult()

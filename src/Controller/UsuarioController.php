@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
+use App\Repository\BienRepository;
 use App\Repository\EmbarcacionRepository;
 use App\Repository\UsuarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,13 +45,18 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(Usuario $usuario,EmbarcacionRepository $er): Response
+    public function show(Usuario $usuario,EmbarcacionRepository $er,BienRepository $br): Response
     {
         $embarcaciones=$er->buscarPorUsuario($usuario);
+        $bienes=$br->buscarPorUsuario($usuario);
+        
+        
 
-      //  dd($embarcaciones);
+      // dd($embarcaciones);
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
+            'embarcaciones' => $embarcaciones,
+            'bienes'=>$bienes
         ]);
     }
 
@@ -88,6 +94,17 @@ class UsuarioController extends AbstractController
 
         return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/embarcaciones/{id}', name: 'app_usuario_embarcaciones')]
+    public function action($id, EmbarcacionRepository $er ): Response
+    {
+        $embarcaciones=$er->buscarPorUsuario($id);
+
+        return $this->render('template.html.twig');
+    }
+
+
+    
 
 
 

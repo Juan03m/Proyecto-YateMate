@@ -22,7 +22,7 @@ class EmbarcacionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideWhenCreating(),
+            IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
             TextField::new('matricula'),
             TextField::new('nombre'),
             CountryField::new('bandera'),

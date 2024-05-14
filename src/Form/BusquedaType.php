@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,15 +18,17 @@ class BusquedaType extends AbstractType
     {
    
          $builder
-         ->add('titulo')
-         ->add('buscar', SubmitType::class)
+         ->add('titulo',TypeTextType::class,[
+            'required'=>false,
+         ])
+         ->add('Buscar', SubmitType::class)
      ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'marinas'=>[]
+            'opciones'=>[]
 
             // Configure your form options here
         ]);

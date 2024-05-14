@@ -32,6 +32,7 @@ class PublicacionController extends AbstractController
     {
         $publicacion = new Publicacion();  
         $user = $this->getUser();
+   
 
         $form = $this->createForm(PublicacionType::class, $publicacion);
         $form->handleRequest($request);
@@ -60,6 +61,7 @@ class PublicacionController extends AbstractController
 
             if($amarra){
                     $publicacion->setMarina($amarra->getMarina());
+                    $publicacion->setSector($amarra->getSector());
             }
 
 
@@ -81,6 +83,8 @@ class PublicacionController extends AbstractController
     #[Route('/{id}', name: 'app_publicacion_show', methods: ['GET'])]
     public function show(Publicacion $publicacion): Response
     {
+        dd($publicacion);
+
         return $this->render('publicacion/show.html.twig', [
             'publicacion' => $publicacion,
         ]);

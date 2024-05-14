@@ -16,20 +16,20 @@ class BienRepository extends ServiceEntityRepository
         parent::__construct($registry, Bien::class);
     }
 
-    //    /**
-    //     * @return Bien[] Returns an array of Bien objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        /**
+         * @return Bien[] Returns an array of Bien objects
+         */
+        public function buscarPorUsuario($usuario): array
+        {
+            return $this->createQueryBuilder('e')
+            ->andWhere('e.owner = :val')
+            ->setParameter('val', $usuario)
+            ->orderBy('e.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+      }
 
     //    public function findOneBySomeField($value): ?Bien
     //    {
