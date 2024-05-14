@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
-
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
 {% block title %}Publicaciones{% endblock %}
-
+{% block search %}
+    {{ form(form) }}
+{% endblock %}
 {% block body %}
     <div style="text-align: center; color: #c2a26b;">
         <h1>Publicaciones</h1>

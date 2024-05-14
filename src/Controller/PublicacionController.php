@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Publicacion;
+use App\Form\FiltradoPublicacionType;
 use App\Form\PublicacionType;
 use App\Repository\PublicacionRepository;
 use DateTime;
@@ -21,8 +22,29 @@ class PublicacionController extends AbstractController
     public function index(PublicacionRepository $publicacionRepository): Response
     {
 
+            
+
+
+            $marinas=['Punta Lara','Tigre','Concepcion del Uruguay'];
+            
+
+            $form = $this->createForm(FiltradoPublicacionType::class,null,[
+                'marinas'=>array_flip($marinas)
+            ]);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $publicaciones=$publicacionRepository;
+          
+       }
+       else{
+            $publicaciones=$publicacionRepository->findAll();
+       }
+
+
         return $this->render('publicacion/index.html.twig', [
-            'publicaciones' => $publicacionRepository->findAll(),
+            'publicaciones' => $publicaciones,
+            'form'=>$form
         ]);
     }
 
@@ -83,7 +105,7 @@ class PublicacionController extends AbstractController
     #[Route('/{id}', name: 'app_publicacion_show', methods: ['GET'])]
     public function show(Publicacion $publicacion): Response
     {
-        dd($publicacion);
+        //dd($publicacion);
 
         return $this->render('publicacion/show.html.twig', [
             'publicacion' => $publicacion,
