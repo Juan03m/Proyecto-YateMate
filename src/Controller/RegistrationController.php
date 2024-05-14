@@ -44,6 +44,7 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+            /*
             $email = (new Email()) 
                 ->from('gsqinteractive@yopmail.com')
                 ->to($user->getEmail())
@@ -52,7 +53,7 @@ class RegistrationController extends AbstractController
             $mailer->send($email);
             return new Response('Correo electrónico enviado correctamente.');
             
-            
+            */
                 
 
             return $security->login($user, 'form_login', 'main');

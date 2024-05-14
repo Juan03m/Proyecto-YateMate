@@ -3,13 +3,18 @@
 namespace App\Form;
 
 use App\Entity\Usuario;
+use Doctrine\DBAL\Types\DateType;
+use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
@@ -20,6 +25,24 @@ class RegistrationFormType extends AbstractType
 {
     $builder
         ->add('email')
+        ->add('nombre')
+        ->add('apellido')
+        ->add('fechaNacimiento', TypeDateType::class, [
+            'label' => 'Fecha de nacimiento',
+            'widget' => 'single_text',
+            // Agregar la restricción de edad mínima
+            'constraints' => [
+                new LessThanOrEqual([
+                    'value' => '-18 years', // La fecha mínima es hace 18 años
+                    'message' => 'Debes ser mayor de 18 años para registrarte.',
+                ]),
+               
+            ],
+            // Otras opciones del campo...
+        ])
+        
+
+        
         ->add('agreeTerms', CheckboxType::class, [
             'mapped' => false,
             'constraints' => [
@@ -28,6 +51,7 @@ class RegistrationFormType extends AbstractType
                 ]),
             ],
         ])
+        
         ->add('plainPassword', PasswordType::class, [
             // instead of being set onto the object directly,
             // this is read and encoded in the controller

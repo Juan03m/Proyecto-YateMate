@@ -82,6 +82,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Publicacion::class, mappedBy: 'usuario', orphanRemoval: true)]
     private Collection $publicaciones;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fechaNacimiento = null;
+
     public function __construct()
     {
         $this->bienes = new ArrayCollection();
@@ -368,6 +371,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $usuario= 'ID  '.$this->getId().'  '.'Email '.$this->getEmail();
         return $usuario;
+    }
+
+    public function getfechaNacimiento(): ?\DateTimeInterface
+    {
+        return $this->fechaNacimiento;
+    }
+
+    public function setfechaNacimiento(?\DateTimeInterface $fechaNacimiento): static
+    {
+        $this->fechaNacimiento = $fechaNacimiento;
+
+        return $this;
     }
 
     
