@@ -16,7 +16,6 @@ class UsuarioType extends AbstractType
         $builder
             ->add('email',)
             //->add('roles')
-            ->add('password')
             ->add('dni')
             ->add('cuil')
             ->add('nombre')
@@ -24,10 +23,6 @@ class UsuarioType extends AbstractType
             ->add('telefono')
             ->add('direccion')
             
-            ->add('amarra', EntityType::class, [
-                'class' => Amarra::class,
-                'choice_label' => 'id',
-            ])
             
         ;
     }

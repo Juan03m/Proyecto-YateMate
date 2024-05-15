@@ -19,7 +19,29 @@
             </div>
         </div>
         <hr>
-        
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Embarcaciones</h2>
+                {% if embarcaciones is empty %}
+                    <p>No tienes embarcaciones registradas.</p>
+                {% else %}
+                    {% for embarcacion in embarcaciones %}
+                        <p><strong>Nombre:</strong> {{ embarcacion.nombre }}</p>
+                        <p><strong>Matrícula:</strong> {{ embarcacion.matricula }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Bienes</h2>
+                {% if bienes is empty %}
+                    <p>No tienes bienes registrados.</p>
+                {% else %}
+                    {% for bien in bienes %}
+                        <p>{{ bien.nombre }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
         <div class="text-center">
             <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="btn btn-secondary">Editar mis datos</a>
         </div>

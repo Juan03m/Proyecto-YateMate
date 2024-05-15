@@ -18,11 +18,7 @@ class BienType extends AbstractType
         $bienes=$options['bienes'];
         $builder
             ->add('tipo',ChoiceType::class, [
-                'choices' => [
-                    'Vehículo' => 'Vehiculo',
-                    'Inmueble' => 'Inmueble',
-                    'Tecnologia' => 'Tecnologia',
-                ],
+                'choices' => $bienes,
                 'placeholder' => 'Tipo de bien',
                 'label' => 'Tipo de bien',
             ])
