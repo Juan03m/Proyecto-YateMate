@@ -48,7 +48,7 @@
                   
                     <div class="card-body">
                         <h5 class="card-title">{{ publicacion.titulo }}</h5>
-                        <p class="card-text">{{ publicacion.descripcion }}</p>
+                        <p class="card-text">{{ publicacion.embarcacion.Tipo }}</p>
                         <a href="{{ path('app_publicacion_show', {'id': publicacion.id}) }}" class="btn btn-secondary">Ver detalles</a>
                         {% if app.user %}
                             {% if app.user.id == publicacion.usuario.id %}

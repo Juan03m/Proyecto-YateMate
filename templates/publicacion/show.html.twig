@@ -14,15 +14,31 @@
             <table class="table publication-data"> 
                 <tbody>
                     <tr>
-                        <th>Id</th>
-                        <td>{{ publicacion.id }}</td>
+                        <th>Usuario</th>
+                        <td>{{ publicacion.usuario.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo de Embarcación</th>
+                        <td>{{ publicacion.embarcacion.Tipo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alto</th>
+                        <td>{{ publicacion.embarcacion.alto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Ancho</th>
+                        <td>{{ publicacion.embarcacion.ancho }}</td>
+                    </tr>
+                    <tr>
+                        <th>Largo</th>
+                        <td>{{ publicacion.embarcacion.largo }}</td>
                     </tr>
                     <tr>
                         <th>Descripcion</th>
                         <td>{{ publicacion.descripcion }}</td>
                     </tr>
                     <tr>
-                        <th>Fecha</th>
+                        <th>Fecha de publicacion</th>
                         <td>{{ publicacion.fecha ? publicacion.fecha|date('d-m-Y') : '' }}</td>
                     </tr>
                 </tbody>
@@ -31,19 +47,18 @@
     </div>
 </div>
 
-<div style="display: flex; justify-content: space-between; margin-top: 20px;">
-    <div>
-        <a href="{{ path('app_publicacion_index') }}" class="btn btn-3">Volver a la lista</a>
-    </div>
-
+<div style="display: flex; justify-content: flex-start;margin-top:20px">
     {% if app.user %}
-        {% if app.user.id == publicacion.usuario.id %}
-            <div>
-                <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-3">Editar Publicacion</a>
+    {% if app.user.id == publicacion.usuario.id %}
+        
+            <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-3" style="margin-right: 10px;">Editar Publicacion</a>
+            <div style="margin-right: 10px;">
                 {{ include('publicacion/_delete_form.html.twig') }}
             </div>
-        {% endif %}    
-    {% endif %}
+    {% endif %}    
+{% endif %}
+    <a href="{{ path('app_publicacion_index', {'id': publicacion.id}) }}" class="btn btn-3">Volver a la lista</a>
 </div>
+
 {% endblock %}
 
