@@ -47,6 +47,7 @@ class UsuarioController extends AbstractController
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
     public function show(Usuario $usuario,EmbarcacionRepository $er,BienRepository $br): Response
     {
+
         $embarcaciones=$er->buscarPorUsuario($usuario);
         $bienes=$br->buscarPorUsuario($usuario);
         
@@ -70,10 +71,12 @@ class UsuarioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+ 
 
             $entityManager->flush();
+            
 
-            return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home_page', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('usuario/edit.html.twig', [

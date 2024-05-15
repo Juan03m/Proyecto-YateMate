@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,8 +17,10 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 
+
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity('dni','Este dni ya se encuentra registrado')]
 class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -54,8 +57,15 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Embarcacion::class, mappedBy: 'usuario')]
     private Collection $embarcaciones;
-
+    
+ 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        exactMessage: "El dni debe tener exactamente 8 caracteres",
+        min: 8,
+        max:8
+    )]
+
     private ?string $dni = null;
 
     #[ORM\Column(length: 255, nullable: true)]

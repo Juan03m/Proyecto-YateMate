@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +19,25 @@ class ErrorController extends AbstractController
 
 public function handleException(\Exception $exception): Response
 {
-    //|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     dd($exception);
+
+    //
+    try{
+        throw $exception;
+    }   
+    catch(NotFoundHttpException){
+        return $this->render('error/error404.html.twig');
+    }
+    catch(AccessDeniedHttpException)   {
+        return $this->render('error/accesoDenegado.html.twig');
+    }
+  
+    catch(Exception){
+        return $this->render('error/default_error.html.twig');
+    }
+
+             
+    /*
+    dd($exception);
     if ($exception instanceof NotFoundHttpException) {
         return $this->render('error/error404.html.twig');
     }
@@ -27,6 +47,7 @@ public function handleException(\Exception $exception): Response
     else{
         return $this->render('error/error500.html.twig');
     }
+    */
 }
 
 public function show404Action(): Response
