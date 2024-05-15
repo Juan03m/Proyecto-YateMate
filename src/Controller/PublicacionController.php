@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Publicacion;
 use App\Form\FiltradoPublicacionType;
 use App\Form\PublicacionType;
+use App\Form\BusquedaType;
 use App\Repository\PublicacionRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,28 +20,27 @@ use function Symfony\Component\Clock\now;
 #[Route('/publicacion')]
 class PublicacionController extends AbstractController
 {   
-    #[Route('/', name: 'app_publicacion_index', methods: ['GET'])]
-    public function index(PublicacionRepository $publicacionRepository): Response
+    #[Route('/', name: 'app_publicacion_index')]
+    public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
-
-            
-
-
+        /*
             $marinas=['Punta Lara','Tigre','Concepcion del Uruguay'];
-            
 
             $form = $this->createForm(FiltradoPublicacionType::class,null,[
                 'marinas'=>array_flip($marinas)
             ]);
-
+        */
+        $opciones=['Opcion 1','Opcion 2','Opcion 3'];
+        $form = $this->createForm(BusquedaType::class);//temporal hasta que pongamos filtros
+        $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                
-                $publicaciones=$publicacionRepository;
+                $data=$form->getData();
+                $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
           
        }
        else{
-            $publicaciones=$publicacionRepository->findAll();
-       }
+        $publicaciones=$repositorioPublicaciones->findAll();
+    }
 
 
         return $this->render('publicacion/index.html.twig', [

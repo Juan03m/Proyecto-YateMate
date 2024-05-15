@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{hola.ss}}
-    <h1>Error 500: Error interno del servidor</h1>
-    <p>Chupame bien la pij</p>
+    <div class="centered-form text-center"> 
+        <h1>¡Oops! Algo salió mal</h1>
+        <p>
+            Parece que algo no está funcionando correctamente en nuestro servidor. Estamos trabajando para solucionarlo.
+        </p>
+        <a href="{{ path('app_home_page') }}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
 {% endblock %}
