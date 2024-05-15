@@ -7,10 +7,12 @@ use App\Form\FiltradoPublicacionType;
 use App\Form\PublicacionType;
 use App\Repository\PublicacionRepository;
 use DateTime;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -88,11 +90,19 @@ class PublicacionController extends AbstractController
                     $publicacion->setSector($amarra->getSector());
             }
 
+            try {
+                $entityManager->persist($publicacion);
+                $entityManager->flush();
+            } catch (HttpExceptionInterface $exception) {
+                // Manejar la excepción HTTP (por ejemplo, establecer una respuesta de error)
+                return new Response($exception->getMessage(), $exception->getStatusCode());
+            }
+            catch ( UniqueConstraintViolationException $exception){
+                $this->addFlash('failed', 'No pudimos publicar la embarcacion!!');
+            }
 
-
-
-            $entityManager->persist($publicacion);
-            $entityManager->flush();
+           # $entityManager->persist($publicacion);
+            #$entityManager->flush();
 
             $this->addFlash('success', 'Publicacion creada exitosamente!!');
             return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);

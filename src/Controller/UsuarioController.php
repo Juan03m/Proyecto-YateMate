@@ -60,7 +60,7 @@ class UsuarioController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
+
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
     {
@@ -69,11 +69,7 @@ class UsuarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-        
-            $roles[]=$usuario->getRoles();
-            $roles[]='ROLE_CLIENT';
-            $usuario->setRoles($roles);
-       
+
 
             $entityManager->flush();
 
