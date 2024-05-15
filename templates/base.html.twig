@@ -42,15 +42,19 @@
 
       <div class="btn-group" role="group" aria-label="Basic outlined example">
         {% if app.user %}
-            {# Usuario autenticado #}
-            <a href="{{ path('app_usuario_show',{'id':app.user.id}) }}" class="btn btn-outline-primary">Perfil</a>
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#logoutModal">Cerrar sesión</button>
+          {# Usuario autenticado #}
+          {% if 'ROLE_ADMIN' in app.user.roles %}
+            {# Usuario es administrador #}
+            <a href="https://localhost/admin" class="btn btn-outline-primary">Administrar</a>
+          {% endif %}
+          <a href="{{ path('app_usuario_show',{'id':app.user.id}) }}" class="btn btn-outline-primary">Perfil</a>
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#logoutModal">Cerrar sesión</button>
         {% else %}
-            {# Usuario no autenticado #}
-            <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Iniciar sesión</a>
-            <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Registrarse</a>
+          {# Usuario no autenticado #}
+          <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Iniciar sesión</a>
+          <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Registrarse</a>
         {% endif %}
-      </div>
+</div>
       {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}

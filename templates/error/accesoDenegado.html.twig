@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-    <h1>No Tenes acceso Pa</h1>
-
-    <p>
-       No pudimos localizar la pagina que buscas. <a href="{{ path('app_home_page') }}">Volver al incio</a>.
-    </p>
+    <div class="centered-form text-center"> 
+        <h1>Acceso Denegado</h1>
+        <p>
+            Parece que estás intentando acceder a una parte de la página a la que no tienes permiso. Por favor, verifica tus permisos o contacta al administrador si crees que esto es un error.
+        </p>
+        <a href="{{ path('app_home_page') }}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
 {% endblock %}
+

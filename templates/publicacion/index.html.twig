@@ -1,8 +1,18 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
 {% block title %}Publicaciones{% endblock %}
+{#
 {% block search %}
     {{ form(form) }}
+{% endblock %}
+#}
+{% block search %}
+    {{ form_start(form) }}
+        <div class="d-flex">
+            {{ form_widget(form.titulo, {'attr': {'class': 'form-control me-2', 'placeholder': 'Search', 'aria-label': 'Search'}}) }}
+            {{ form_widget(form.Buscar, {'attr': {'class': 'btn btn-outline-primary'}}) }}
+        </div>
+    {{ form_end(form) }}
 {% endblock %}
 {% block body %}
     <div style="text-align: center; color: #c2a26b;">

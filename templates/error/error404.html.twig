@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-    <h1>Parece que la pagina no existe</h1>
-
-    <p>
-       No pudimos localizar la pagina que buscas. <a href="{{ path('app_home_page') }}">Volver al incio</a>.
-    </p>
+    <div class="centered-form text-center"> 
+        <h1>¡Oops! Página no encontrada</h1>
+        <p>
+            Parece que la página que estás buscando no existe o ha sido movida.
+        </p>
+        <a href="{{ path('app_home_page') }}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
 {% endblock %}
+

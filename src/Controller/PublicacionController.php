@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Publicacion;
 use App\Form\FiltradoPublicacionType;
 use App\Form\PublicacionType;
+use App\Form\BusquedaType;
 use App\Repository\PublicacionRepository;
 use DateTime;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -21,28 +22,27 @@ use function Symfony\Component\Clock\now;
 #[Route('/publicacion')]
 class PublicacionController extends AbstractController
 {   
-    #[Route('/', name: 'app_publicacion_index', methods: ['GET'])]
-    public function index(PublicacionRepository $publicacionRepository): Response
+    #[Route('/', name: 'app_publicacion_index')]
+    public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
-
-            
-
-
+        /*
             $marinas=['Punta Lara','Tigre','Concepcion del Uruguay'];
-            
 
             $form = $this->createForm(FiltradoPublicacionType::class,null,[
                 'marinas'=>array_flip($marinas)
             ]);
-
+        */
+        $opciones=['Opcion 1','Opcion 2','Opcion 3'];
+        $form = $this->createForm(BusquedaType::class);//temporal hasta que pongamos filtros
+        $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                
-                $publicaciones=$publicacionRepository;
+                $data=$form->getData();
+                $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
           
        }
        else{
-            $publicaciones=$publicacionRepository->findAll();
-       }
+        $publicaciones=$repositorioPublicaciones->findAll();
+    }
 
 
         return $this->render('publicacion/index.html.twig', [
@@ -125,22 +125,37 @@ class PublicacionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_publicacion_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(PublicacionType::class, $publicacion);
-        $form->handleRequest($request);
+public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
+{
+    $form = $this->createForm(PublicacionType::class, $publicacion);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $archivo = $form->get('foto')->getData();
 
-            return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
+        if($archivo){
+            $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+            $archivo->move(
+                $this->getParameter('directorio_imagenes'), // Directorio destino
+                $nombreArchivo
+            );
+
+            $publicacion->setImage($nombreArchivo);
         }
 
-        return $this->render('publicacion/edit.html.twig', [
-            'publicacion' => $publicacion,
-            'form' => $form,
-        ]);
+        $entityManager->flush();
+        
+        $this->addFlash('success', 'Publicacion editada exitosamente!!');
+        return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
     }
+    $flashcardPosition ='bottom: 20px; right: 20px;';
+    return $this->render('publicacion/edit.html.twig', [
+        'publicacion' => $publicacion,
+        'form' => $form,
+        'flashcard_position' => $flashcardPosition,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_publicacion_delete', methods: ['POST'])]
     public function delete(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
