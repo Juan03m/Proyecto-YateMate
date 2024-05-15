@@ -60,7 +60,9 @@ class PublicacionController extends AbstractController
         $user = $this->getUser();
    
 
-        $form = $this->createForm(PublicacionType::class, $publicacion);
+        $form = $this->createForm(PublicacionType::class, $publicacion,[
+            'user'=>$user
+        ]);
         $form->handleRequest($request);
       
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +85,13 @@ class PublicacionController extends AbstractController
             $publicacion->setFecha(new \DateTime('now'));
             //agregar tambien que el id del usuario sea el que esta usando el form
             $publicacion->setUsuario($user);
+
+     
             $amarra=$data->getEmbarcacion()->getAmarra();
+          
+    
+      
+
 
             if($amarra){
                     $publicacion->setMarina($amarra->getMarina());
@@ -160,10 +168,11 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
     #[Route('/{id}', name: 'app_publicacion_delete', methods: ['POST'])]
     public function delete(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
     {
+        //dd($publicacion);
         if ($this->isCsrfTokenValid('delete'.$publicacion->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($publicacion);
             $entityManager->flush();
-        }
+       }
 
         return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
     }
