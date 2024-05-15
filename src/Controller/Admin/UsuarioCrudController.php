@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class UsuarioCrudController extends AbstractCrudController
 {
@@ -30,7 +31,16 @@ class UsuarioCrudController extends AbstractCrudController
             TextField::new('nombre'),
             TextField::new('apellido'),
             TextField::new('dni'),
-            ArrayField::new('roles'),
+            ChoiceField::new('roles')
+                ->setFormTypeOptions([
+                    'multiple' => true, // Permite seleccionar varios roles
+                    'choices' => [
+                        'Cliente' => 'ROLE_CLIENT',
+                        'Usuario' => 'ROLE_USER',
+                        'Administrador' => 'ROLE_ADMIN',
+                    ],
+            ])
+            ->hideOnIndex(),
             AssociationField::new('embarcaciones'),
             
         ];
