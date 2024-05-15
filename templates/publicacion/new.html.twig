@@ -3,7 +3,7 @@
 {% block title %}Nueva Publicación{% endblock %}
 
 {% block body %}
-{# mensajes flash #}
+{# mensajes flash succes #}
     {% for message in app.flashes('success') %}
         <div class="flashcard" style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
     <div class="card">
@@ -15,6 +15,20 @@
         </div>
     </div>
 </div>
+ {% endfor %}
+{# mensajes flash failed #}
+    {% for message in app.flashes('failed') %}
+        <div class="flashcard" style="position: fixed; bottom: 20px; right: 20px; z-index: 100; background-color: red;">
+            <div class="card">
+                <div class="card-body">
+                    ¡Error! {{ message }}
+                    <button type="button" class="close" aria-label="Close" onclick="this.parentElement.parentElement.parentElement.style.display='none';">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+   
 
     {% endfor %}
     <div class="centered-form">

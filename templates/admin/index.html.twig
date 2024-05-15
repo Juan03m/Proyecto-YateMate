@@ -4,10 +4,23 @@
 
 {% block content_title %}Administrador{% endblock %}
 {% block page_actions %}
+<style> 
+    .btn-outline-primary {
+        color: #c2a26b;
+        border-color: #c2a26b;
+        background-color: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #c2a26b;
+        color: black;
+    }
+</style>
     <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CEmbarcacionCrudController">Ver Embarcaciones</a>
     <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CAmarraCrudController">Ver Amarras</a>
     <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUsuarioCrudController">Ver Usuarios</a>
     <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CBienCrudController">Ver Bienes</a>
+    <a class="btn btn-outline-primary" href="{{ path('app_home_page') }}">Volver SnS</a>
 {% endblock %}
 
 
