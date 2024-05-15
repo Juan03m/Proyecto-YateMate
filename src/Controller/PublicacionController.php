@@ -99,20 +99,19 @@ class PublicacionController extends AbstractController
             }
 
             try {
+                
                 $entityManager->persist($publicacion);
                 $entityManager->flush();
-            } catch (HttpExceptionInterface $exception) {
-                // Manejar la excepción HTTP (por ejemplo, establecer una respuesta de error)
-                return new Response($exception->getMessage(), $exception->getStatusCode());
-            }
-            catch ( UniqueConstraintViolationException $exception){
+                $this->addFlash('success', 'Publicacion creada exitosamente!!');
+            } 
+            catch ( UniqueConstraintViolationException ){
                 $this->addFlash('failed', 'No pudimos publicar la embarcacion!!');
+                $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
             }
 
            # $entityManager->persist($publicacion);
             #$entityManager->flush();
 
-            $this->addFlash('success', 'Publicacion creada exitosamente!!');
             return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
         }
 

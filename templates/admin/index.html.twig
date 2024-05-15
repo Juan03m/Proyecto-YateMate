@@ -4,10 +4,23 @@
 
 {% block content_title %}Administrador{% endblock %}
 {% block page_actions %}
+<style> 
+    .btn-outline-primary {
+        color: #c2a26b;
+        border-color: #c2a26b;
+        background-color: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #c2a26b;
+        color: black;
+    }
+</style>
     <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CEmbarcacionCrudController">Ver Embarcaciones</a>
     <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CAmarraCrudController">Ver Amarras</a>
     <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUsuarioCrudController">Ver Usuarios</a>
     <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CBienCrudController">Ver Bienes</a>
+    <a class="btn btn-outline-primary" href="{{ path('app_home_page') }}">Volver SnS</a>
 {% endblock %}
 
 
@@ -18,18 +31,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        var dataCounts = [
+            {{ embarcaciones_count }},
+            {{ amarras_count }},
+            {{ usuarios_count }},
+            {{ bienes_count }}
+        ];
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: ['Embarcaciones', 'Amarras', 'Usuarios', 'Bienes'],
+                labels: [
+                    'Embarcaciones (' + dataCounts[0] + ')',
+                    'Amarras (' + dataCounts[1] + ')',
+                    'Usuarios (' + dataCounts[2] + ')',
+                    'Bienes (' + dataCounts[3] + ')'
+                ],
                 datasets: [{
                     label: 'Cantidad de registros por entidad',
-                    data: [
-                        {{ embarcaciones_count }},
-                        {{ amarras_count }},
-                        {{ usuarios_count }},
-                        {{ bienes_count }}
-                    ],
+                    data: dataCounts,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -46,12 +65,10 @@
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     </script>
 {% endblock %}
+
