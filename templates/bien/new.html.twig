@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
-
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
 {% block title %}New Bien{% endblock %}
 
 {% block body %}
     <h1>Create new Bien</h1>
-
-    {{ include('bien/_form.html.twig') }}
-
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
     <a href="{{ path('app_bien_index') }}">back to list</a>
 {% endblock %}

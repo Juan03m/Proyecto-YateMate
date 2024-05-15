@@ -31,18 +31,29 @@ class BienController extends AbstractController
             'bienes'=> array_flip($opciones)
         ]);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $user=$this->getUser();  // me llevo el usuario actual 
+            $archivo = $form->get('foto')->getData();
+    
+            if ($archivo) {
+                $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+                $archivo->move(
+                    $this->getParameter('directorio_imagenes'), // Directorio destino
+                    $nombreArchivo
+                );
+    
+                $bien->setImage($nombreArchivo);
+            }
+    
+            $user = $this->getUser();  // me llevo el usuario actual 
             $bien->setOwner($user); 
-
+    
             $entityManager->persist($bien);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('bien/new.html.twig', [
             'bien' => $bien,
             'form' => $form,

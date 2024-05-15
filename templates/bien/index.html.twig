@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Bienes{% endblock %}
-
 {% block body %}
     <div style="text-align: center; color: #c2a26b;">
         <h1>Bienes</h1>
@@ -10,6 +8,7 @@
         {% for bien in biens %}
             <div class="col-sm-4">
                 <div class="card" style="width: 18rem;">
+                    <img src="{{ asset('images/' ~ bien.image) }}" class="card-img-top" alt="{{ bien.tipo }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ bien.tipo }}</h5>
                         <p class="card-text">{{ bien.descripcion }}</p>

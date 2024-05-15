@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class BienType extends AbstractType
 {
@@ -27,6 +28,15 @@ class BienType extends AbstractType
             ])
             ->add('nombre')
             ->add('descripcion')
+            ->add('foto', FileType::class, [
+                'label' => 'Foto (PNG, JPEG)',
+                'mapped' => false, // No mapear a ninguna propiedad de la entidad
+                'required' => true, // No requerido
+                'attr' => [
+                    'accept' => 'image/*', // Aceptar solo archivos de imagen
+                ],
+            ])
+
             /*
             ->add('owner', EntityType::class, [
                 'class' => Usuario::class,
