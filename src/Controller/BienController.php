@@ -70,22 +70,35 @@ class BienController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_bien_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Bien $bien, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(BienType::class, $bien);
-        $form->handleRequest($request);
+public function edit(Request $request, Bien $bien, EntityManagerInterface $entityManager): Response
+{
+    $form = $this->createForm(BienType::class, $bien);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $archivo = $form->get('foto')->getData();
 
-            return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
+        if ($archivo) {
+            $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+            $archivo->move(
+                $this->getParameter('directorio_imagenes'), // Directorio destino
+                $nombreArchivo
+            );
+
+            $bien->setImage($nombreArchivo);
         }
 
-        return $this->render('bien/edit.html.twig', [
-            'bien' => $bien,
-            'form' => $form,
-        ]);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('bien/edit.html.twig', [
+        'bien' => $bien,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_bien_delete', methods: ['POST'])]
     public function delete(Request $request, Bien $bien, EntityManagerInterface $entityManager): Response

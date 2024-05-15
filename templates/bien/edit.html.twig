@@ -18,7 +18,11 @@
                 'label': 'Descripción',
                 'attr': {'class': 'form-control'}
             }) }}
-            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;" onclick="this.innerHTML='<span class=\'spinner-border spinner-border-sm\' role=\'status\' aria-hidden=\'true\'></span> Actualizando...'">Actualizar</button>
+           {{ form_row(form.foto, {
+                'label': 'Foto (PNG, JPEG)',
+                'attr': {'class': 'form-control-file'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Guardar</button>
         {{ form_end(form) }}
 
         <a href="{{ path('app_bien_index') }}" class="btn btn-3">Volver a la lista</a>
