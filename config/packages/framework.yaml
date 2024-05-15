@@ -2,12 +2,20 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-
     # Note that the session will be started ONLY if you read or write from it.
     session: true
+   # error_controller: 'App\Controller\ErrorController::show404Action'
+    #error_controller: 'App\Controller\ErrorController::show500Action'
+    error_controller: 'App\Controller\ErrorController::handleException'
+
 
     #esi: true
     #fragments: true
+
+
+
+
+
 
 when@test:
     framework:

@@ -49,6 +49,7 @@ class PublicacionController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_CLIENT')]
     #[Route('/new', name: 'app_publicacion_new', methods: ['GET', 'POST'])]
     #(i)
     public function new(Request $request, EntityManagerInterface $entityManager): Response
