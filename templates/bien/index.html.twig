@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ bien.nombre }}</h5>
                         <p class="card-text">{{ bien.tipo }}</p>
-                        <a href="{{ path('app_publicacion_show', {'id': bien.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                        <a href="{{ path('app_bien_show', {'id': bien.id}) }}" class="btn btn-secondary">Ver detalles</a>
                         {% if app.user %}
                             {% if app.user.id == bien.owner.id %}
                                 <a href="{{ path('app_bien_edit', {'id': bien.id}) }}" class="btn btn-secondary">Editar</a>
