@@ -3,32 +3,44 @@
 {% block title %}Bien{% endblock %}
 
 {% block body %}
-    <h1>Bien</h1>
+<div style="text-align: center; color: #c2a26b;">
+    <h1>{{ bien.nombre }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ bien.id }}</td>
-            </tr>
-            <tr>
-                <th>Tipo</th>
-                <td>{{ bien.tipo }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ bien.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Descripcion</th>
-                <td>{{ bien.descripcion }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div style="display: flex;">
+        <div style="flex: 50%;">
+            <img src="{{ asset('images/' ~ bien.image) }}" alt="{{ bien.nombre }}" style="max-width: 100%;">
+        </div>
+        <div style="flex: 50%;">
+            <table class="table bien-data"> 
+                <tbody>
+                    <tr>
+                        <th>Dueño</th>
+                        <td>{{ bien.owner.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo</th>
+                        <td>{{ bien.tipo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ bien.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripcion</th>
+                        <td>{{ bien.descripcion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('app_bien_index') }}">back to list</a>
+<div style="display: flex; justify-content: flex-start;margin-top:20px">
+    <a href="{{ path('app_bien_edit', {'id': bien.id}) }}" class="btn btn-3" style="margin-right: 10px;">Editar Bien</a>
+    <div style="margin-right: 10px;">
+        {{ include('bien/_delete_form.html.twig') }}
+    </div>
+    <a href="{{ path('app_bien_index') }}" class="btn btn-3">Volver a la lista</a>
+</div>
 
-    <a href="{{ path('app_bien_edit', {'id': bien.id}) }}">edit</a>
-
-    {{ include('bien/_delete_form.html.twig') }}
 {% endblock %}

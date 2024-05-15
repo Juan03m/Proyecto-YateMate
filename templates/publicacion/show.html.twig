@@ -47,18 +47,18 @@
     </div>
 </div>
 
-
+<div style="display: flex; justify-content: flex-start;margin-top:20px">
     {% if app.user %}
-        {% if app.user.id == publicacion.usuario.id %}
-            <div>
-                <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-3">Editar Publicacion</a>
+    {% if app.user.id == publicacion.usuario.id %}
+        
+            <a href="{{ path('app_publicacion_edit', {'id': publicacion.id}) }}" class="btn btn-3" style="margin-right: 10px;">Editar Publicacion</a>
+            <div style="margin-right: 10px;">
                 {{ include('publicacion/_delete_form.html.twig') }}
             </div>
-        {% endif %}    
-    {% endif %}
-</div>
-<div>
+    {% endif %}    
+{% endif %}
     <a href="{{ path('app_publicacion_index', {'id': publicacion.id}) }}" class="btn btn-3">Volver a la lista</a>
 </div>
+
 {% endblock %}
 
