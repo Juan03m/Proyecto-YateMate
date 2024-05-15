@@ -15,7 +15,7 @@ class Publicacion
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'publicacion', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'publicacion', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Embarcacion $embarcacion = null;
 

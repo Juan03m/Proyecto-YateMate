@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BienType extends AbstractType
 {
@@ -19,18 +21,42 @@ class BienType extends AbstractType
         $builder
             ->add('tipo',ChoiceType::class, [
                 'choices' => $bienes,
+                'required'=>false,
                 'placeholder' => 'Tipo de bien',
                 'label' => 'Tipo de bien',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor selecciona un tipo',
+                    ]),
+                ],
             ])
-            ->add('nombre')
-            ->add('descripcion')
+            ->add('nombre',TextType::class, [ 
+                'required'=>false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor ingresa un nombre',
+                    ]),
+                ],])
+            ->add('descripcion',TextType::class, [ 
+                'required'=>false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor ingresa una descripcion',
+                    ]),
+                ],])
             ->add('foto', FileType::class, [
                 'label' => 'Foto (PNG, JPEG)',
                 'mapped' => false, // No mapear a ninguna propiedad de la entidad
-                'required' => true, // No requerido
+                'required' => false, // No requerido                
                 'attr' => [
                     'accept' => 'image/*', // Aceptar solo archivos de imagen
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor selcciona una imagen',
+                    ]),
+                ],
+              
             ])
 
             /*

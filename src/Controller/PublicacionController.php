@@ -98,20 +98,22 @@ class PublicacionController extends AbstractController
                     $publicacion->setSector($amarra->getSector());
             }
 
+
             try {
-                
                 $entityManager->persist($publicacion);
                 $entityManager->flush();
-                $this->addFlash('success', 'Publicacion creada exitosamente!!');
-            } 
-            catch ( UniqueConstraintViolationException ){
+                $this->addFlash('success', 'Publicacion creada exitosamente!!');  
+                      } 
+            catch (UniqueConstraintViolationException){
                 $this->addFlash('failed', 'No pudimos publicar la embarcacion!!');
                 $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
             }
+    
 
            # $entityManager->persist($publicacion);
             #$entityManager->flush();
 
+           
             return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -134,12 +136,15 @@ class PublicacionController extends AbstractController
     #[Route('/{id}/edit', name: 'app_publicacion_edit', methods: ['GET', 'POST'])]
 public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
 {
-    $form = $this->createForm(PublicacionType::class, $publicacion);
+    $usuario=$this->getUser();
+    $form = $this->createForm(PublicacionType::class, $publicacion,[
+        'user'=>$usuario
+    ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
         $archivo = $form->get('foto')->getData();
-
+        dd($publicacion);
         if($archivo){
             $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
             $archivo->move(
@@ -150,16 +155,17 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
             $publicacion->setImage($nombreArchivo);
         }
 
+
         $entityManager->flush();
         
         $this->addFlash('success', 'Publicacion editada exitosamente!!');
         return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
     }
-    $flashcardPosition ='bottom: 20px; right: 20px;';
+
+   
     return $this->render('publicacion/edit.html.twig', [
         'publicacion' => $publicacion,
         'form' => $form,
-        'flashcard_position' => $flashcardPosition,
     ]);
 }
 
