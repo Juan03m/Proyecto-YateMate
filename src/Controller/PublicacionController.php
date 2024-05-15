@@ -115,22 +115,37 @@ class PublicacionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_publicacion_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(PublicacionType::class, $publicacion);
-        $form->handleRequest($request);
+public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
+{
+    $form = $this->createForm(PublicacionType::class, $publicacion);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $archivo = $form->get('foto')->getData();
 
-            return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
+        if($archivo){
+            $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+            $archivo->move(
+                $this->getParameter('directorio_imagenes'), // Directorio destino
+                $nombreArchivo
+            );
+
+            $publicacion->setImage($nombreArchivo);
         }
 
-        return $this->render('publicacion/edit.html.twig', [
-            'publicacion' => $publicacion,
-            'form' => $form,
-        ]);
+        $entityManager->flush();
+        
+        $this->addFlash('success', 'Publicacion editada exitosamente!!');
+        return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
     }
+    $flashcardPosition ='bottom: 20px; right: 20px;';
+    return $this->render('publicacion/edit.html.twig', [
+        'publicacion' => $publicacion,
+        'form' => $form,
+        'flashcard_position' => $flashcardPosition,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_publicacion_delete', methods: ['POST'])]
     public function delete(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response

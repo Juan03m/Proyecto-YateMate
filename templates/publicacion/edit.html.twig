@@ -3,10 +3,23 @@
 {% block title %}Editar Publicación{% endblock %}
 
 {% block body %}
+    {# mensajes flash #}
+    {% for message in app.flashes('success') %}
+        <div class="flashcard" style="position: {{ flascard_position }}; z-index: 100;">
+            <div class="card">
+                <div class="card-body">
+                    {{ message }}
+                    <button type="button" class="close" aria-label="Close" onclick="this.parentElement.parentElement.style.display='none';">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     <div class="centered-form">
         <h1 style="text-align: center;">Editar publicación</h1>
 
-        {{ form_start(form, {'attr': {'class': 'form-group'}})}}
+        {{ form_start(form, {'attr': {'class': 'form-group'}}) }}
             {{ form_row(form.titulo, {
                 'attr': {'class': 'form-control', 'placeholder': 'Título de la publicación'}
             }) }}
@@ -24,11 +37,9 @@
                 'attr': {'class': 'form-control', 'style': 'width: auto;'}
             }) }}
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;" onclick="this.innerHTML='<span class=\'spinner-border spinner-border-sm\' role=\'status\' aria-hidden=\'true\'></span> Actualizando...'">Actualizar</button>
-
         {{ form_end(form) }}
 
         <a href="{{ path('app_publicacion_index') }}" class="btn btn-3">Volver a la lista</a>
         {{ include('publicacion/_delete_form.html.twig') }}
     </div>
 {% endblock %}
-

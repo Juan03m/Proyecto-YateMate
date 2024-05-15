@@ -54,15 +54,15 @@ class RegistrationFormType extends AbstractType
                         'message' => 'La contraseña debe contener al menos una mayúscula y un carácter especial',
                     ]),
                 ],
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
+            ]);
+          /*  ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'No olvides aceptar nuestros terminos y condiciones.',
                     ]),
                 ],
-            ]);
+            ]); */
     }
 
     public function configureOptions(OptionsResolver $resolver): void
