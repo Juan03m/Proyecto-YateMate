@@ -22,59 +22,48 @@ use Symfony\Component\Validator\Constraints\Regex;
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-{
-    $builder
-        ->add('email')
-        ->add('nombre')
-        ->add('apellido')
-        ->add('fechaNacimiento', TypeDateType::class, [
-            'label' => 'Fecha de nacimiento',
-            'widget' => 'single_text',
-            // Agregar la restricción de edad mínima
-            'constraints' => [
-                new LessThanOrEqual([
-                    'value' => '-18 years', // La fecha mínima es hace 18 años
-                    'message' => 'Debes ser mayor de 18 años para registrarte.',
-                ]),
-               
-            ],
-            // Otras opciones del campo...
-        ])
-        
-
-        
-        ->add('agreeTerms', CheckboxType::class, [
-            'mapped' => false,
-            'constraints' => [
-                new IsTrue([
-                    'message' => 'No olvides aceptar nuestros terminos y condiciones.',
-                ]),
-            ],
-        ])
-        
-        ->add('plainPassword', PasswordType::class, [
-            // instead of being set onto the object directly,
-            // this is read and encoded in the controller
-            'mapped' => false,
-            'attr' => ['autocomplete' => 'new-password'],
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Please enter a password',
-                ]),
-                new Length([
-                    'min' => 8,
-                    'minMessage' => 'Tu contraseña debe tener al menos {{ limit }} caracteres',
-                    // max length allowed by Symfony for security reasons
-                    'max' => 4096,
-                ]),
-                new Regex([
-                    'pattern' => '/^(?=.*[A-Z])(?=.*[^a-zA-Z\d]).+$/',
-                    'message' => 'La contraseña debe contener al menos una mayúscula y un carácter especial',
-                ]),
-            ],
-        ]);
-}
-
+    {
+        $builder
+            ->add('email')
+            ->add('nombre')
+            ->add('apellido')
+            ->add('fechaNacimiento', TypeDateType::class, [
+                'label' => 'Fecha de nacimiento',
+                'widget' => 'single_text',
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => '-18 years',
+                        'message' => 'Debes ser mayor de 18 años para registrarte.',
+                    ]),
+                ],
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 8,
+                        'minMessage' => 'Tu contraseña debe tener al menos {{ limit }} caracteres',
+                        'max' => 4096,
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[A-Z])(?=.*[^a-zA-Z\d]).+$/',
+                        'message' => 'La contraseña debe contener al menos una mayúscula y un carácter especial',
+                    ]),
+                ],
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'No olvides aceptar nuestros terminos y condiciones.',
+                    ]),
+                ],
+            ]);
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -83,3 +72,4 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+
