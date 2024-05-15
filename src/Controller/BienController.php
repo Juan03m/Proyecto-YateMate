@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/bien')]
 class BienController extends AbstractController
@@ -21,7 +22,7 @@ class BienController extends AbstractController
             'biens' => $bienRepository->findAll(),
         ]);
     }
-
+    #[IsGranted("ROLE_USER")]
     #[Route('/new', name: 'app_bien_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -31,18 +32,29 @@ class BienController extends AbstractController
             'bienes'=> array_flip($opciones)
         ]);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $user=$this->getUser();  // me llevo el usuario actual 
+            $archivo = $form->get('foto')->getData();
+    
+            if ($archivo) {
+                $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
+                $archivo->move(
+                    $this->getParameter('directorio_imagenes'), // Directorio destino
+                    $nombreArchivo
+                );
+    
+                $bien->setImage($nombreArchivo);
+            }
+    
+            $user = $this->getUser();  // me llevo el usuario actual 
             $bien->setOwner($user); 
-
+    
             $entityManager->persist($bien);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('bien/new.html.twig', [
             'bien' => $bien,
             'form' => $form,

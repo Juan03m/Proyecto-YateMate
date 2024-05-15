@@ -94,7 +94,7 @@ class PublicacionController extends AbstractController
             $entityManager->persist($publicacion);
             $entityManager->flush();
 
-
+            $this->addFlash('success', 'Publicacion creada exitosamente!!');
             return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
         }
 

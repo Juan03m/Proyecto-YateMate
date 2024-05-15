@@ -21,6 +21,9 @@ class Bien
 
     #[ORM\Column(length: 255)]
     private ?string $descripcion = null;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'bienes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -39,6 +42,17 @@ class Bien
     public function setTipo(string $tipo): static
     {
         $this->tipo = $tipo;
+
+        return $this;
+    }
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

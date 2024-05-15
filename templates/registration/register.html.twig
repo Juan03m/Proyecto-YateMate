@@ -16,11 +16,24 @@
             {{ form_row(registrationForm.email, {
                 'attr': {'class': 'form-control', 'placeholder': 'email@ejemplo'}
             }) }}
-            {{ form_row(registrationForm.plainPassword, {
+
+             {{ form_row(registrationForm.plainPassword, {
                 'label': 'Contraseña',
                 'attr': {'class': 'form-control'}
             }) }}
-            <small id="passwordHelp" class="form-text text-muted">La contraseña debe tener un mínimo de 8 caracteres, y debe incluir al menos un carácter especial, una mayúscula y un número.</small>
+             <small id="passwordHelp" class="form-text text-muted">La contraseña debe tener un mínimo de 8 caracteres, y debe incluir al menos un carácter especial, una mayúscula y un número.</small>
+
+            {{ form_row(registrationForm.nombre, {
+                'attr': {'class': 'form-control'}
+            }) }}
+            {{ form_row(registrationForm.apellido, {
+                'attr': {'class': 'form-control'}
+            }) }}
+            {{ form_row(registrationForm.fechaNacimiento, {
+                'attr': {'class': 'form-control'}
+            }) }}
+           
+           
             <div class="form-check">
                 <label class="form-check-label">
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
@@ -28,7 +41,9 @@
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-secondary">Registrarse</button>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-secondary">Registrarse</button>
+            </div>
 
 
         {{ form_end(registrationForm) }}
