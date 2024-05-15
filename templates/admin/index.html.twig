@@ -1,1 +1,57 @@
+{# templates/admin/my-custom-page.html.twig #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
+{% block body_attributes %}style="background-color: #040e1b;"{% endblock %}
+
+{% block content_title %}Administrador{% endblock %}
+{% block page_actions %}
+    <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CEmbarcacionCrudController">Ver Embarcaciones</a>
+    <a class="btn btn-outline-primary" href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CAmarraCrudController">Ver Amarras</a>
+    <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUsuarioCrudController">Ver Usuarios</a>
+    <a class="btn btn-outline-primary" href="localhost/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CBienCrudController">Ver Bienes</a>
+{% endblock %}
+
+
+
+{% block main %}
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Embarcaciones', 'Amarras', 'Usuarios', 'Bienes'],
+                datasets: [{
+                    label: 'Cantidad de registros por entidad',
+                    data: [
+                        {{ embarcaciones_count }},
+                        {{ amarras_count }},
+                        {{ usuarios_count }},
+                        {{ bienes_count }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

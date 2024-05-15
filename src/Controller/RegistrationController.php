@@ -35,9 +35,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-
-
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -50,30 +47,22 @@ class RegistrationController extends AbstractController
                 '!'
             );
 
-
-
-            
-         // generate a signed url and email it to the user
+            // Enviar email de confirmación (comentado)
+            /*
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())
                 ->from(new Address('GSQInteractive@yopmail.com', 'GSQ Interactive'))
                 ->to($user->getEmail())
                 ->subject('Please Confirm your Email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
+            );
+            */
 
-
-
-
-
-
-                    $this->addFlash('success', 'Tu email ha sido verifcado');
+            $this->addFlash('success', 'Tu email ha sido verificado');
 
             $entityManager->persist($user);
             $entityManager->flush();
    
-             
-
             return $security->login($user, 'form_login', 'main');
         }
 
@@ -102,15 +91,4 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
-
-
-
-
-
-
-
-
-
-
-
 }
