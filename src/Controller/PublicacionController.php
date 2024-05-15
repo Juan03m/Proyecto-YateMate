@@ -48,7 +48,7 @@ class PublicacionController extends AbstractController
             'form'=>$form
         ]);
     }
-
+    #[IsGranted("ROLE_CLIENT")]
     #[Route('/new', name: 'app_publicacion_new', methods: ['GET', 'POST'])]
     #(i)
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -93,7 +93,7 @@ class PublicacionController extends AbstractController
             $entityManager->persist($publicacion);
             $entityManager->flush();
 
-
+            $this->addFlash('success', 'Publicacion creada exitosamente!!');
             return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
         }
 

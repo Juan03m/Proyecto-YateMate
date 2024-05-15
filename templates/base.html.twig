@@ -51,6 +51,11 @@
             <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Registrarse</a>
         {% endif %}
       </div>
+      {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+      {% endfor %}
     </nav>
   </header>
   {% endblock %}
