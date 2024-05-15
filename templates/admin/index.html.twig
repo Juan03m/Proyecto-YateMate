@@ -18,18 +18,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        var dataCounts = [
+            {{ embarcaciones_count }},
+            {{ amarras_count }},
+            {{ usuarios_count }},
+            {{ bienes_count }}
+        ];
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: ['Embarcaciones', 'Amarras', 'Usuarios', 'Bienes'],
+                labels: [
+                    'Embarcaciones (' + dataCounts[0] + ')',
+                    'Amarras (' + dataCounts[1] + ')',
+                    'Usuarios (' + dataCounts[2] + ')',
+                    'Bienes (' + dataCounts[3] + ')'
+                ],
                 datasets: [{
                     label: 'Cantidad de registros por entidad',
-                    data: [
-                        {{ embarcaciones_count }},
-                        {{ amarras_count }},
-                        {{ usuarios_count }},
-                        {{ bienes_count }}
-                    ],
+                    data: dataCounts,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -46,12 +52,10 @@
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     </script>
 {% endblock %}
+
