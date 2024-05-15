@@ -3,6 +3,24 @@
 {% block title %}Editar datos de usuario{% endblock %}
 
 {% block body %}
+    {# mensajes flash success #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Exito!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    {% endfor %}
+    {# mensajes flash failed #}
+    {% for message in app.flashes('failed') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>¡Error!</strong> {{ message }}
+        <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    {% endfor %}
     <div class="centered-form">
         <h1 style="text-align: center;">Editar datos de usuario</h1>
 
