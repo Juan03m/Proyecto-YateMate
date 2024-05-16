@@ -8,7 +8,9 @@
         {% for bien in biens %}
             <div class="col-sm-4">
                 <div class="card mx-auto" style="width: 18rem;">
-                    <img src="{{ asset('images/' ~ bien.image) }}" class="card-img-top" alt="{{ bien.tipo }}">
+                    <div class="card-image-container">
+                        <img src="{{ asset('images/' ~ bien.image) }}" class="card-img-top fixed-size-image" alt="{{ bien.tipo }}">
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ bien.nombre }}</h5>
                         <p class="card-text">{{ bien.tipo }}</p>

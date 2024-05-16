@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UsuarioCrudController extends AbstractCrudController
 {
@@ -27,7 +28,8 @@ class UsuarioCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
             TextField::new('email'),
-            //BooleanField::new('isVerified'),
+         //   BooleanField::new('isVerified'),
+            TextField::new('password')->onlyWhenCreating()->setFormType(PasswordType::class),
             TextField::new('nombre'),
             TextField::new('apellido'),
             TextField::new('dni'),
