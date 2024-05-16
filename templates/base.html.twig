@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}Welcome!{% endblock %}</title>
+  <title>{% block title %}Bienvenido!{% endblock %}</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
@@ -18,7 +18,7 @@
       
       <a class="navbar-brand" href="{{ path('app_home_page') }}">
         <img src="{{ asset('images/logo_yatemate.png') }}" alt="Logo" style="height: 40px;">
-        Sail 'n' Sale
+        Yate Mate
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,11 +29,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_publicacion_index') }}">Publicaciones</a>
           </li>
+          {% if app.user %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_bien_index') }}">Bienes</a>
           </li>
+          {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('contacto') }}">Contactanos</a>
+            <a class="nav-link" href="{{ path('contacto') }}">Acerca de</a>
           </li>
         </ul>
         {% block search %} {% endblock %}
@@ -67,6 +69,18 @@
   {% block body %}
   
   {% endblock %}
+
+   <footer class="footer mt-auto py-3 bg-dark text-white">
+    <div class="container text-center">
+      <span>© 2024 GSQ Inc</span>
+      <a href="{{ path('contacto') }}" class="ml-3 text-white">Contacto</a>
+      <a href="{{ path('contacto') }}" class="ml-3 text-white">Acerca de</a>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
