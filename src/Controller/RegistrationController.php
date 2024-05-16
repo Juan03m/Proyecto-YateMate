@@ -42,14 +42,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $this->addFlash(
-                'Bienvenido a Sail and Sail',
-                '!'
-            );
-
-
+          
 
             /*
+            
          // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())
@@ -59,12 +55,12 @@ class RegistrationController extends AbstractController
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
 
-*/
 
 
 
+        */
 
-                    $this->addFlash('success', 'Tu email ha sido verifcado');
+            $this->addFlash('success','Bienvenido a Sail & Sail');
 
             $entityManager->persist($user);
             $entityManager->flush();

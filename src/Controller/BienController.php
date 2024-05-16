@@ -18,8 +18,10 @@ class BienController extends AbstractController
     #[Route('/', name: 'app_bien_index', methods: ['GET'])]
     public function index(BienRepository $bienRepository): Response
     {
+        $user=$this->getUser();
+
         return $this->render('bien/index.html.twig', [
-            'biens' => $bienRepository->findAll(),
+            'biens' => $bienRepository->buscarPorUsuario($user),
         ]);
     }
     #[IsGranted("ROLE_USER")]

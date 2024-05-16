@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\AmarraRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AmarraRepository::class)]
+#[UniqueEntity('embarcacion','Ya existe una embarcacion en esa amarra')]
 class Amarra
 {
     #[ORM\Id]

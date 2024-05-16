@@ -6,10 +6,12 @@ use App\Entity\Publicacion;
 use App\Form\FiltradoPublicacionType;
 use App\Form\PublicacionType;
 use App\Form\BusquedaType;
+use App\Form\PublicacionEditType;
 use App\Repository\PublicacionRepository;
 use DateTime;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Scalar\MagicConst\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -136,15 +138,23 @@ class PublicacionController extends AbstractController
     #[Route('/{id}/edit', name: 'app_publicacion_edit', methods: ['GET', 'POST'])]
 public function edit(Request $request, Publicacion $publicacion, EntityManagerInterface $entityManager): Response
 {
+
+    
+
+
+
+
     $usuario=$this->getUser();
-    $form = $this->createForm(PublicacionType::class, $publicacion,[
+    $form = $this->createForm(PublicacionEditType::class, $publicacion,[
         'user'=>$usuario
     ]);
     $form->handleRequest($request);
 
+  
     if ($form->isSubmitted() && $form->isValid()) {
         $archivo = $form->get('foto')->getData();
-        dd($publicacion);
+        
+
         if($archivo){
             $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
             $archivo->move(
