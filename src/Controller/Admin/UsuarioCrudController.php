@@ -27,7 +27,7 @@ class UsuarioCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
             TextField::new('email'),
-            BooleanField::new('isVerified'),
+            //BooleanField::new('isVerified'),
             TextField::new('nombre'),
             TextField::new('apellido'),
             TextField::new('dni'),

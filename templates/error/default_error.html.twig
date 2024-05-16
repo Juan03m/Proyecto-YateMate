@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-    <h1>No sabemos que paso</h1>
-
-    <p>
-       No pudimos localizar la pagina que buscas. <a href="{{ path('app_home_page') }}">Volver al incio</a>.
-    </p>
+    <div class="centered-form text-center"> 
+        <h1>¡Oops! Ocurrio un error</h1>
+        <p>
+           Intenta mas tarde.
+        </p>
+        <a href="{{ path('app_home_page') }}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
 {% endblock %}
+

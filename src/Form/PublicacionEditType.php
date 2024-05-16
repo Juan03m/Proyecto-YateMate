@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class PublicacionType extends AbstractType
+class PublicacionEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -46,23 +46,6 @@ class PublicacionType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Por favor selcciona una imagen',
-                    ]),
-                ],
-            ])
-
-            ->add('embarcacion', EntityType::class, [
-                'class' => Embarcacion::class,
-                'choice_label' => 'nombre',
-                'query_builder' => function (EmbarcacionRepository $er) use ($usuario) {
-                    return $er->createQueryBuilder('e')
-                        ->leftJoin('e.publicacion', 'p')
-                        ->where('e.usuario = :usuario')
-                        ->andWhere('p.id IS NULL')
-                        ->setParameter('usuario', $usuario);
-                },
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Debes asignar una embarcacion a la publicacion',
                     ]),
                 ],
             ])
