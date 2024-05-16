@@ -1,12 +1,6 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
 {% block title %}Publicaciones{% endblock %}
-{#
-{% block search %}
-    {{ form(form) }}
-{% endblock %}
-#}
-
 
 {% block search %}
     {{ form_start(form) }}
@@ -16,6 +10,7 @@
         </div>
     {{ form_end(form) }}
 {% endblock %}
+
 {% block body %}
     {# mensajes flash success #}
     {% for message in app.flashes('success') %}
@@ -36,7 +31,6 @@
     </div>
     {% endfor %}
 
-   
     <div style="text-align: center; color: #c2a26b;">
         <h1>Publicaciones</h1>
 
@@ -44,8 +38,9 @@
         {% for publicacion in publicaciones %}
             <div class="col-sm-4">
                 <div class="card mx-auto" style="width: 18rem;">
-                     <img src="{{ asset('images/' ~ publicacion.image) }}" class="card-img-top" alt="{{ publicacion.titulo }}"> 
-                  
+                    <div class="card-image-container">
+                        <img src="{{ asset('images/' ~ publicacion.image) }}" class="card-img-top fixed-size-image" alt="{{ publicacion.titulo }}">
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ publicacion.titulo }}</h5>
                         <p class="card-text">{{ publicacion.embarcacion.Tipo }}</p>
@@ -64,6 +59,6 @@
             </div>
         {% endfor %}
         </div>
-            <a href="{{ path('app_publicacion_new') }}" class="btn btn-secondary">Publicar</a>
+        <a href="{{ path('app_publicacion_new') }}" class="btn btn-outline-primary">Publicar</a>
     </div>
 {% endblock %}

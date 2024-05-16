@@ -3,7 +3,7 @@
 {% block title %}Publicacion{% endblock %}
 
 {% block body %}
-<div style="text-align: center; color: #c2a26b;">
+<div style="text-align: center; color: #c2a26b;margin-top:20px">
     <h1>{{ publicacion.titulo }}</h1>
 
     <div style="display: flex;">
@@ -34,11 +34,11 @@
                         <td>{{ publicacion.embarcacion.largo }}</td>
                     </tr>
                     <tr>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                         <td>{{ publicacion.descripcion }}</td>
                     </tr>
                     <tr>
-                        <th>Fecha de publicacion</th>
+                        <th>Fecha de publicación</th>
                         <td>{{ publicacion.fecha ? publicacion.fecha|date('d-m-Y') : '' }}</td>
                     </tr>
                 </tbody>
