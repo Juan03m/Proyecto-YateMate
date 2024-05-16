@@ -29,7 +29,7 @@ class BienController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $bien = new Bien();
-        $opciones=['Vehiculo','Inmueble','Tecnologia','Otro'];
+        $opciones=['Vehiculo','Inmueble'];
         $form = $this->createForm(BienType::class, $bien,[
             'bienes'=> array_flip($opciones)
         ]);
@@ -37,7 +37,7 @@ class BienController extends AbstractController
     
         if ($form->isSubmitted() && $form->isValid()) {
             $archivo = $form->get('foto')->getData();
-    
+            
             if ($archivo) {
                 $nombreArchivo = uniqid().'.'.$archivo->guessExtension();
                 $archivo->move(
@@ -50,6 +50,16 @@ class BienController extends AbstractController
     
             $user = $this->getUser();  // me llevo el usuario actual 
             $bien->setOwner($user); 
+
+
+            $valorSeleccionado = $bien->getTipo('tipo'); 
+           // dd($valorSeleccionado);// Suponiendo que 'tipo' es el nombre del campo en tu formulario
+            $valor = array_keys($opciones)[$valorSeleccionado];
+           
+            $bien->setTipo($opciones[$valor]);
+
+
+
     
             $entityManager->persist($bien);
             $entityManager->flush();
