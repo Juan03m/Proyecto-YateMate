@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acerca de Nosotros{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 text-center mt-5">
+      <h1 style="color: #c2a26b;">Acerca de Nosotros</h1>
+      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Con ocho marinas estratégicamente ubicadas en la costa del Río de La Plata, ofrecemos un servicio integral que combina la comodidad de amarras con alquiler anual, la innovadora opción de intercambio de embarcaciones por bienes de otros usuarios, y el alquiler temporal de amarras desocupadas, proporcionando beneficios y descuentos exclusivos a nuestros clientes.</p>
+      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">En YateMate nos enorgullecemos de brindar un ambiente seguro, accesible y de alta calidad para todos los amantes de la náutica. Nuestro equipo está comprometido con la excelencia en el servicio y la satisfacción de nuestros clientes, haciendo que cada visita a nuestras marinas sea memorable.</p>
+    </div>
+    <div class="col-md-6 mt-5">
+      <img src="{{ asset('images/logo_yatemate.png') }}" alt="Logo de la empresa" class="img-fluid">
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <img src="{{ asset('images/marina2.jpg') }}" alt="Foto de una marina" class="img-fluid" style="margin-top: 2em;">
+    </div>
+    <div class="col-md-6">
+      <div class="mt-4">
+        <h2 style="color: #c2a26b;">Misión</h2>
+        <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Nuestra misión es proporcionar servicios de marina de alta calidad que superen las expectativas de nuestros clientes, promoviendo un entorno seguro y acogedor para todos los entusiastas de la navegación. Nos esforzamos por innovar continuamente y mejorar nuestros servicios, facilitando el acceso y la gestión de embarcaciones a través de soluciones prácticas y eficientes.</p>
+        <h2 style="color: #c2a26b;">Visión</h2>
+        <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Nuestra visión es ser líderes en la gestión de marinas a lo largo del río de La Plata, reconocidos por nuestra excelencia en el servicio, innovación y compromiso con la sostenibilidad. Aspiramos a crear una comunidad náutica vibrante y conectada, donde los propietarios de embarcaciones puedan disfrutar de la mejor infraestructura y servicios disponibles.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h2 style="color: #c2a26b;">Política de Calidad</h2>
+      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">En YateMate, la calidad es nuestro principal objetivo. Nos comprometemos a:</p>
+      <ul style="font-size: 1.2em; text-align: justify; color: #c2a26b;">
+        <li>Mantener y mejorar continuamente nuestras instalaciones y servicios.</li>
+        <li>Proporcionar una experiencia de cliente excepcional, escuchando y respondiendo a sus necesidades y expectativas.</li>
+        <li>Implementar prácticas sostenibles que protejan el medio ambiente y fomenten el uso responsable de los recursos.</li>
+        <li>Capacitar a nuestro personal para asegurar un servicio profesional, cortés y eficiente.</li>
+        <li>Asegurar el cumplimiento de todas las regulaciones y estándares de seguridad pertinentes.</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <img src="{{ asset('images/marina3.jpg') }}" alt="Descripción de la imagen" class="img-fluid">
+    </div>
+  </div>
+</div>
+{% endblock %}
