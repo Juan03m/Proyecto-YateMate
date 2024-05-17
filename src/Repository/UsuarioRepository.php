@@ -33,6 +33,11 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->getEntityManager()->flush();
     }
 
+    public function findByEmail(string $email): ?Usuario
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
     //    /**
     //     * @return Usuario[] Returns an array of Usuario objects
     //     */
