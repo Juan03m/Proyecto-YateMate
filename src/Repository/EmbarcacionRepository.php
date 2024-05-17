@@ -30,6 +30,13 @@ class EmbarcacionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function findWithoutAmarra(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.amarra IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Embarcacion
 //    {
