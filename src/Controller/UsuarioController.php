@@ -71,7 +71,9 @@ class UsuarioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
- 
+            
+            $this->addFlash('success','Modificaste tu informacion correctamente');
+
 
             $entityManager->flush();
             
