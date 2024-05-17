@@ -24,15 +24,19 @@ class PublicacionType extends AbstractType
 
         $builder
             ->add('titulo',TypeTextType::class,   
-            ['constraints' => [
+            
+            [
+                'required'=>false,
+                'constraints' => [
                 new NotBlank([
-                    'message' => 'Por favor selcciona una imagen',
+                    'message' => 'Por favor ingresa un titulo ',
                 ]),
             ],])
             ->add('descripcion',TypeTextType::class,   
-            ['constraints' => [
+            [   'required'=>false,
+                'constraints' => [
                 new NotBlank([
-                    'message' => 'Por favor selcciona una imagen',
+                    'message' => 'Por favor ingresa  una  descripcion ',
                 ]),
             ],])
 
@@ -45,7 +49,7 @@ class PublicacionType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Por favor selcciona una imagen',
+                        'message' => 'Por favor ingresa  una imagen',
                     ]),
                 ],
             ])
@@ -62,7 +66,7 @@ class PublicacionType extends AbstractType
                 },
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Debes asignar una embarcacion a la publicacion',
+                        'message' => 'No tienes embarcaciones para publicar',
                     ]),
                 ],
             ])

@@ -18,8 +18,12 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
+            ->add('nombre')
+            ->add('apellido')
+            ->add('fechaNacimiento', TypeDateType::class, [
+                'input_format' => 'dd-mm-yyyy',
+                'label' => 'Fecha de nacimiento',
+                'widget' => 'single_text',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',

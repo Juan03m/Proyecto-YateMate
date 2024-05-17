@@ -22,6 +22,7 @@ class UsuarioType extends AbstractType
             ->add('email',)
             //->add('roles')
             ->add('dni', TypeIntegerType::class, [ 
+                'required'=>false,
                 'constraints' => [
                     new Length([
                         'min' => 8,

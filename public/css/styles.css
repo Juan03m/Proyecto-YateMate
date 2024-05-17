@@ -2,6 +2,7 @@ body {
     background-color: #040e1b;
     color: #071a32; /* Agregado para cambiar el color del texto */
     margin-bottom: 100px;
+    overflow-x: hidden; /* Esto oculta el desbordamiento horizontal */
 }
 
 .navbar {
