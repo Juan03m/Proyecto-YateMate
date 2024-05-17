@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PublicacionEditType extends AbstractType
@@ -23,14 +24,21 @@ class PublicacionEditType extends AbstractType
         
 
         $builder
-            ->add('titulo',TypeTextType::class,   
-            ['constraints' => [
+            ->add('titulo',TypeTextType::class,
+            [   'required'=>false,
+                'constraints' => [
                 new NotBlank([
-                    'message' => 'Por favor selcciona una imagen',
+                    'message' => 'Por favor ingresa un titulo',
                 ]),
             ],])
             ->add('descripcion',TypeTextType::class,   
             ['constraints' => [
+                new Length([
+                    'min' => 8,
+                    'minMessage' => 'Tu contraseña debe tener al menos {{ limit }} caracteres',
+                    'maxMessage'=> 'Tu contraseña puede tener 250  caracteres como maximo',
+                    'max' => 250,
+                ]),
                 new NotBlank([
                     'message' => 'Por favor selcciona una imagen',
                 ]),

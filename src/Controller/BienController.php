@@ -84,7 +84,10 @@ class BienController extends AbstractController
     #[Route('/{id}/edit', name: 'app_bien_edit', methods: ['GET', 'POST'])]
 public function edit(Request $request, Bien $bien, EntityManagerInterface $entityManager): Response
 {
-    $form = $this->createForm(BienType::class, $bien);
+    $opciones=['Vehiculo','Inmueble'];
+    $form = $this->createForm(BienType::class, $bien,[
+        'bienes'=> array_flip($opciones)
+    ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
@@ -99,6 +102,15 @@ public function edit(Request $request, Bien $bien, EntityManagerInterface $entit
 
             $bien->setImage($nombreArchivo);
         }
+
+
+        $valorSeleccionado = $bien->getTipo('tipo'); 
+        // dd($valorSeleccionado);// Suponiendo que 'tipo' es el nombre del campo en tu formulario
+         $valor = array_keys($opciones)[$valorSeleccionado];
+        
+         $bien->setTipo($opciones[$valor]);
+
+
 
         $entityManager->flush();
 

@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
 
         */
 
-            $this->addFlash('success','Bienvenido a Sail & Sail');
+            $this->addFlash('success','Bienvenido a YateMate');
 
             $entityManager->persist($user);
             $entityManager->flush();

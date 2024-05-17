@@ -24,7 +24,7 @@ class EmbarcacionCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
-            TextField::new('matricula'),
+            TextField::new('matricula')->hideWhenUpdating(),
             TextField::new('nombre'),
             CountryField::new('bandera'),
             Field::new('alto'),
@@ -40,7 +40,7 @@ class EmbarcacionCrudController extends AbstractCrudController
                 ],
         ]),
             AssociationField::new('usuario')->autocomplete(),
-            AssociationField::new('amarra')
+            AssociationField::new('amarra')->hideWhenUpdating()
         ];
     }
     
