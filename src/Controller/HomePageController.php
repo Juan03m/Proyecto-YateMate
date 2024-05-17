@@ -62,9 +62,15 @@ class HomePageController extends AbstractController
     }
 
     #[Route('/contacto', name: 'contacto')]
-    public function action(): Response
+    public function action1(): Response
     {
         return $this->render('dashboard/contacto.html.twig');
+    }
+
+    #[Route('/acercade', name: 'acercade')]
+    public function action(): Response
+    {
+        return $this->render('dashboard/acercade.html.twig');
     }
 
 

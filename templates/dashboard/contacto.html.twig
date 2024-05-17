@@ -1,47 +1,111 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}<span style="color: #c2a26b;">Acerca de Nosotros</span>{% endblock %}
+{% block title %}Contacto{% endblock %}
 
 {% block body %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 text-center mt-5">
-      <h1 style="color: #c2a26b;">Acerca de Nosotros</h1>
-      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Con ocho marinas estratégicamente ubicadas en la costa del Río de La Plata, ofrecemos un servicio integral que combina la comodidad de amarras con alquiler anual, la innovadora opción de intercambio de embarcaciones por bienes de otros usuarios, y el alquiler temporal de amarras desocupadas, proporcionando beneficios y descuentos exclusivos a nuestros clientes.</p>
-      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">En YateMate nos enorgullecemos de brindar un ambiente seguro, accesible y de alta calidad para todos los amantes de la náutica. Nuestro equipo está comprometido con la excelencia en el servicio y la satisfacción de nuestros clientes, haciendo que cada visita a nuestras marinas sea memorable.</p>
+<div class="container mt-5 text-center">
+    <h1 style="color: #c2a26b; text-align: center;">Contacto</h1>
+    
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Norte</h3>
+            <p>Dirección: Av. Costanera 123, San Fernando, Buenos Aires</p>
+            <p>Teléfono: +54 11 1234 5678</p>
+            <p>Email: <a href="mailto:marina.norte@yatemate.com">marina.norte@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.54320078490949!3d-34.47411898048932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb054617888ff%3A0x2222fcccbbd12a0!2sAv.%20Costanera%20123%2C%20San%20Fernando%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
-    <div class="col-md-6 mt-5">
-      <img src="{{ asset('images/logo_yatemate.png') }}" alt="Logo de la empresa" class="img-fluid">
+
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Centro</h3>
+            <p>Dirección: Av. Libertador 456, Vicente López, Buenos Aires</p>
+            <p>Teléfono: +54 11 2345 6789</p>
+            <p>Email: <a href="mailto:marina.centro@yatemate.com">marina.centro@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.48645698520947!3d-34.54578138055059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb07a9fb4f5f5%3A0xb5f62f176cf67a5f!2sAv.%20del%20Libertador%20456%2C%20B1603%20Vicente%20L%C3%B3pez%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
-  </div>
-  <div class="row mt-5">
+
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Sur</h3>
+            <p>Dirección: Calle del Puerto 789, Quilmes, Buenos Aires</p>
+            <p>Teléfono: +54 11 3456 7890</p>
+            <p>Email: <a href="mailto:marina.sur@yatemate.com">marina.sur@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.27825878490949!3d-34.72498198048932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb054618888ff%3A0x1232fcccbbd12a0!2sCalle%20del%20Puerto%20789%2C%20Quilmes%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Este</h3>
+            <p>Dirección: Ruta 27 km 38, Tigre, Buenos Aires</p>
+            <p>Teléfono: +54 11 4567 8901</p>
+            <p>Email: <a href="mailto:marina.este@yatemate.com">marina.este@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.57825878490949!3d-34.46898198048932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb054616888ff%3A0x3456fcccbbd12a0!2sRuta%2027%20km%2038%2C%20Tigre%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Oeste</h3>
+            <p>Dirección: Av. del Libertador 1234, San Isidro, Buenos Aires</p>
+            <p>Teléfono: +54 11 5678 9012</p>
+            <p>Email: <a href="mailto:marina.oeste@yatemate.com">marina.oeste@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.52445878490949!3d-34.47378198048932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb054612888ff%3A0x4567fcccbbd12a0!2sAv.%20del%20Libertador%201234%2C%20San%20Isidro%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3>Marina Delta</h3>
+            <p>Dirección: Paseo Victorica 5678, Tigre, Buenos Aires</p>
+            <p>Teléfono: +54 11 6789 0123</p>
+            <p>Email: <a href="mailto:marina.delta@yatemate.com">marina.delta@yatemate.com</a></p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.999998573002!2d-58.57125878490949!3d-34.47198198048932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb054614888ff%3A0x6789fcccbbd12a0!2sPaseo%20Victorica%205678%2C%20Tigre%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2ses!4v1620229235059!5m2!1ses!2ses" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+    <div class="row mb-4" style="color: #c2a26b; text-align: left;">
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+        <h3>Marina Bahía</h3>
+        <p>Dirección: Camino Parque Sesquicentenario 3456, Ingeniero White, Buenos Aires</p>
+        <p>Teléfono: +54 11 7890 1234</p>
+        <p>Email: <a href="mailto:marina.bahia@yatemate.com">marina.bahia@yatemate.com</a></p>
+    </div>
     <div class="col-md-6">
-      <img src="{{ asset('images/marina2.jpg') }}" alt="Foto de una marina" class="img-fluid" style="margin-top: 2em;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d32794.49316925886!2d-62.32440494330883!3d-38.69363540357071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z4oCkMzg1JzM0LjIiUyA2MsKwMzInNTUuNiJX!5e0!3m2!1sen!2sus!4v1621247574420!5m2!1sen!2sus" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</div>
+
+<div class="row mb-4" style="color: #c2a26b; text-align: left;">
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+        <h3>Marina Atlántico</h3>
+        <p>Dirección: Av. Patricio Peralta Ramos 7209, Mar del Plata, Buenos Aires</p>
+        <p>Teléfono: +54 11 8901 2345</p>
+        <p>Email: <a href="mailto:marina.atlantico@yatemate.com">marina.atlantico@yatemate.com</a></p>
     </div>
     <div class="col-md-6">
-      <div class="mt-4">
-        <h2 style="color: #c2a26b;">Misión</h2>
-        <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Nuestra misión es proporcionar servicios de marina de alta calidad que superen las expectativas de nuestros clientes, promoviendo un entorno seguro y acogedor para todos los entusiastas de la navegación. Nos esforzamos por innovar continuamente y mejorar nuestros servicios, facilitando el acceso y la gestión de embarcaciones a través de soluciones prácticas y eficientes.</p>
-        <h2 style="color: #c2a26b;">Visión</h2>
-        <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">Nuestra visión es ser líderes en la gestión de marinas a lo largo del río de La Plata, reconocidos por nuestra excelencia en el servicio, innovación y compromiso con la sostenibilidad. Aspiramos a crear una comunidad náutica vibrante y conectada, donde los propietarios de embarcaciones puedan disfrutar de la mejor infraestructura y servicios disponibles.</p>
-      </div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.128536975137!2d-57.55721918491026!3d-37.997712880097025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbd2e295d149b%3A0xe76f6a687efbdceb!2sAv.%20Patricio%20Peralta%20Ramos%207209%2C%20Mar%20del%20Plata%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1sen!2sus!4v1621220266849!5m2!1sen!2sus" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
     </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-md-6">
-      <h2 style="color: #c2a26b;">Política de Calidad</h2>
-      <p style="font-size: 1.2em; text-align: justify; color: #c2a26b;">En YateMate, la calidad es nuestro principal objetivo. Nos comprometemos a:</p>
-      <ul style="font-size: 1.2em; text-align: justify; color: #c2a26b;">
-        <li>Mantener y mejorar continuamente nuestras instalaciones y servicios.</li>
-        <li>Proporcionar una experiencia de cliente excepcional, escuchando y respondiendo a sus necesidades y expectativas.</li>
-        <li>Implementar prácticas sostenibles que protejan el medio ambiente y fomenten el uso responsable de los recursos.</li>
-        <li>Capacitar a nuestro personal para asegurar un servicio profesional, cortés y eficiente.</li>
-        <li>Asegurar el cumplimiento de todas las regulaciones y estándares de seguridad pertinentes.</li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <img src="{{ asset('images/marina3.jpg') }}" alt="Descripción de la imagen" class="img-fluid">
-    </div>
-  </div>
+</div>
+
+<div class="container mt-5 text-center">
+    <p style="text-align: justify; font-size: 1.2em; color: #c2a26b;">
+        Estamos aquí para servirle y asegurar que su experiencia con nosotros sea insuperable. ¡Navegue con confianza y comodidad con YateMate!
+    </p>
+</div>
+
 </div>
 {% endblock %}
