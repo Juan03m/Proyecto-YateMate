@@ -15,7 +15,9 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
     fields: ["Matricula"],
     message: "La matricula ya esta registrada",
     groups: ["new"]
+
 )]
+
  
 class Embarcacion
 {
@@ -46,17 +48,18 @@ class Embarcacion
     private ?Amarra $amarra = null;
 
     #[ORM\ManyToOne(inversedBy: 'embarcaciones')]
-    #[ORM\JoinColumn(nullable: false)]
+  //  #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
     #[ORM\Column]
-    private ?float $alto = null;
+    private ?float $manga = null;
 
     #[ORM\Column]
-    private ?float $ancho = null;
+    private ?float $eslora = null;
 
     #[ORM\Column]
-    private ?float $largo = null;
+    private ?float $puntal = null;
+
 
 
     // Getters and setters for id
@@ -192,40 +195,42 @@ class Embarcacion
         return $embarcacion;
     }
 
-    public function getAlto(): ?float
+    public function getManga(): ?float
     {
-        return $this->alto;
+        return $this->manga;
     }
 
-    public function setAlto(float $alto): static
+    public function setManga(float $manga): static
     {
-        $this->alto = $alto;
+        $this->manga = $manga;
 
         return $this;
     }
 
-    public function getAncho(): ?float
+    public function getEslora(): ?float
     {
-        return $this->ancho;
+        return $this->eslora;
     }
 
-    public function setAncho(float $ancho): static
+    public function setEslora(float $eslora): static
     {
-        $this->ancho = $ancho;
+        $this->eslora = $eslora;
 
         return $this;
     }
 
-    public function getLargo(): ?float
+    public function getPuntal(): ?float
     {
-        return $this->largo;
+        return $this->puntal;
     }
 
-    public function setLargo(float $largo): static
+    public function setPuntal(float $puntal): static
     {
-        $this->largo = $largo;
+        $this->puntal = $puntal;
 
         return $this;
     }
+
+
 
 }

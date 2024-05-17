@@ -36,6 +36,12 @@
           {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('acercade') }}">Acerca de</a>
+<<<<<<< HEAD
+=======
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('contacto') }}">Contacto</a>
+>>>>>>> 89b085c16bb9502f3658546a58d7783f4d0f133a
           </li>
         </ul>
         {% block search %} {% endblock %}
@@ -73,8 +79,8 @@
    <footer class="footer mt-auto py-3 bg-dark text-white">
     <div class="container text-center">
       <span>© 2024 GSQ Inc</span>
+      <a href="{{ path('acercade') }}" class="ml-3 text-white">Acerca de</a>
       <a href="{{ path('contacto') }}" class="ml-3 text-white">Contacto</a>
-      <a href="{{ path('contacto') }}" class="ml-3 text-white">Acerca de</a>
     </div>
   </footer>
 

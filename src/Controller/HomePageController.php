@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\BusquedaType;
+use App\Entity\Usuario;
 use App\Repository\PublicacionRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,13 @@ class HomePageController extends AbstractController
     public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
         $opciones=['Opcion 1','Opcion 2','Opcion 3'];
+
+        $user=new Usuario;
+        
+        $user=$this->getUser();
+
+    
+
 
         $form = $this->createForm(BusquedaType::class);
 
@@ -38,14 +46,13 @@ class HomePageController extends AbstractController
     }
 
     #[Route('/contacto', name: 'contacto')]
-    public function contacto(): Response
+    public function action(): Response
     {
         return $this->render('dashboard/contacto.html.twig');
     }
 
-    #[Route('/acercade', name: 'acercade')]
-    public function acercade(): Response
-    {
-        return $this->render('dashboard/acercade.html.twig');
-    }
+
+
+
+
 }
