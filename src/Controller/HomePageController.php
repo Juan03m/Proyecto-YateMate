@@ -52,6 +52,11 @@ class HomePageController extends AbstractController
     }
 
 
+    #[Route('/acercade', name: 'acercade')]
+    public function action2(): Response
+    {
+        return $this->render('dashboard/acercade.html.twig');
+    }
 
 
 
