@@ -12,6 +12,8 @@ body {
 .btn-outline-primary {
     color: #c2a26b;
     border-color: #c2a26b;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .btn-outline-primary:hover {
@@ -93,3 +95,14 @@ body {
     text-align: center;
     padding: 10px 0;
 }
+/* Estilos adicionales para mejorar la apariencia */
+.card {
+    margin-bottom: 20px;
+}
+
+/* Ajustes para la imagen de la publicación */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+

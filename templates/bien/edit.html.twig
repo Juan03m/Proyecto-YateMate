@@ -20,10 +20,13 @@
             }) }}
             <small id="descripcionHelp" class="form-text text-muted">La descripción debe ser clara y concisa.</small>
             <span id="contador"></span>
-           {{ form_row(form.foto, {
-                'label': 'Foto (PNG, JPEG)',
-                'attr': {'class': 'form-control-file'}
-            }) }}
+           <div style="display: flex; align-items: center;"> 
+                {{ form_row(form.foto, {
+                    'label': 'Foto (PNG, JPEG)',
+                    'attr': {'class': 'form-control-file', 'style': 'margin-right: 10px;'} 
+                }) }}
+                <img id="preview" src="{{ asset('images/placeholder.jpg') }}" alt="Vista previa de la imagen" style="max-width: 150px; display: block;">
+            </div>
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Guardar</button>
         {{ form_end(form) }}
 
@@ -47,6 +50,25 @@
                     descripcionCounter.style.color = 'red';
                 } else {
                     descripcionCounter.style.color = '#666';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fotoInput = document.querySelector('#{{ form.foto.vars.id }}');
+            var previewImage = document.querySelector('#preview');
+
+            fotoInput.addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.src = '{{ asset('images/placeholder.jpg') }}'; 
                 }
             });
         });

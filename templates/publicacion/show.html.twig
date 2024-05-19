@@ -60,5 +60,32 @@
     <a href="{{ path('app_publicacion_index', {'id': publicacion.id}) }}" class="btn btn-3">Volver a la lista</a>
 </div>
 
+<div style="text-align: center; color: #c2a26b;">
+    <h2 style="color: #c2a26b; text-align: center;">Publicaciones relacionadas</h2>
+    <div class="row justify-content-center">
+        {% if related_publications is not empty %}
+            {% for related_publication in related_publications %}
+                <div class="col-sm-4">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <div class="card-image-container">
+                            <img src="{{ asset('images/' ~ related_publication.image) }}" class="card-img-top fixed-size-image" alt="{{ related_publication.titulo }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ related_publication.titulo }}</h5>
+                            <p class="card-text">{{ related_publication.embarcacion.Tipo }}</p>
+                            <a href="{{ path('app_publicacion_show', {'id': related_publication.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div style="width: 100%; text-align: center;">
+                <p style="color: #c2a26b;">No hay publicaciones del mismo tipo publicadas.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
 {% endblock %}
 
