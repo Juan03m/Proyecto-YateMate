@@ -35,8 +35,8 @@ class PublicacionEditType extends AbstractType
             ['constraints' => [
                 new Length([
                     'min' => 8,
-                    'minMessage' => 'Tu contraseña debe tener al menos {{ limit }} caracteres',
-                    'maxMessage'=> 'Tu contraseña puede tener 250  caracteres como maximo',
+                    'minMessage' => 'La descripción debe tener al menos {{ limit }} caracteres',
+                    'maxMessage'=> 'La descripción puede tener 250  caracteres como máximo',
                     'max' => 250,
                 ]),
                 new NotBlank([

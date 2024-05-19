@@ -126,13 +126,18 @@ class PublicacionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_publicacion_show', methods: ['GET'])]
-    public function show(Publicacion $publicacion): Response
+    public function show(Publicacion $publicacion,PublicacionRepository $publicacionRepository): Response
     {
-        //dd($publicacion);
+ 
+    $tipoEmbarcacion = $publicacion->getEmbarcacion()->getTipo();
+    $relatedPublications = $publicacionRepository->findRelatedByTipoEmbarcacion($tipoEmbarcacion, $publicacion->getId());
 
-        return $this->render('publicacion/show.html.twig', [
-            'publicacion' => $publicacion,
-        ]);
+    return $this->render('publicacion/show.html.twig', [
+        'publicacion' => $publicacion,
+        'related_publications' => $relatedPublications, // Cambiar a 'related_publications'
+    ]);
+    
+    
     }
 
     #[Route('/{id}/edit', name: 'app_publicacion_edit', methods: ['GET', 'POST'])]
