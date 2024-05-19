@@ -38,7 +38,7 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Lancha' => 'Lancha',
                     'Bote' => 'Bote',
                 ],
-        ]),
+            ]),
             AssociationField::new('usuario')->autocomplete(),
             AssociationField::new('amarra')->hideWhenUpdating()
         ];

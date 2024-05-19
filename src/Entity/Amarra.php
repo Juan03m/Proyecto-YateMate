@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AmarraRepository::class)]
 #[UniqueEntity('embarcacion','Ya existe una embarcacion en esa amarra')]
+#[UniqueEntity(fields: ['Numero', 'sector', 'marina'], message: 'Ya existe una amarra con ese número, sector y marina')]
 class Amarra
 {
     #[ORM\Id]
@@ -27,6 +28,7 @@ class Amarra
 
     #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist', 'remove'])]
     private ?Embarcacion $embarcacion = null;
+
 
     public function getId(): ?int
     {
@@ -88,4 +90,5 @@ class Amarra
         $string='Nro'.$this->getNumero().'  '.'Sector:'.$this->getSector();
         return $string;
     }
+
 }
