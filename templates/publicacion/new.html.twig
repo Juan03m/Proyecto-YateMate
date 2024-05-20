@@ -6,7 +6,7 @@
     {# mensajes flash success #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Exito!</strong> {{ message }}
+            <strong>Éxito!</strong> {{ message }}
             <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
                 <span aria-hidden="true">×</span>
             </button>
@@ -30,13 +30,17 @@
             }) }}
             {{ form_row(form.descripcion, {
                 'label': 'Descripción',
-                'attr': {'class': 'form-control'}
+                'attr': {'class': 'form-control', 'oninput': 'updateCounter()'}
             }) }}
             <small id="descripcionHelp" class="form-text text-muted">La descripción debe ser clara y concisa.</small>
-            {{ form_row(form.foto, {
-                'label': 'Foto (PNG, JPEG)',
-                'attr': {'class': 'form-control-file'}
-            }) }}
+            <span id="contador"></span>
+            <div style="display: flex; align-items: center;"> 
+                {{ form_row(form.foto, {
+                    'label': 'Foto (PNG, JPEG)',
+                    'attr': {'class': 'form-control-file', 'style': 'margin-right: 10px;'} 
+                }) }}
+                <img id="preview" src="{{ asset('images/placeholder.jpg') }}" alt="Vista previa de la imagen" style="max-width: 150px; display: block;">
+            </div>
             {{ form_row(form.embarcacion, {
                 'label': 'Embarcación',
                 'attr': {'class': 'form-control', 'style': 'width: auto;'}
@@ -45,4 +49,46 @@
 
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var descripcionInput = document.querySelector('#{{ form.descripcion.vars.id }}');
+            var descripcionCounter = document.createElement('span');
+            descripcionCounter.textContent = '{{ form.descripcion.vars.value|length }} / 250 caracteres';
+            descripcionCounter.style.fontSize = '12px';
+            descripcionCounter.style.color = '#666';
+            descripcionInput.parentNode.insertBefore(descripcionCounter, descripcionInput.nextSibling);
+
+            descripcionInput.addEventListener('input', function() {
+                var currentLength = descripcionInput.value.length;
+                descripcionCounter.textContent = currentLength + ' / 250 caracteres';
+                if (currentLength > 250) {
+                    descripcionCounter.style.color = 'red';
+                } else {
+                    descripcionCounter.style.color = '#666';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fotoInput = document.querySelector('#{{ form.foto.vars.id }}');
+            var previewImage = document.querySelector('#preview');
+
+            fotoInput.addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.src = '{{ asset('images/placeholder.jpg') }}'; 
+                }
+            });
+        });
+    </script>
 {% endblock %}

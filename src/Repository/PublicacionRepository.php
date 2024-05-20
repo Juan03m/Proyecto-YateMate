@@ -30,6 +30,20 @@ class PublicacionRepository extends ServiceEntityRepository
             ;
         }
 
+        public function findRelatedByTipoEmbarcacion(string $tipoEmbarcacion, int $publicacionId): array
+        {
+            return $this->createQueryBuilder('p')
+                ->leftJoin('p.embarcacion', 'e')
+                ->andWhere('e.Tipo = :tipoEmbarcacion')
+                ->andWhere('p.id != :publicacionId')
+                ->setParameter('tipoEmbarcacion', $tipoEmbarcacion)
+                ->setParameter('publicacionId', $publicacionId)
+                ->setMaxResults(4) // Limitamos el número de publicaciones relacionadas a 4
+                ->getQuery()
+                ->getResult();
+        }
+
+
     //    public function findOneBySomeField($value): ?Publicacion
     //    {
     //        return $this->createQueryBuilder('p')

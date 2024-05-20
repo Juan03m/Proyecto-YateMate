@@ -10,7 +10,7 @@
         <div style="flex: 50%;">
             <img src="{{ asset('images/' ~ publicacion.image) }}" alt="{{ publicacion.titulo }}" style="max-width: 100%;">
         </div>
-        <div style="flex: 50%;">
+        <div style="flex: 50%; position: relative;">
             <table class="table publication-data"> 
                 <tbody>
                     <tr>
@@ -43,6 +43,12 @@
                     </tr>
                 </tbody>
             </table>
+
+            {% if app.user and publicacion.usuario.id != app.user.id %}
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{{ path('app_seleccionar_bien', {'id': publicacion.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Solicitar Intercambio</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -61,5 +67,29 @@
     <a href="{{path('app_solicitud_new',{'idPublicacion':publicacion.id})}}" class="btn btn-3">Solicitar Embarcacion</a>
 </div>
 
+<div style="text-align: center; color: #c2a26b;">
+    <h2 style="color: #c2a26b; text-align: center;">Publicaciones relacionadas</h2>
+    <div class="row justify-content-center">
+        {% if related_publications is not empty %}
+            {% for related_publication in related_publications %}
+                <div class="col-sm-4">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <div class="card-image-container">
+                            <img src="{{ asset('images/' ~ related_publication.image) }}" class="card-img-top fixed-size-image" alt="{{ related_publication.titulo }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ related_publication.titulo }}</h5>
+                            <p class="card-text">{{ related_publication.embarcacion.Tipo }}</p>
+                            <a href="{{ path('app_publicacion_show', {'id': related_publication.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div style="width: 100%; text-align: center;">
+                <p style="color: #c2a26b;">No hay publicaciones del mismo tipo publicadas.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
-

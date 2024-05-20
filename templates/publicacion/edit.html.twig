@@ -28,15 +28,60 @@
                 'attr': {'class': 'form-control'}
             }) }}
             <small id="descripcionHelp" class="form-text text-muted">La descripción debe ser clara y concisa.</small>
-            {{ form_row(form.foto, {
-                'label': 'Foto (PNG, JPEG)',
-                'attr': {'class': 'form-control-file'}
-            }) }}
-          
+            <span id="contador"></span>
+
+            <div style="display: flex; align-items: center;"> 
+                {{ form_row(form.foto, {
+                    'label': 'Foto (PNG, JPEG)',
+                    'attr': {'class': 'form-control-file', 'style': 'margin-right: 10px;'} 
+                }) }}
+                <img id="preview" src="{{ asset('images/placeholder.jpg') }}" alt="Vista previa de la imagen" style="max-width: 150px; display: block;">
+            </div>
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Actualizar</button>
         {{ form_end(form) }}
 
         <a href="{{ path('app_publicacion_index') }}" class="btn btn-3">Volver a la lista</a>
         {{ include('publicacion/_delete_form.html.twig') }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var descripcionInput = document.querySelector('#{{ form.descripcion.vars.id }}');
+            var descripcionCounter = document.createElement('span');
+            descripcionCounter.textContent = '{{ form.descripcion.vars.value|length }} / 250 caracteres';
+            descripcionCounter.style.fontSize = '12px';
+            descripcionCounter.style.color = '#666';
+            descripcionInput.parentNode.insertBefore(descripcionCounter, descripcionInput.nextSibling);
+
+            descripcionInput.addEventListener('input', function() {
+                var currentLength = descripcionInput.value.length;
+                descripcionCounter.textContent = currentLength + ' / 250 caracteres';
+                if (currentLength > 250) {
+                    descripcionCounter.style.color = 'red';
+                } else {
+                    descripcionCounter.style.color = '#666';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fotoInput = document.querySelector('#{{ form.foto.vars.id }}');
+            var previewImage = document.querySelector('#preview');
+
+            fotoInput.addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.src = '{{ asset('images/placeholder.jpg') }}'; 
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -15,16 +15,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomePageController extends AbstractController
 {
-
-
-  
     #[Route('/', name: 'app_home_page')]
    // #[IsGranted('ROLE_USER')]
     public function index(PublicacionRepository $repositorioPublicaciones, Request $request): Response
     {
-         
-       
-     
         $opciones=['Opcion 1','Opcion 2','Opcion 3'];
 
         $user=new Usuario;
@@ -38,27 +32,17 @@ class HomePageController extends AbstractController
 
         $form->handleRequest($request);
         
-           if ($form->isSubmitted() && $form->isValid()) {
-
-                    $data=$form->getData();
-                 //   dd($data['titulo']);
-                    $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
-
-           }
-
-           else{
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data=$form->getData();
+            $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
+        } else {
             $publicaciones=$repositorioPublicaciones->findAll();
-           }
-    
+        }
 
-
-          
-    return $this->render('dashboard/index.html.twig',[
-        'publicaciones'=> $publicaciones,
-        'form'=> $form,
-    ]);
-
+        return $this->render('dashboard/index.html.twig',[
+            'publicaciones'=> $publicaciones,
+            'form'=> $form,
+        ]);
     }
 
     #[Route('/contacto', name: 'contacto')]
@@ -68,6 +52,11 @@ class HomePageController extends AbstractController
     }
 
 
+    #[Route('/acercade', name: 'acercade')]
+    public function action2(): Response
+    {
+        return $this->render('dashboard/acercade.html.twig');
+    }
 
 
 
