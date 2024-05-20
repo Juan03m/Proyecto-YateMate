@@ -26,7 +26,7 @@ class Amarra
     private ?string $marina = null;
 
 
-    #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist'])]
     private ?Embarcacion $embarcacion = null;
 
 

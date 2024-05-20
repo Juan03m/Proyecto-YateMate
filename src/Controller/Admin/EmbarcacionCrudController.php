@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Doctrine\ORM\EntityManagerInterface;
 
 class EmbarcacionCrudController extends AbstractCrudController
 {
@@ -38,10 +39,24 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Lancha' => 'Lancha',
                     'Bote' => 'Bote',
                 ],
-            ]),
+        ]),
             AssociationField::new('usuario')->autocomplete(),
             AssociationField::new('amarra')->hideWhenUpdating()
         ];
+    }
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Embarcacion) {
+            $amarra = $entityInstance->getAmarra();
+            if ($amarra) {
+                $amarra->setEmbarcacion(null);
+                $entityInstance->setAmarra(null);
+                $entityManager->persist($amarra);
+                $entityManager->flush();
+            }
+        }
+
+        parent::deleteEntity($entityManager, $entityInstance);
     }
     
 }
