@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Solicitud index{% endblock %}
+
+{% block body %}
+    <h1>Solicitud index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for solicitud in solicituds %}
+            <tr>
+                <td>{{ solicitud.id }}</td>
+                <td>{{ solicitud.descripcion }}</td>
+                <td>
+                    <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}">show</a>
+                    <a href="{{ path('app_solicitud_edit', {'id': solicitud.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}
