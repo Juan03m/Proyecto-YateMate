@@ -10,7 +10,7 @@
         <div style="flex: 50%;">
             <img src="{{ asset('images/' ~ publicacion.image) }}" alt="{{ publicacion.titulo }}" style="max-width: 100%;">
         </div>
-        <div style="flex: 50%;">
+        <div style="flex: 50%; position: relative;">
             <table class="table publication-data"> 
                 <tbody>
                     <tr>
@@ -43,6 +43,12 @@
                     </tr>
                 </tbody>
             </table>
+
+            {% if app.user and publicacion.usuario.id != app.user.id %}
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{{ path('app_seleccionar_bien', {'id': publicacion.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Solicitar Intercambio</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -85,7 +91,4 @@
         {% endif %}
     </div>
 </div>
-
-
 {% endblock %}
-
