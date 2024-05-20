@@ -6,7 +6,7 @@ framework:
     session: true
 
 
-    error_controller: 'App\Controller\ErrorController::handleException'
+    #error_controller: 'App\Controller\ErrorController::handleException'
 
 
     #esi: true
