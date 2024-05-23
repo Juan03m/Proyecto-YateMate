@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Solicitud{% endblock %}
+
+{% block body %}
+    <h1>Solicitud</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ solicitud.id }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ solicitud.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_solicitud_index') }}">back to list</a>
+
+    <a href="{{ path('app_solicitud_edit', {'id': solicitud.id}) }}">edit</a>
+
+    {{ include('solicitud/_delete_form.html.twig') }}
+{% endblock %}

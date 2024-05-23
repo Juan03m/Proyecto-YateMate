@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EmbarcacionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -59,6 +61,17 @@ class Embarcacion
 
     #[ORM\Column]
     private ?float $puntal = null;
+
+    /**
+     * @var Collection<int, Solicitud>
+     */
+    #[ORM\OneToMany(targetEntity: Solicitud::class, mappedBy: 'embarcacion', orphanRemoval: true)]
+    private Collection $solicitudes;
+
+    public function __construct()
+    {
+        $this->solicitudes = new ArrayCollection();
+    }
 
 
 
@@ -227,6 +240,36 @@ class Embarcacion
     public function setPuntal(float $puntal): static
     {
         $this->puntal = $puntal;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Solicitud>
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): static
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes->add($solicitude);
+            $solicitude->setEmbarcacion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): static
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getEmbarcacion() === $this) {
+                $solicitude->setEmbarcacion(null);
+            }
+        }
 
         return $this;
     }

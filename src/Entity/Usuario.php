@@ -97,11 +97,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fechaNacimiento = null;
 
+    /**
+     * @var Collection<int, Solicitud>
+     */
+    #[ORM\OneToMany(targetEntity: Solicitud::class, mappedBy: 'solicitado', orphanRemoval: true)]
+    private Collection $solicitudes;
+
     public function __construct()
     {
         $this->bienes = new ArrayCollection();
         $this->embarcaciones = new ArrayCollection();
         $this->publicaciones = new ArrayCollection();
+        $this->solicitudes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -393,6 +400,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setfechaNacimiento(?\DateTimeInterface $fechaNacimiento): static
     {
         $this->fechaNacimiento = $fechaNacimiento;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Solicitud>
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): static
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes->add($solicitude);
+            $solicitude->setSolicitado($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): static
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getSolicitado() === $this) {
+                $solicitude->setSolicitado(null);
+            }
+        }
 
         return $this;
     }

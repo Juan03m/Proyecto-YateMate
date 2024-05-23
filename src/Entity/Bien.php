@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BienRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BienRepository::class)]
@@ -28,6 +30,17 @@ class Bien
     #[ORM\ManyToOne(inversedBy: 'bienes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $owner = null;
+
+    /**
+     * @var Collection<int, Solicitud>
+     */
+    #[ORM\OneToMany(targetEntity: Solicitud::class, mappedBy: 'bien')]
+    private Collection $solicitudes;
+
+    public function __construct()
+    {
+        $this->solicitudes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +102,36 @@ class Bien
     public function setOwner(?Usuario $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Solicitud>
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): static
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes->add($solicitude);
+            $solicitude->setBien($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): static
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getBien() === $this) {
+                $solicitude->setBien(null);
+            }
+        }
 
         return $this;
     }
