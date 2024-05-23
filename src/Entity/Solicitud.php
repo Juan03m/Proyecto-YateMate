@@ -33,8 +33,6 @@ class Solicitud
     #[ORM\JoinColumn(nullable: false)]
     private ?Bien $bien = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fecha = null;
 
     public function getId(): ?int
     {
@@ -101,15 +99,5 @@ class Solicitud
         return $this;
     }
 
-    public function getFecha(): ?\DateTimeInterface
-    {
-        return $this->fecha;
-    }
-
-    public function setFecha(\DateTimeInterface $fecha): static
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
+  
 }
