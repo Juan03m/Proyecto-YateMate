@@ -87,7 +87,7 @@ class Amarra
 
     public function __toString()
     {
-        $string='Nro'.$this->getNumero().'  '.'Sector:'.$this->getSector();
+        $string = 'Nro: ' . $this->getNumero() . ',  ' . 'Sector: ' . $this->getSector() . ',  ' . 'Marina: ' . $this->getMarina();
         return $string;
     }
 

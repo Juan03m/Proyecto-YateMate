@@ -12,6 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr\Join;
+use App\Entity\Amarra;
 
 class EmbarcacionCrudController extends AbstractCrudController
 {
@@ -41,7 +44,12 @@ class EmbarcacionCrudController extends AbstractCrudController
                 ],
         ]),
             AssociationField::new('usuario')->autocomplete(),
-            AssociationField::new('amarra')->hideWhenUpdating()
+            AssociationField::new('amarra')
+            ->autocomplete()
+            ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                $queryBuilder
+                ->andWhere('entity.embarcacion IS NULL');
+            }),
         ];
     }
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -58,5 +66,44 @@ class EmbarcacionCrudController extends AbstractCrudController
 
         parent::deleteEntity($entityManager, $entityInstance);
     }
-    
+    /*
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Embarcacion) {
+            $amarra = $entityInstance->getAmarra();
+            if ($amarra && $amarra->getEmbarcacion() === $entityInstance) {
+                $amarra->setEmbarcacion(null);
+            }
+        }
+
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+    */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+{
+    if ($entityInstance instanceof Embarcacion) {
+        $amarra = $entityInstance->getAmarra();
+        $nuevaAmarra = $entityInstance->getAmarra();
+        
+        // Verifica si existe una amarra asociada a la embarcación
+        if ($amarra) {
+
+            // Asocia la amarra a la embarcación
+            $amarra->setEmbarcacion($entityInstance);
+            $entityManager->persist($amarra); // Guarda los cambios en la amarra
+        }
+        else {
+            // Si la amarra es null, desasocia cualquier amarra actualmente asociada a la embarcación
+                $nuevaAmarra->setEmbarcacion(null);
+                $entityManager->persist($nuevaAmarra); // Guarda los cambios en la amarra actual
+            }
+        }
+        // Guarda los cambios en la entidad Embarcacion
+        $entityManager->persist($entityInstance);
+        $entityManager->flush(); // Aplica los cambios en la base de datos
+
+    parent::updateEntity($entityManager, $entityInstance);
+    } 
+
 }
+
