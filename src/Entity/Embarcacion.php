@@ -204,7 +204,7 @@ class Embarcacion
 
     public function __toString()
     {
-        $embarcacion='Matricula:  '.$this->getMatricula().' '.'Nombre: '.$this->getNombre();
+        $embarcacion='Matricula:  '.$this->getMatricula().', '.'Nombre: '.$this->getNombre();
         return $embarcacion;
     }
 
