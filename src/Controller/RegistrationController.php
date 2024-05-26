@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('GSQInteractive@yopmail.com', 'GSQ Interactive'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Bienvenido a YateMate!')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     );
                     */
@@ -87,7 +87,6 @@ class RegistrationController extends AbstractController
         $user->setVerified(true);
         $entityManager->persist($user);
         $entityManager->flush();
-        $this->addFlash('success', 'Account Verified! You can now log in.');
         return $this->redirectToRoute('app_home_page');
     }
 }
