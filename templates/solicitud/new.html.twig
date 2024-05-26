@@ -3,9 +3,49 @@
 {% block title %}New Solicitud{% endblock %}
 
 {% block body %}
-    <h1>Create new Solicitud</h1>
+ <div class="centered-form">
+    <h1 style="text-align: center;">Nueva solicitud de intercambio</h1>
 
-    {{ include('solicitud/_form.html.twig') }}
+    {{ form_start(form, {'attr': {'class': 'form-group'}}) }}
+        {{ form_row(form.descripcion, {
+            'label': 'Descripción',
+            'attr': {'class': 'form-control'}
+        }) }}
+        <small id="descripcionHelp" class="form-text text-muted">Por favor, proporciona una descripción detallada de tu solicitud. Esto ayudará a los demás a entender mejor lo que ofreces o necesitas</small>
+        <span id="contador"></span>
 
-    <a href="{{ path('app_solicitud_index') }}">back to list</a>
+        <div style="display: flex; align-items: center;"> 
+            {{ form_row(form.bien, {
+                'label': 'Bien seleccionado',
+                'attr': {'class': 'form-control', 'disabled': 'disabled'}
+            }) }}
+        </div>
+        <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Solicitar Intercambio</button>
+    {{ form_end(form) }}
+    <a href="{{ path('app_seleccionar_bien', {'idPublicacion': publicacion.id}) }}" class="btn btn-3" style="margin-bottom: 10px;">Cambiar de bien</a>
+</div>
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var descripcionInput = document.querySelector('#{{ form.descripcion.vars.id }}');
+            var descripcionCounter = document.createElement('span');
+            descripcionCounter.textContent = '{{ form.descripcion.vars.value|length }} / 250 caracteres';
+            descripcionCounter.style.fontSize = '12px';
+            descripcionCounter.style.color = '#666';
+            descripcionInput.parentNode.insertBefore(descripcionCounter, descripcionInput.nextSibling);
+
+            descripcionInput.addEventListener('input', function() {
+                var currentLength = descripcionInput.value.length;
+                descripcionCounter.textContent = currentLength + ' / 250 caracteres';
+                if (currentLength > 250) {
+                    descripcionCounter.style.color = 'red';
+                } else {
+                    descripcionCounter.style.color = '#666';
+                }
+            });
+        });
+    </script>
 {% endblock %}

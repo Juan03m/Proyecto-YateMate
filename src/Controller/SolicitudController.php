@@ -1,8 +1,10 @@
 <?php
 
+
 namespace App\Controller;
 
 use App\Entity\Solicitud;
+use App\Repository\BienRepository;
 use App\Form\SolicitudType;
 use App\Repository\PublicacionRepository;
 use App\Repository\SolicitudRepository;
@@ -10,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/solicitud')]
 class SolicitudController extends AbstractController
@@ -23,40 +25,39 @@ class SolicitudController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{idPublicacion}', name: 'app_solicitud_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,$idPublicacion,PublicacionRepository $pr): Response
+    #[Route('/new/{idPublicacion}/{idBien}', name: 'app_solicitud_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, $idPublicacion, $idBien, PublicacionRepository $pr, BienRepository $br): Response
     {
-
         $solicitud = new Solicitud();
-        $usuario=$this->getUser();
+        $usuario = $this->getUser();
 
-        $form = $this->createForm(SolicitudType::class, $solicitud,[
-            'user'=>$usuario
+        $cancelButton = $request->query->get('cancel');
+        if ($cancelButton) {
+        return $this->redirectToRoute('app_seleccionar_bien', ['idPublicacion' => $idPublicacion]);
+        }
+
+        $publicacion = $pr->find($idPublicacion);
+        $bien = $br->find($idBien);
+
+        $form = $this->createForm(SolicitudType::class, $solicitud, [
+            'user' => $usuario,
+            'selectedBien' => $bien,
         ]);
         $form->handleRequest($request);
 
-        $publicacion=$pr->find($idPublicacion);
-       
-
-
-
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $solicitado = $publicacion->getUsuario();
+            $solicitante = $usuario;
+            $embarcacion = $publicacion->getEmbarcacion();
 
-            $solicitado=$publicacion->getUsuario();
-
-            $solicitante=$usuario;
-
-            $embarcacion=$publicacion->getEmbarcacion();
-            
             $solicitud->setSolicitado($solicitado);
             $solicitud->setSolicitante($solicitante);
             $solicitud->setEmbarcacion($embarcacion);
+            $solicitud->setBien($bien);
             $solicitud->setAceptada(false);
 
+            $this->addFlash('success', 'Acabas de solicitar un intercambio de embarcación!, el dueño de la embarcación ya fue notificado');
 
-            $this->addFlash('success','Acabas de solicitar un intercambio de embarcacion!, el dueño de la embarcacion ya fue notificado');
-            
             $entityManager->persist($solicitud);
             $entityManager->flush();
 
@@ -66,13 +67,13 @@ class SolicitudController extends AbstractController
         return $this->render('solicitud/new.html.twig', [
             'solicitud' => $solicitud,
             'form' => $form,
+            'publicacion' => $publicacion,
         ]);
     }
 
     #[Route('/{id}', name: 'app_solicitud_show', methods: ['GET'])]
     public function show(Solicitud $solicitud): Response
     {
-        
         return $this->render('solicitud/show.html.twig', [
             'solicitud' => $solicitud,
         ]);
@@ -99,8 +100,7 @@ class SolicitudController extends AbstractController
     #[Route('/{id}', name: 'app_solicitud_delete', methods: ['POST'])]
     public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->getPayload()->get('_token'))) {
-
+        if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
             $entityManager->remove($solicitud);
             $entityManager->flush();
         }
@@ -108,30 +108,22 @@ class SolicitudController extends AbstractController
         return $this->redirectToRoute('app_solicitud_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
     #[Route('/aceptar/{id}', name: 'app_solicitud_accept')]
-    public function action($id,SolicitudRepository $sr): Response
+    public function accept($id, SolicitudRepository $sr, EntityManagerInterface $entityManager): Response
     {
-        $solicitud=$sr->find($id);
+        $solicitud = $sr->find($id);
 
         $solicitud->setAceptada(true);
 
-        $solicitado=$solicitud->getUsuario();
+        $entityManager->flush();
 
-        $solicitante=$this->getUser();
+        $this->addFlash('success', 'Acabas de aceptar una solicitud');
 
-
-        $this->addFlash('success','Acabas de aceptar una solicitud');
-
-        
         /*
-
         Aca mandar mail a ambos users 
         */
 
-        
-
-
-        return $this->render('template.html.twig');
+        return $this->redirectToRoute('app_solicitud_index');
     }
 }
+

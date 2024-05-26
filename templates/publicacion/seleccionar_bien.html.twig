@@ -24,7 +24,8 @@
                                 <p class="card-text">{{ bien.tipo }}</p>
                                 <!-- Botón Seleccionar Bien -->
                                 <div class="mt-auto">
-                                    <a href="#" class="btn btn-secondary">Seleccionar Bien</a>
+                                    <a href="{{ path('app_solicitud_new', {'idPublicacion': publicacion.id, 'idBien': bien.id}) }}" class="btn btn-secondary">Seleccionar Bien</a>
+
                                 </div>
                             </div>
                         </div>

@@ -198,15 +198,18 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
         return $this->redirectToRoute('app_publicacion_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/seleccionar-bien', name: 'app_seleccionar_bien', methods: ['GET'])]
-    public function seleccionarBien(Publicacion $publicacion,BienRepository $br): Response
+    #[Route('/seleccionar-bien/{idPublicacion}', name: 'app_seleccionar_bien')]
+    public function seleccionarBien($idPublicacion, PublicacionRepository $pr, BienRepository $br): Response
     {
+        $publicacion = $pr->find($idPublicacion);
         $usuario = $this->getUser();
         $bienes=$br->buscarPorUsuario($usuario); 
 
+    
         return $this->render('publicacion/seleccionar_bien.html.twig', [
             'publicacion' => $publicacion,
             'bienes' => $bienes,
         ]);
     }
+    
 }

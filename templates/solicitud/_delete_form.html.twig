@@ -1,4 +1,11 @@
-<form method="post" action="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" id="deleteForm{{ solicitud.id }}">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ solicitud.id) }}">
-    <button class="btn">Delete</button>
+    <button class="btn btn-3" onclick="return confirmDelete('{{ solicitud.id }}')">Cancelar solicitud</button>
 </form>
+{% block javascripts %}
+    <script>
+        function confirmDelete(solicitudId) {
+            return confirm("¿Estás seguro que quieres cancelar esta solicitud?");
+        }
+    </script>
+{% endblock %}

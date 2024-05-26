@@ -33,13 +33,11 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_bien_index') }}">Bienes</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_solicitud_index') }}">Solicitudes</a>
+          </li>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('acercade') }}">Acerca de</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('contacto') }}">Contacto</a>
-          </li>
+          
         </ul>
         {% block search %} {% endblock %}
       </div>

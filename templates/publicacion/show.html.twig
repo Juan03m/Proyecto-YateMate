@@ -46,7 +46,8 @@
 
             {% if app.user and publicacion.usuario.id != app.user.id %}
                 <div style="text-align: center; margin-top: 20px;">
-                    <a href="{{ path('app_seleccionar_bien', {'id': publicacion.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Solicitar Intercambio</a>
+                    <a href="{{ path('app_seleccionar_bien', {'idPublicacion': publicacion.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Solicitar Intercambio</a>
+
                 </div>
             {% endif %}
         </div>
@@ -64,7 +65,6 @@
     {% endif %}    
 {% endif %}
     <a href="{{ path('app_publicacion_index', {'id': publicacion.id}) }}" class="btn btn-3">Volver a la lista</a>
-    <a href="{{path('app_solicitud_new',{'idPublicacion':publicacion.id})}}" class="btn btn-3">Solicitar Embarcacion</a>
 </div>
 
 <div style="text-align: center; color: #c2a26b;">
