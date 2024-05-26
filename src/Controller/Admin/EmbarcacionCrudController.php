@@ -15,6 +15,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr\Join;
 use App\Entity\Amarra;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud; 
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class EmbarcacionCrudController extends AbstractCrudController
 {
@@ -22,12 +26,13 @@ class EmbarcacionCrudController extends AbstractCrudController
     {
         return Embarcacion::class;
     }
+    // ...
 
-    
+ 
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
+            IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
             TextField::new('matricula')->hideWhenUpdating(),
             TextField::new('nombre'),
             CountryField::new('bandera'),
@@ -41,6 +46,10 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Yate' => 'Yate',
                     'Lancha' => 'Lancha',
                     'Bote' => 'Bote',
+                    'Velero' => 'Velero',
+                    'Pesquero' => 'Pesquero',
+                    'Catamaran' => 'Catamaran',
+                    'Barcaza' => 'Barcaza',
                 ],
         ]),
             AssociationField::new('usuario')->autocomplete() ->hideWhenUpdating(),

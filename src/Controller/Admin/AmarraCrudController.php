@@ -24,7 +24,7 @@ class AmarraCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {   
         return [
-            IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
+            IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
             IntegerField::new('numero'),
             IntegerField::new('sector'),
             ChoiceField::new('marina')->setChoices([

@@ -17,6 +17,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud; // Add this line
 
 class UsuarioCrudController extends AbstractCrudController
 {
@@ -27,18 +29,23 @@ class UsuarioCrudController extends AbstractCrudController
 
 
 
-
+    public function configureActions(Actions $actions): Actions
+    {
+    // Remove the 'new' action from the index view
+    return $actions
+        ->disable(Action::NEW);
+    }
     
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideWhenCreating()->hideWhenUpdating(),
+            IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
             TextField::new('email')->hideWhenUpdating(),
          //   BooleanField::new('isVerified'),
             TextField::new('password')->onlyWhenCreating()->setFormType(PasswordType::class),
-            TextField::new('nombre'),
-            TextField::new('apellido'),
-            TextField::new('dni'),
+            TextField::new('nombre')->hideWhenUpdating(),
+            TextField::new('apellido')->hideWhenUpdating(),
+            TextField::new('dni')->hideWhenUpdating(),
             ChoiceField::new('roles')
                 ->setFormTypeOptions([
                     'multiple' => true, // Permite seleccionar varios roles
