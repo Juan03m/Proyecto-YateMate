@@ -47,13 +47,14 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+         /*   $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('GSQInteractive@yopmail.com', 'GSQ Interactive'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Bienvenido a YateMate!')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+                    );
+                    */
             
             // do anything else you need here, like send an email
 
@@ -86,7 +87,6 @@ class RegistrationController extends AbstractController
         $user->setVerified(true);
         $entityManager->persist($user);
         $entityManager->flush();
-        $this->addFlash('success', 'Account Verified! You can now log in.');
         return $this->redirectToRoute('app_home_page');
     }
 }

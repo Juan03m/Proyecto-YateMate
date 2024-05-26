@@ -43,9 +43,8 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Bote' => 'Bote',
                 ],
         ]),
-            AssociationField::new('usuario')->autocomplete(),
-            AssociationField::new('amarra')
-            ->autocomplete()
+            AssociationField::new('usuario')->autocomplete() ->hideWhenUpdating(),
+            AssociationField::new('amarra')->autocomplete()-> hideWhenUpdating()
             ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
                 $queryBuilder
                 ->andWhere('entity.embarcacion IS NULL');
@@ -79,6 +78,7 @@ class EmbarcacionCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
     }
     */
+    /*
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
 {
     if ($entityInstance instanceof Embarcacion) {
@@ -104,6 +104,6 @@ class EmbarcacionCrudController extends AbstractCrudController
 
     parent::updateEntity($entityManager, $entityInstance);
     } 
-
+    */
 }
 
