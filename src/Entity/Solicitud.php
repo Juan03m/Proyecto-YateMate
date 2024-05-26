@@ -33,6 +33,12 @@ class Solicitud
     #[ORM\JoinColumn(nullable: false)]
     private ?Bien $bien = null;
 
+    #[ORM\Column]
+    private ?bool $aceptada = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $aprobado = null;
+
 
     public function getId(): ?int
     {
@@ -95,6 +101,30 @@ class Solicitud
     public function setBien(?Bien $bien): static
     {
         $this->bien = $bien;
+
+        return $this;
+    }
+
+    public function isAceptada(): ?bool
+    {
+        return $this->aceptada;
+    }
+
+    public function setAceptada(bool $aceptada): static
+    {
+        $this->aceptada = $aceptada;
+
+        return $this;
+    }
+
+    public function isAprobado(): ?bool
+    {
+        return $this->aprobado;
+    }
+
+    public function setAprobado(?bool $aprobado): static
+    {
+        $this->aprobado = $aprobado;
 
         return $this;
     }

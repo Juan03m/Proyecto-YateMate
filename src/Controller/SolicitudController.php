@@ -52,6 +52,7 @@ class SolicitudController extends AbstractController
             $solicitud->setSolicitado($solicitado);
             $solicitud->setSolicitante($solicitante);
             $solicitud->setEmbarcacion($embarcacion);
+            $solicitud->setAceptada(false);
 
 
             $this->addFlash('success','Acabas de solicitar un intercambio de embarcacion!, el dueño de la embarcacion ya fue notificado');
@@ -108,15 +109,27 @@ class SolicitudController extends AbstractController
     }
 
 
-    #[Route('/aceptar', name: 'app_solicitud_accept')]
-    public function action(): Response
+    #[Route('/aceptar/{id}', name: 'app_solicitud_accept')]
+    public function action($id,SolicitudRepository $sr): Response
     {
+        $solicitud=$sr->find($id);
 
+        $solicitud->setAceptada(true);
+
+        $solicitado=$solicitud->getUsuario();
+
+        $solicitante=$this->getUser();
+
+
+        $this->addFlash('success','Acabas de aceptar una solicitud');
+
+        
         /*
-            Aca deberia crearse el intercambio y eliminar la solicitud o cambiarla de estado
 
-
+        Aca mandar mail a ambos users 
         */
+
+        
 
 
         return $this->render('template.html.twig');

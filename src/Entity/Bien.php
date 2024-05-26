@@ -135,4 +135,14 @@ class Bien
 
         return $this;
     }
+
+
+    public function __toString()
+    {
+        $bien=$this->getNombre().' Tipo: '.$this->getTipo();
+        return $bien;   
+
+    }
+
+
 }
