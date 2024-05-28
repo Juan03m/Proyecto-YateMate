@@ -30,6 +30,7 @@ class SolicitudController extends AbstractController
     {
         $solicitud = new Solicitud();
         $usuario = $this->getUser();
+       
 
         $cancelButton = $request->query->get('cancel');
         if ($cancelButton) {
@@ -76,6 +77,8 @@ class SolicitudController extends AbstractController
     {
         return $this->render('solicitud/show.html.twig', [
             'solicitud' => $solicitud,
+            'publicacion' => $solicitud->getEmbarcacion()->getPublicacion(),
+            'bien' => $solicitud->getBien()
         ]);
     }
 

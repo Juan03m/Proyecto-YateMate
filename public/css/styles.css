@@ -106,4 +106,10 @@ body {
     height: auto;
 }
 
-
+.table {
+    color: #c2a26b;
+    margin: auto;
+}
+h1, h2 {
+    color: #c2a26b;
+}
