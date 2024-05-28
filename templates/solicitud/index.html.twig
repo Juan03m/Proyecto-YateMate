@@ -2,6 +2,24 @@
 {% block title %}Solicitud index{% endblock %}
 
 {% block body %}
+ {# mensajes flash success #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Éxito!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    {% endfor %}
+    {# mensajes flash failed #}
+    {% for message in app.flashes('failed') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>¡Error!</strong> {{ message }}
+        <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    {% endfor %}
     <div style="text-align: center; color: #c2a26b;">
         <h1>Solicitudes</h1>
 
@@ -13,7 +31,7 @@
                             <h5 class="card-title">Solicitud n°: {{ solicitud.id }}</h5>
                             <p class="card-text">{{ solicitud.descripcion }}</p>
                             <p class="card-text">Bien: <a href="{{ path('app_bien_show', {'id': solicitud.bien.id}) }}"><strong>{{ solicitud.bien.nombre }}</strong></a></p>
-                            <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.Nombre }}</strong></a></p>
+                            <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
                             <p class="card-text">Aceptada: {% if solicitud.aceptada %}Si{% else %}No{% endif %}</p>
                             <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
                              {{ include('solicitud/_delete_form.html.twig') }}

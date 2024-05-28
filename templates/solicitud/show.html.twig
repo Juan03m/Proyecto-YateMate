@@ -3,24 +3,61 @@
 {% block title %}Solicitud{% endblock %}
 
 {% block body %}
-    <h1>Solicitud</h1>
+<h1 style="text-align: center; color: #c2a26b;">Solicitud de Intercambio</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ solicitud.id }}</td>
-            </tr>
-            <tr>
-                <th>Descripcion</th>
-                <td>{{ solicitud.descripcion }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <!-- Datos de la Embarcación -->
+    <div class="tarjeta" style="flex: 1; text-align: center; background-color: #c2a26b; border: 1px solid #ccc; padding: 20px; margin: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+        <h2 style="color: #071a32;">{{ publicacion.titulo }}</h2>
+        <img src="{{ asset('images/' ~ publicacion.image) }}" alt="Imagen de la embarcación" style="width: 400px; height: 400px; display: block; margin: 0 auto 10px;">
+        <table class="table" style="color: #071a32;">
+            <tbody>
+                <tr>
+                    <th>Dueño</th>
+                    <td>{{ publicacion.usuario.nombre }}</td>
+                </tr>
+                <tr>
+                    <th>Tipo de Embarcación</th>
+                    <td>{{ publicacion.embarcacion.Tipo }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td>{{ publicacion.descripcion }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_solicitud_index') }}">back to list</a>
+    <!-- Flechas de intercambio -->
+    <div style="flex: 0.1; display: flex; justify-content: center; align-items: center; margin: 0 20px;">
+        <img src="{{ asset('images/intercambio.png') }}" alt="Intercambio" style="width: 50px;">
+    </div>
 
-    <a href="{{ path('app_solicitud_edit', {'id': solicitud.id}) }}">edit</a>
+    <!-- Datos del Bien -->
+    <div class="tarjeta" style="flex: 1; text-align: center; background-color: #c2a26b; border: 1px solid #ccc; padding: 20px; margin: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+        <h2 style="color: #071a32;">{{ bien.nombre }}</h2>
+        <img src="{{ asset('images/' ~ bien.image) }}" alt="Imagen del bien" style="width: 400px; height: 400px; display: block; margin: 0 auto 10px;">   
+        <table class="table" style="color: #071a32;">
+            <tbody>
+                <tr>
+                    <th>Dueño</th>
+                    <td>{{ bien.owner.nombre }}</td>
+                </tr>
+                <tr>
+                    <th>Tipo</th>
+                    <td>{{ bien.tipo }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td>{{ bien.descripcion }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ path('app_solicitud_index') }}" class="btn btn-3">Volver a la lista</a>
     {{ include('solicitud/_delete_form.html.twig') }}
+</div>
 {% endblock %}
