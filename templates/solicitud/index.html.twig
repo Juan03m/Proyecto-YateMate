@@ -2,7 +2,7 @@
 {% block title %}Solicitud index{% endblock %}
 
 {% block body %}
- {# mensajes flash success #}
+{# mensajes flash success #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Éxito!</strong> {{ message }}
@@ -52,7 +52,7 @@
                                 <h5 class="card-title">Solicitud n°: {{ solicitud.id }}</h5>
                                 <p class="card-text">Bien: <a href="{{ path('app_bien_show', {'id': solicitud.bien.id}) }}"><strong>{{ solicitud.bien.nombre }}</strong></a></p>
                                 <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
-                                <p class="card-text">Aceptada: {% if solicitud.aceptada %}Si{% else %}No{% endif %}</p>
+                                <p class="card-text">Estado: {% if solicitud.aceptada %}Aceptada{% else %}Pendiente{% endif %}</p>
                                 <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
                                 {{ include('solicitud/_delete_form.html.twig') }}
                             </div>
@@ -77,9 +77,59 @@
                                 <h5 class="card-title">Solicitud n°: {{ solicitud.id }}</h5>
                                 <p class="card-text">Bien: <a href="{{ path('app_bien_show', {'id': solicitud.bien.id}) }}"><strong>{{ solicitud.bien.nombre }}</strong></a></p>
                                 <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
-                                <p class="card-text">Aceptada: {% if solicitud.aceptada %}Si{% else %}No{% endif %}</p>
+                                <p class="card-text">Estado: {% if solicitud.aceptada %}Aceptada{% else %}Pendiente{% endif %}</p>     
+                                {% if solicitud.aceptada %}
+                                    <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% else %}Pendiente{% endif %}</p>
+                                {% else %}
+                                <div style="display: flex; justify-content: space-between;">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal{{ solicitud.id }}">Aceptar</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal{{ solicitud.id }}">Rechazar</button>
+                                </div>
+                                {% endif %}
                                 <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
-                                {{ include('solicitud/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Modal para aceptar la solicitud #}
+                    <div class="modal fade" id="acceptModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel{{ solicitud.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="acceptModalLabel{{ solicitud.id }}">Confirmar Aceptación</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro que quieres aceptar esta solicitud?
+                                    Se enviará una notificación a un administrador para que evalue la misma.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <a href="{{ path('app_solicitud_accept', {'id': solicitud.id}) }}" class="btn btn-success">Sí</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Modal para rechazar la solicitud #}
+                    <div class="modal fade" id="rejectModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel{{ solicitud.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="rejectModalLabel{{ solicitud.id }}">Confirmar Rechazo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro que quieres rechazar esta solicitud?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
+                                </div>
                             </div>
                         </div>
                     </div>
