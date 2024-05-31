@@ -20,8 +20,14 @@ class SolicitudController extends AbstractController
     #[Route('/', name: 'app_solicitud_index', methods: ['GET'])]
     public function index(SolicitudRepository $solicitudRepository): Response
     {
+
+        $user=$this->getUser();
+        $solicitudes=$solicitudRepository->findBySolicitante($user);
+        $solicitudesRecibidas=$solicitudRepository->findBySolicitado($user);
+        
         return $this->render('solicitud/index.html.twig', [
-            'solicituds' => $solicitudRepository->findAll(),
+            'solicituds' => $solicitudes,
+            'solicitudesRecibidas' => $solicitudesRecibidas,
         ]);
     }
 
@@ -100,16 +106,18 @@ class SolicitudController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_solicitud_delete', methods: ['POST'])]
-    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager): Response
+    #[Route('/cancelar/{id}', name: 'app_solicitud_delete', methods: ['POST'])]
+    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,$id): Response
     {
         if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
+            $this->addFlash('failed', 'Acabas de borrar una solicitud');
             $entityManager->remove($solicitud);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_solicitud_index', [], Response::HTTP_SEE_OTHER);
     }
+
 
     #[Route('/aceptar/{id}', name: 'app_solicitud_accept')]
     public function accept($id, SolicitudRepository $sr, EntityManagerInterface $entityManager): Response
