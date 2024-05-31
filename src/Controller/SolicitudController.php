@@ -22,11 +22,13 @@ class SolicitudController extends AbstractController
     {
 
         $user=$this->getUser();
+        $solicitudesEnviadas = $solicitudRepository->findBy(['solicitante' => $user]);
         $solicitudes=$solicitudRepository->findBySolicitante($user);
         $solicitudesRecibidas=$solicitudRepository->findBySolicitado($user);
         
         return $this->render('solicitud/index.html.twig', [
             'solicituds' => $solicitudes,
+            'solicitudesEnviadas' => $solicitudesEnviadas,
             'solicitudesRecibidas' => $solicitudesRecibidas,
         ]);
     }
@@ -110,7 +112,7 @@ class SolicitudController extends AbstractController
     public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,$id): Response
     {
         if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
-            $this->addFlash('failed', 'Acabas de borrar una solicitud');
+            $this->addFlash('success', 'Acabas de borrar una solicitud');
             $entityManager->remove($solicitud);
             $entityManager->flush();
         }
