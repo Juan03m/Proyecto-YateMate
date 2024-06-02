@@ -63,13 +63,21 @@
     <a href="{{ path('app_solicitud_index') }}" class="btn btn-3" style="margin-bottom: 10px;">Volver a la lista</a>
 </div>
 
-{% if solicitud.aceptada %}
-    <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% else %}Pendiente{% endif %}</p>
+{% if solicitud.embarcacion.hasAcceptedSolicitud() %}
+<div style="text-align: center;color: #c2a26b">
+    <p class="card-text; color: #c2a26b">Aprobación: {% if solicitud.aprobado %}Aceptada{% else %}Pendiente{% endif %}</p>
+</div>
 {% elseif app.user.id == solicitud.solicitado.id %}
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal">Aceptar</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Rechazar</button>
+    {% if solicitud.bien.hasAcceptedSolicitud() %}
+    <div style="text-align: center;">
+        <small id="descripcionHelp" class="form-text text-muted">No puedes aceptar o rechazar esta solicitud ya que el bien se encuentra comprometido con otro intercambio</small>
     </div>
+    {% else %}
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal{{ solicitud.id }}">Aceptar</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal{{ solicitud.id }}">Rechazar</button>
+        </div>
+    {% endif %}
 {% endif %}
 
 {# Modal para aceptar la solicitud #}

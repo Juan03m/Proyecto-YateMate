@@ -144,5 +144,15 @@ class Bien
 
     }
 
+    public function hasAcceptedSolicitud(): bool
+    {
+        foreach ($this->solicitudes as $solicitud) {
+            if ($solicitud->isAceptada()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
