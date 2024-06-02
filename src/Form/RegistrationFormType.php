@@ -27,6 +27,10 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('nombre')
             ->add('apellido')
+            ->add('cuil')
+            ->add('direccion')
+            ->add('dni')
+            ->add('telefono')
             ->add('fechaNacimiento', TypeDateType::class, [
                 'input_format' => 'dd-mm-yyyy',
                 'label' => 'Fecha de nacimiento',
