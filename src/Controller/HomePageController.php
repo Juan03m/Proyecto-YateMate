@@ -36,7 +36,7 @@ class HomePageController extends AbstractController
             $data=$form->getData();
             $publicaciones=$repositorioPublicaciones->buscarPorTitulo($data['titulo']);
         } else {
-            $publicaciones=$repositorioPublicaciones->findAll();
+            $publicaciones=$repositorioPublicaciones->findPublicacionesSinSolicitudAceptada();
         }
 
         return $this->render('dashboard/index.html.twig',[
