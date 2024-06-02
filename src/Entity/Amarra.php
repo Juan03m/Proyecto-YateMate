@@ -29,6 +29,12 @@ class Amarra
     #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist'])]
     private ?Embarcacion $embarcacion = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Usuario $usuario = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $tamaño = null;
+
 
     public function getId(): ?int
     {
@@ -89,6 +95,30 @@ class Amarra
     {
         $string = 'Nro: ' . $this->getNumero() . ',  ' . 'Sector: ' . $this->getSector() . ',  ' . 'Marina: ' . $this->getMarina();
         return $string;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    public function getTamaño(): ?string
+    {
+        return $this->tamaño;
+    }
+
+    public function setTamaño(string $tamaño): static
+    {
+        $this->tamaño = $tamaño;
+
+        return $this;
     }
 
 }

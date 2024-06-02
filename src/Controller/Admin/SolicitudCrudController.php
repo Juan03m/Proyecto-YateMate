@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,10 +43,28 @@ class SolicitudCrudController extends AbstractCrudController
 
 
 
+
+
     public static function getEntityFqcn(): string
     {
         return Solicitud::class;
     }
+
+
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(BooleanFilter::new('aprobado'));
+            
+
+    }
+
+
+
+
+
+
 
  
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, CollectionFilterCollection $filters): ORMQueryBuilder
@@ -58,6 +77,20 @@ class SolicitudCrudController extends AbstractCrudController
         // Agrega tus filtros predeterminados aquí
         $qb->andWhere('entity.aceptada = :status')
            ->setParameter('status', true);
+        
+        $filtro=$searchDto->getAppliedFilters('aprobado');
+
+        if (!$filtro) {
+            $qb->andWhere('entity.aprobado IS NULL');
+        }
+        else
+            if($filtro['aprobado']==1){
+            $qb->andWhere('entity.aprobado = true ');
+            }
+            else{
+                $qb->andWhere('entity.aprobado = false');
+            }
+
 
         return $qb;
     }
@@ -83,9 +116,8 @@ class SolicitudCrudController extends AbstractCrudController
             AssociationField::new('solicitado')->hideOnForm(),
             AssociationField::new('embarcacion')->hideOnForm(),
             AssociationField::new('bien')->hideOnForm(),
-            AssociationField::new('solicitante')->hideOnForm(),
-            BooleanField::new('aprobado'),   
-           
+            AssociationField::new('solicitante')->hideOnForm(),  
+            BooleanField::new('aprobado')->hideOnIndex()
            
            
 
@@ -105,10 +137,12 @@ class SolicitudCrudController extends AbstractCrudController
             $solicitado=$entity->getSolicitado();
             $solicitante=$entity->getSolicitante();
 
-            $solicitante->setEmbarcacion($embarcacion);
-            $solicitado->setEmbarcacion(null);
+            $solicitante->setRoles(['ROlE_USER','ROLE_CLIENT']);
 
-            
+            $embarcacion->setUsuario($solicitante);
+    
+           
+
             $entity->setAprobado(true); // Ejemplo de actualización del campo
 
             // Persistir los cambios
@@ -152,15 +186,6 @@ class SolicitudCrudController extends AbstractCrudController
 
 
 
-
-
-    public function configureFilters(Filters $filters): Filters
-    {
-        return $filters
-            ->add('aprobado');
-            
-
-    }
 
 
 
