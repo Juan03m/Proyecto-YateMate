@@ -122,10 +122,12 @@ class SolicitudController extends AbstractController
         ]);
     }
 
-    #[Route('/cancelar/{id}', name: 'app_solicitud_delete', methods: ['POST'])]
-    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,$id,MailerInterface $mailer): Response
+    #[Route('/cancelar/{id}', name: 'app_solicitud_delete', methods: ['GET','POST'])]
+    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,MailerInterface $mailer): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
+        
+       // if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
+
             $this->addFlash('success', 'Acabas de borrar una solicitud');
             
             $solicitado=$solicitud->getSolicitado();
@@ -156,7 +158,7 @@ class SolicitudController extends AbstractController
 
             $entityManager->remove($solicitud);
             $entityManager->flush();
-        }
+      //  }
 
         return $this->redirectToRoute('app_solicitud_index', [], Response::HTTP_SEE_OTHER);
     }

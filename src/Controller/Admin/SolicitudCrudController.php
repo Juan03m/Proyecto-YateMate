@@ -192,7 +192,7 @@ class SolicitudCrudController extends AbstractCrudController
             $solicitado=$entity->getSolicitado();
             $solicitante=$entity->getSolicitante();
 
-             $mensaje='Lamentamos informarte que el intercambio pendiente de la embarcacion'.' '.$embarcacion->getNombre().'ha sido rechazado';
+             $mensaje='Lamentamos informarte que el intercambio pendiente de la embarcacion'.' '.$embarcacion->getNombre().'  ha sido rechazado';
              $email = (new Email())
              ->from('GSQInteractive@yopmail.com')
              ->to($solicitado->getEmail())
@@ -201,7 +201,7 @@ class SolicitudCrudController extends AbstractCrudController
              $mailer->send($email);
  
 
-             $mensaje='Lamentamos informarte que el intercambio pendiente de la embarcacion'.' '.$embarcacion->getNombre().'ha sido rechazado';
+        
              $email = (new Email())
              ->from('GSQInteractive@yopmail.com')
              ->to($solicitante->getEmail())
@@ -259,7 +259,7 @@ class SolicitudCrudController extends AbstractCrudController
         return $actions
 
             ->add(Crud::PAGE_INDEX,Action::DETAIL)
-            ->disable(Action::NEW,Action::DELETE)
+            ->disable(Action::NEW,Action::DELETE,Action::EDIT)
             ->add(Crud::PAGE_DETAIL,$aceptar)
             ->add(Crud::PAGE_DETAIL,$cancelar);
            // ->add(Crud::PAGE_INDEX,$aceptar);

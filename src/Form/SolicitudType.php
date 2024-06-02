@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SolicitudType extends AbstractType
 {
@@ -18,7 +19,14 @@ class SolicitudType extends AbstractType
         $selectedBien = $options['selectedBien'];
 
         $builder
-            ->add('descripcion')
+            ->add('descripcion', null, [
+            'required' => false,
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'La descripcion no puede estar vacia',
+                ]),
+            ],
+         ])
             ->add('bien', EntityType::class, [
                 'class' => Bien::class,
                 'choice_label' => 'nombre',
