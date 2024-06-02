@@ -37,9 +37,29 @@
                                 {% if solicitud.aceptada %}
                                     <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% else %}Pendiente{% endif %}</p>
                                 {% else %}
-                                    {{ include('solicitud/_delete_form.html.twig') }}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal{{ solicitud.id }}">Cancelar</button>
                                 {% endif %}
                                 <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                                                    {# Modal para cancelar la solicitud #}
+                                <div class="modal fade" id="cancelModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel{{ solicitud.id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="cancelModalLabel{{ solicitud.id }}">Cancelar solicitud</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Estás seguro que quieres cancelar esta solicitud?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,9 +80,29 @@
                                 {% if solicitud.aceptada %}
                                     <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% else %}Pendiente{% endif %}</p>
                                 {% else %}
-                                    {{ include('solicitud/_delete_form.html.twig') }}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal{{ solicitud.id }}">Cancelar</button>
                                 {% endif %}
                                 <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                                                    {# Modal para cancelar la solicitud #}
+                                <div class="modal fade" id="cancelModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel{{ solicitud.id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="cancelModalLabel{{ solicitud.id }}">Cancelar solicitud</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Estás seguro que quieres cancelar esta solicitud?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,6 +175,27 @@
                                 </div>
                                 <div class="modal-body">
                                     ¿Estás seguro que quieres rechazar esta solicitud?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Modal para cancelar la solicitud #}
+                    <div class="modal fade" id="cancelModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel{{ solicitud.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cancelModalLabel{{ solicitud.id }}">Cancelar solicitud</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro que quieres cancelar esta solicitud?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
