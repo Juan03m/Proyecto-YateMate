@@ -44,7 +44,7 @@ class PublicacionController extends AbstractController
           
        }
        else{
-        $publicaciones=$repositorioPublicaciones->findAll();
+        $publicaciones=$repositorioPublicaciones->findPublicacionesSinSolicitudAceptada();
     }
 
 

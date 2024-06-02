@@ -12,11 +12,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mime\Email;
 
 #[Route('/solicitud')]
 class SolicitudController extends AbstractController
 {
+   
+
+
     #[Route('/', name: 'app_solicitud_index', methods: ['GET'])]
     public function index(SolicitudRepository $solicitudRepository): Response
     {
@@ -32,7 +37,7 @@ class SolicitudController extends AbstractController
     }
 
     #[Route('/new/{idPublicacion}/{idBien}', name: 'app_solicitud_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $idPublicacion, $idBien, PublicacionRepository $pr, BienRepository $br): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, $idPublicacion, $idBien, PublicacionRepository $pr, BienRepository $br,MailerInterface $mailer): Response
     {
         $solicitud = new Solicitud();
         $usuario = $this->getUser();
@@ -61,7 +66,16 @@ class SolicitudController extends AbstractController
             $solicitud->setSolicitante($solicitante);
             $solicitud->setEmbarcacion($embarcacion);
             $solicitud->setBien($bien);
-            $solicitud->setAceptada(false);
+            $solicitud->setAceptada(false);  // cambiar a false, lo puse solo para mostrar algo 
+
+
+            $email = (new Email())
+            ->from('GSQInteractive@yopmail.com')
+            ->to($solicitado->getEmail())
+            ->subject('Bienvenido a YateMate!')
+            ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa tu perfil para más detalles');
+            $mailer->send($email);
+
 
             $this->addFlash('success', 'Acabas de solicitar un intercambio de embarcación!, el dueño de la embarcación ya fue notificado');
 

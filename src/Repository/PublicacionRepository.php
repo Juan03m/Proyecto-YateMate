@@ -22,13 +22,22 @@ class PublicacionRepository extends ServiceEntityRepository
         public function buscarPorTitulo($titulo): array
         {
             return $this->createQueryBuilder('p')
-                ->andWhere('p.titulo LIKE :val')
+                ->innerJoin('p.embarcacion', 'e')
+                ->leftJoin('e.solicitudes', 's', 'WITH', 's.aceptada = true')
+                ->where(
+                    $this->createQueryBuilder('p')->expr()->andX(
+                        $this->createQueryBuilder('p')->expr()->like('p.titulo', ':val'),
+                        $this->createQueryBuilder('p')->expr()->isNull('s.id')
+                    )
+                )
                 ->setParameter('val', '%' . $titulo . '%')
                 ->orderBy('p.fecha', 'ASC')
                 ->getQuery()
-                ->getResult()
-            ;
+                ->getResult();
         }
+
+
+        
 
         public function findRelatedByTipoEmbarcacion(string $tipoEmbarcacion, int $publicacionId): array
         {
@@ -44,6 +53,16 @@ class PublicacionRepository extends ServiceEntityRepository
         }
 
 
+
+        public function findPublicacionesSinSolicitudAceptada(): array
+        {
+            return $this->createQueryBuilder('p')
+                ->innerJoin('p.embarcacion', 'e')
+                ->leftJoin('e.solicitudes', 's', 'WITH', 's.aceptada = true')
+                ->where('s.id IS NULL')
+                ->getQuery()
+                ->getResult();
+        }
     //    public function findOneBySomeField($value): ?Publicacion
     //    {
     //        return $this->createQueryBuilder('p')

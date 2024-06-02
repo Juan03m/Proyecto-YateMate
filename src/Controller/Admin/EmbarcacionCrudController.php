@@ -19,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud; 
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class EmbarcacionCrudController extends AbstractCrudController
 {
@@ -60,6 +61,17 @@ class EmbarcacionCrudController extends AbstractCrudController
             }),
         ];
     }
+
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+        ->add('usuario');
+    }
+
+
+
+
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof Embarcacion) {

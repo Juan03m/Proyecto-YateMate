@@ -101,6 +101,14 @@ class SolicitudCrudController extends AbstractCrudController
         // Asegurarse de que la entidad no sea nula
         if ($entity) {
             // Realizar la lógica deseada
+            $embarcacion=$entity->getEmbarcacion();
+            $solicitado=$entity->getSolicitado();
+            $solicitante=$entity->getSolicitante();
+
+            $solicitante->setEmbarcacion($embarcacion);
+            $solicitado->setEmbarcacion(null);
+
+            
             $entity->setAprobado(true); // Ejemplo de actualización del campo
 
             // Persistir los cambios
