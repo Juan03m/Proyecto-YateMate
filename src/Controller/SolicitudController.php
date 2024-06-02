@@ -123,10 +123,37 @@ class SolicitudController extends AbstractController
     }
 
     #[Route('/cancelar/{id}', name: 'app_solicitud_delete', methods: ['POST'])]
-    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,$id): Response
+    public function delete(Request $request, Solicitud $solicitud, EntityManagerInterface $entityManager,$id,MailerInterface $mailer): Response
     {
         if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
             $this->addFlash('success', 'Acabas de borrar una solicitud');
+            
+            $solicitado=$solicitud->getSolicitado();
+            $solicitante=$solicitud->getSolicitante();
+            $embarcacion=$solicitud->getEmbarcacion();
+
+
+            $mensaje='La solicitud de intercambio de la embarcacion'.''.$embarcacion->getNombre().'ha sido cancelada';
+            $email = (new Email())
+            ->from('GSQInteractive@yopmail.com')
+            ->to($solicitado->getEmail())
+            ->subject('Informe de solicitudes!')
+            ->text($mensaje);
+            $mailer->send($email);
+
+
+
+            $email = (new Email())
+            ->from('GSQInteractive@yopmail.com')
+            ->to($solicitante->getEmail())
+            ->subject('Informe de solicitudes!')
+            ->text($mensaje);
+            $mailer->send($email);
+
+
+
+
+
             $entityManager->remove($solicitud);
             $entityManager->flush();
         }
@@ -136,15 +163,35 @@ class SolicitudController extends AbstractController
 
 
     #[Route('/aceptar/{id}', name: 'app_solicitud_accept')]
-    public function accept($id, SolicitudRepository $sr, EntityManagerInterface $entityManager): Response
+    public function accept($id, SolicitudRepository $sr, EntityManagerInterface $entityManager,MailerInterface $mailer): Response
     {
         $solicitud = $sr->find($id);
 
         $solicitud->setAceptada(true);
 
+        $solicitante=$solicitud->getSolicitante();
+        $embarcacion=$solicitud->getEmbarcacion();
+
+        $mensaje='La solicitud de intercambio de la embarcacion'.''.$embarcacion->getNombre().'ha sido aceptada por el dueño de la embarcacion';
+        $email = (new Email())
+        ->from('GSQInteractive@yopmail.com')
+        ->to($solicitante->getEmail())
+        ->subject('Informe de solicitudes!')
+        ->text($mensaje);
+        $mailer->send($email);
+
+
+
+
+
+
+
+
+
+
         $entityManager->flush();
 
-        $this->addFlash('success', 'Acabas de aceptar una solicitud');
+        $this->addFlash('success', 'Acabas de aceptar una solicitud, el usuario dueño del bien ya fue notificado');
 
         /*
         Aca mandar mail a ambos users 

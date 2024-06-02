@@ -27,6 +27,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class SolicitudCrudController extends AbstractCrudController
 {
@@ -126,7 +128,7 @@ class SolicitudCrudController extends AbstractCrudController
 
 
 
-    public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): Response
+    public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator,MailerInterface $mailer): Response
     {
         // Obtener la entidad actual del contexto
         $entity = $context->getEntity()->getInstance();
@@ -140,10 +142,27 @@ class SolicitudCrudController extends AbstractCrudController
             $solicitante->setRoles(['ROlE_USER','ROLE_CLIENT']);
 
             $embarcacion->setUsuario($solicitante);
-    
-           
-
             $entity->setAprobado(true); // Ejemplo de actualización del campo
+
+            $mensaje='Felicidades, tu intermcambio de la embarcacion'.' '.$embarcacion->getNombre().'ha sido aprobado';
+            $email = (new Email())
+            ->from('GSQInteractive@yopmail.com')
+            ->to($solicitado->getEmail())
+            ->subject('Informacion de Intercambios!')
+            ->text($mensaje);
+            $mailer->send($email);
+
+
+            $mensaje='Felicidades, tu intermcambio de la embarcacion'.' '.$embarcacion->getNombre().'ha sido aprobado';
+            $email = (new Email())
+            ->from('GSQInteractive@yopmail.com')
+            ->to($solicitante->getEmail())
+            ->subject('Informacion de Intercambios!')
+            ->text($mensaje);
+            $mailer->send($email);
+
+
+
 
             // Persistir los cambios
             $entityManager->flush();
@@ -159,13 +178,43 @@ class SolicitudCrudController extends AbstractCrudController
     }
 
 
-    public function cancelarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator):Response{
+    public function cancelarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator,MailerInterface $mailer):Response{
          // Obtener la entidad actual del contexto
          $entity = $context->getEntity()->getInstance();
          // Asegurarse de que la entidad no sea nula
          if ($entity) {
+
+
              // Realizar la lógica deseada
              $entity->setAprobado(false); // Ejemplo de actualización del campo
+             $entity->setAceptada(false);
+            $embarcacion=$entity->getEmbarcacion();
+            $solicitado=$entity->getSolicitado();
+            $solicitante=$entity->getSolicitante();
+
+             $mensaje='Lamentamos informarte que el intercambio pendiente de la embarcacion'.' '.$embarcacion->getNombre().'ha sido rechazado';
+             $email = (new Email())
+             ->from('GSQInteractive@yopmail.com')
+             ->to($solicitado->getEmail())
+             ->subject('Informacion de Intercambios!')
+             ->text($mensaje);
+             $mailer->send($email);
+ 
+
+             $mensaje='Lamentamos informarte que el intercambio pendiente de la embarcacion'.' '.$embarcacion->getNombre().'ha sido rechazado';
+             $email = (new Email())
+             ->from('GSQInteractive@yopmail.com')
+             ->to($solicitante->getEmail())
+             ->subject('Informacion de Intercambios!')
+             ->text($mensaje);
+             $mailer->send($email);
+ 
+
+
+
+
+
+
  
              // Persistir los cambios
              $entityManager->flush();

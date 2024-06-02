@@ -32,8 +32,9 @@ class Amarra
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Usuario $usuario = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $tamaño = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tamano = null;
 
 
     public function getId(): ?int
@@ -109,14 +110,16 @@ class Amarra
         return $this;
     }
 
-    public function getTamaño(): ?string
+
+
+    public function getTamano(): ?string
     {
-        return $this->tamaño;
+        return $this->tamano;
     }
 
-    public function setTamaño(string $tamaño): static
+    public function setTamano(?string $tamano): static
     {
-        $this->tamaño = $tamaño;
+        $this->tamano = $tamano;
 
         return $this;
     }
