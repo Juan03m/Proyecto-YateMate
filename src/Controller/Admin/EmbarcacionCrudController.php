@@ -23,6 +23,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class EmbarcacionCrudController extends AbstractCrudController
 {
+
+
+
     public static function getEntityFqcn(): string
     {
         return Embarcacion::class;
@@ -83,6 +86,8 @@ class EmbarcacionCrudController extends AbstractCrudController
                 $entityManager->flush();
             }
         }
+
+
 
         parent::deleteEntity($entityManager, $entityInstance);
     }

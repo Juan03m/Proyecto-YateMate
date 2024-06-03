@@ -127,7 +127,7 @@ class SolicitudController extends AbstractController
     {
         
        // if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
-
+            
             $this->addFlash('success', 'Acabas de borrar una solicitud');
             
             $solicitado=$solicitud->getSolicitado();

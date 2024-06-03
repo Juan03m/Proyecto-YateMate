@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Bien;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\AST\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,6 +30,23 @@ class BienRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+      }
+
+
+
+      public function traerBienenNoOfrecidos($usuario){
+        $qb = $this->createQueryBuilder('e');
+
+        // Agregar la unión con la entidad Solicitud
+        $qb->leftJoin('e.solicitudes', 's')
+           ->andWhere('e.owner = :val')
+           ->setParameter('val', $usuario)
+           ->andWhere('s.aceptada IS NULL OR s.aceptada = false') // Solo incluir los bienes sin solicitudes aceptadas
+           ->orderBy('e.id', 'ASC')
+           ->setMaxResults(10);
+
+        return $qb->getQuery()->getResult();
+
       }
 
     //    public function findOneBySomeField($value): ?Bien
