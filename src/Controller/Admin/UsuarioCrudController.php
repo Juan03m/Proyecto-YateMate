@@ -18,30 +18,39 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud; // Add this line
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UsuarioCrudController extends AbstractCrudController
 {
+    private $requestStack;
+    private $translator;
+
+    public function __construct(RequestStack $requestStack, TranslatorInterface $translator)
+    {
+        $this->requestStack = $requestStack;
+        $this->translator = $translator;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Usuario::class;
     }
 
-
-
     public function configureActions(Actions $actions): Actions
     {
-    // Remove the 'new' action from the index view
-    return $actions
-        ->disable(Action::NEW);
+        // Remove the 'new' action from the index view
+        return $actions
+            ->disable(Action::NEW);
     }
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
             TextField::new('email')->hideWhenUpdating(),
-         //   BooleanField::new('isVerified'),
+            // BooleanField::new('isVerified'),
             TextField::new('password')->onlyWhenCreating()->setFormType(PasswordType::class),
             TextField::new('nombre')->hideWhenUpdating(),
             TextField::new('apellido')->hideWhenUpdating(),
@@ -54,8 +63,8 @@ class UsuarioCrudController extends AbstractCrudController
                         'Usuario' => 'ROLE_USER',
                         'Administrador' => 'ROLE_ADMIN',
                     ],
-            ])
-            ->hideOnIndex(),
+                ])
+                ->hideOnIndex(),
             AssociationField::new('embarcaciones')
                 ->setFormTypeOptions([
                     'by_reference' => false, // Needed to update the owning side of the relation
@@ -69,9 +78,9 @@ class UsuarioCrudController extends AbstractCrudController
                         ->where('entity.usuario IS NULL OR entity.usuario = :usuario')
                         ->setParameter('usuario', $usuarioId);
                 }),
-            
         ];
     }
+
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof Usuario) {
@@ -81,10 +90,11 @@ class UsuarioCrudController extends AbstractCrudController
                 $entityManager->persist($embarcacion);
             }
             $entityManager->flush();
+
+            // Agregar un mensaje flash después de eliminar el usuario
+            $this->addFlash('danger', $this->translator->trans('Usuario eliminado exitosamente'));
         }
 
         parent::deleteEntity($entityManager, $entityInstance);
     }
-    
-
 }
