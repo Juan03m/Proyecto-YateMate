@@ -37,6 +37,11 @@ class AmarraCrudController extends AbstractCrudController
                 'Bahia' => 'Bahia',
                 'Atlantico' => 'Atlantico',
             ]),
+            ChoiceField::new('tamano')->setChoices([
+                'Chica' => 'Chica',
+                'Mediana' => 'Mediana',
+                'Grande' => 'Grande',
+            ]),
             AssociationField::new('embarcacion')
                 ->autocomplete()
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder) {

@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\Query\Expr\Join;
 
 class UsuarioCrudController extends AbstractCrudController
 {
@@ -78,6 +79,11 @@ class UsuarioCrudController extends AbstractCrudController
                         ->where('entity.usuario IS NULL OR entity.usuario = :usuario')
                         ->setParameter('usuario', $usuarioId);
                 }),
+                AssociationField::new('amarra')
+            ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                $queryBuilder
+                ->andWhere('entity.embarcacion IS NULL');
+            }),
         ];
     }
 

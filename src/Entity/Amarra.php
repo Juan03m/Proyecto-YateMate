@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AmarraRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AmarraRepository::class)]
 #[UniqueEntity('embarcacion','Ya existe una embarcacion en esa amarra')]
@@ -34,6 +35,7 @@ class Amarra
 
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'Por favor, seleccione un tamaño para la amarra')]
     private ?string $tamano = null;
 
 
