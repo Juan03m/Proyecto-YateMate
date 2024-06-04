@@ -30,13 +30,13 @@ class Amarra
     #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist'])]
     private ?Embarcacion $embarcacion = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Usuario $usuario = null;
-
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'Por favor, seleccione un tamaño para la amarra')]
     private ?string $tamano = null;
+
+    #[ORM\ManyToOne(inversedBy: 'amarras')]
+    private ?Usuario $usuario = null;
 
 
     public function getId(): ?int
@@ -100,18 +100,6 @@ class Amarra
         return $string;
     }
 
-    public function getUsuario(): ?Usuario
-    {
-        return $this->usuario;
-    }
-
-    public function setUsuario(?Usuario $usuario): static
-    {
-        $this->usuario = $usuario;
-
-        return $this;
-    }
-
 
 
     public function getTamano(): ?string
@@ -122,6 +110,18 @@ class Amarra
     public function setTamano(?string $tamano): static
     {
         $this->tamano = $tamano;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

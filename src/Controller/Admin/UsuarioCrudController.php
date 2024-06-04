@@ -67,23 +67,49 @@ class UsuarioCrudController extends AbstractCrudController
                 ])
                 ->hideOnIndex(),
             AssociationField::new('embarcaciones')
-                ->setFormTypeOptions([
-                    'by_reference' => false, // Needed to update the owning side of the relation
-                    'multiple' => true, // Permite seleccionar varias embarcaciones
-                ])
-                ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
-                    // Obtener el ID del usuario actual en edición
-                    $usuarioId = $this->getContext()->getEntity()->getPrimaryKeyValue();
+                    ->setFormTypeOptions([
+                        'by_reference' => false,
+                        'multiple' => true, 
+                    ])
+                    ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                    // Obtén la entidad de usuario actual
+                    $usuario = $this->getContext()->getEntity()->getInstance();
 
-                    $queryBuilder
+                    // Verifica si el usuario tiene solo el rol 'ROLE_USER'
+                    if (count($usuario->getRoles()) === 1 && in_array('ROLE_USER', $usuario->getRoles(), true)) {
+                        // Si el usuario tiene solo el rol 'ROLE_USER', no se muestran 'embarcaciones'
+                         $queryBuilder->where('1 = 0');
+                    }   else {
+                        // Obtén el ID del usuario actual en edición
+                        $usuarioId = $usuario->getId();
+
+                        $queryBuilder
                         ->where('entity.usuario IS NULL OR entity.usuario = :usuario')
                         ->setParameter('usuario', $usuarioId);
-                }),
-                AssociationField::new('amarra')
-            ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
-                $queryBuilder
-                ->andWhere('entity.embarcacion IS NULL');
-            }),
+                        }
+                    }),
+                AssociationField::new('amarras')
+                    ->setFormTypeOptions([
+                        'by_reference' => false,
+                        'multiple' => true, 
+                    ])
+                    ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                    // Obtén la entidad de usuario actual
+                    $usuario = $this->getContext()->getEntity()->getInstance();
+
+                    // Verifica si el usuario tiene solo el rol 'ROLE_USER'
+                    if (count($usuario->getRoles()) === 1 && in_array('ROLE_USER', $usuario->getRoles(), true)) {
+                        // Si el usuario tiene solo el rol 'ROLE_USER', no se muestran 'amarras'
+                         $queryBuilder->where('1 = 0');
+                    }   else {
+                        // Obtén el ID del usuario actual en edición
+                        $usuarioId = $usuario->getId();
+
+                        $queryBuilder
+                        ->where('entity.usuario IS NULL OR entity.usuario = :usuario')
+                        ->setParameter('usuario', $usuarioId);
+                        }
+                    }),
         ];
     }
 

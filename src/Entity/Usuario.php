@@ -85,8 +85,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $direccion = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Amarra $amarra = null;
 
     /**
      * @var Collection<int, Publicacion>
@@ -103,12 +101,19 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Solicitud::class, mappedBy: 'solicitado', orphanRemoval: true)]
     private Collection $solicitudes;
 
+    /**
+     * @var Collection<int, Amarra>
+     */
+    #[ORM\OneToMany(targetEntity: Amarra::class, mappedBy: 'usuario')]
+    private Collection $amarras;
+
     public function __construct()
     {
         $this->bienes = new ArrayCollection();
         $this->embarcaciones = new ArrayCollection();
         $this->publicaciones = new ArrayCollection();
         $this->solicitudes = new ArrayCollection();
+        $this->amarras = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -330,17 +335,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAmarra(): ?Amarra
-    {
-        return $this->amarra;
-    }
-
-    public function setAmarra(?Amarra $amarra): static
-    {
-        $this->amarra = $amarra;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Publicacion>
@@ -428,6 +422,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($solicitude->getSolicitado() === $this) {
                 $solicitude->setSolicitado(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Amarra>
+     */
+    public function getAmarras(): Collection
+    {
+        return $this->amarras;
+    }
+
+    public function addAmarra(Amarra $amarra): static
+    {
+        if (!$this->amarras->contains($amarra)) {
+            $this->amarras->add($amarra);
+            $amarra->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAmarra(Amarra $amarra): static
+    {
+        if ($this->amarras->removeElement($amarra)) {
+            // set the owning side to null (unless already changed)
+            if ($amarra->getUsuario() === $this) {
+                $amarra->setUsuario(null);
             }
         }
 

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240603021357 extends AbstractMigration
+final class Version20240604150724 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -18,8 +18,11 @@ final class Version20240603021357 extends AbstractMigration
     }
 
     public function up(Schema $schema): void
-    {
-        // this up() migration is auto-generated, please modify it to your needs
+    {   
+        $this->addSql('DELETE FROM embarcacion');
+        $this->addSql('DELETE FROM amarra');
+        $this->addSql('DELETE FROM bien');
+        $this->addSql('DELETE FROM usuario');
 
     }
 
