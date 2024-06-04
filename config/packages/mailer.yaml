@@ -1,3 +1,3 @@
 framework:
      mailer:
-        dsn: 'smtp://apikey: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@smtp.sendgrid.net:587'
+        dsn: 'smtp://apikey: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@smtp.sendgrid.net:587'
