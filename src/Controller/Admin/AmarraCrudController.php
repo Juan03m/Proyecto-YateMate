@@ -44,6 +44,9 @@ class AmarraCrudController extends AbstractCrudController
             ]),
             AssociationField::new('embarcacion')
                 ->autocomplete()
+                ->formatValue(function ($value) {
+                    return $value ?? 'No tiene';
+                })
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
                     $queryBuilder
                         ->leftJoin('App\Entity\Amarra', 'a', Join::WITH, 'a.embarcacion = entity.id')

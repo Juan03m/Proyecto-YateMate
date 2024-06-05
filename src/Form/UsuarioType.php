@@ -5,10 +5,10 @@ namespace App\Form;
 use App\Entity\Amarra;
 use App\Entity\Usuario;
 use Doctrine\DBAL\Types\IntegerType;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType as TypeIntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType; // Use this instead
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -20,12 +20,15 @@ class UsuarioType extends AbstractType
     {
         $builder
             ->add('email',)
-            //->add('roles')
+        //->add('roles')
             ->add('dni', TypeIntegerType::class, [ 
-                'required'=>false,
+            'required'=>true,
             ])
             ->add('cuil', TypeIntegerType::class, [ 
-                'required'=>false,
+            'required'=>true,
+            ])
+            ->add('nombre', TextType::class, [ 
+            'required'=>true,
             ])
             ->add('nombre')
             ->add('apellido')

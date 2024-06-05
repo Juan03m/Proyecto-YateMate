@@ -76,7 +76,7 @@ class SolicitudController extends AbstractController
             ->to($solicitado->getEmail())
             ->subject('Información de Intercambios!')
             ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa tu perfil para más detalles');
-            $mailer->send($email);
+         //   $mailer->send($email);
 
 
             $this->addFlash('success', 'Acabas de solicitar un intercambio de embarcación!, el dueño de la embarcación ya fue notificado');
@@ -150,7 +150,7 @@ class SolicitudController extends AbstractController
             ->to($solicitante->getEmail())
             ->subject('Informe de solicitudes!')
             ->text($mensaje);
-            $mailer->send($email);
+            //$mailer->send($email);
 
 
 
@@ -182,7 +182,7 @@ class SolicitudController extends AbstractController
         ->to($solicitante->getEmail())
         ->subject('Informe de solicitudes!')
         ->text($mensaje);
-        $mailer->send($email);
+       // $mailer->send($email);
 
 
 
