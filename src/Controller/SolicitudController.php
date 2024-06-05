@@ -72,10 +72,10 @@ class SolicitudController extends AbstractController
 
 
             $email = (new Email())
-            ->from('GSQInteractive@yopmail.com')
+            ->from('MS_H5wEzI@trial-pxkjn41pwvp4z781.mlsender.net')
             ->to($solicitado->getEmail())
-            ->subject('Información de Intercambios!')
-            ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa tu perfil para más detalles');
+            ->subject('Información de Intercambios de YateMate!')
+            ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa la pestaña de solicitudes');
             $mailer->send($email);
 
 
