@@ -274,6 +274,14 @@ class Embarcacion
         return $this;
     }
 
+    public function borrarSolicitudes(): static
+    {
+        foreach ($this->solicitudes as $solicitud) {
+            $this->removeSolicitude($solicitud);
+        }
+        return $this;
+    }
+
 
     public function hasAcceptedSolicitud(): bool
     {

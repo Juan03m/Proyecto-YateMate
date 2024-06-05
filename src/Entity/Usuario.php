@@ -88,8 +88,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Por favor, introduzca un apellido.")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apellido = null;
-    
-    #[Assert\NotBlank(message: "Por favor, introduzca un telefono.")]
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telefono = null;
     

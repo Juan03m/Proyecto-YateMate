@@ -92,11 +92,11 @@ class SolicitudCrudController extends AbstractCrudController
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
-
-            $solicitante->setRoles(['ROlE_USER', 'ROLE_CLIENT']);
+            $solicitante->setRoles(['ROLE_USER', 'ROLE_CLIENT']);
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
-            $entity->setAceptada(false);
+            $entityManager->remove($embarcacion->getPublicacion());
+            $embarcacion->borrarSolicitudes();
             $date = new \DateTime();
             $date->modify('+2 days');
 
@@ -154,6 +154,8 @@ class SolicitudCrudController extends AbstractCrudController
                 ->text($mensaje);
             $mailer->send($email);
 
+
+            $entityManager->remove($entity);
             $entityManager->flush();
 
             $this->addFlash('danger', $this->translator->trans('El intercambio ha sido rechazado.'));
