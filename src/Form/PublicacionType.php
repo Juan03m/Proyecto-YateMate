@@ -34,14 +34,12 @@ class PublicacionType extends AbstractType
             ],])
             ->add('descripcion',TypeTextType::class,   
             ['constraints' => [
-                new Length([
-                    'min' => 8,
-                    'minMessage' => 'La descripción debe tener al menos {{ limit }} caracteres',
-                    'maxMessage'=> 'La descripción puede tener 250  caracteres como máximo',
-                    'max' => 250,
-                ]),
                 new NotBlank([
                     'message' => 'Por favor selcciona una imagen',
+                ]),
+                new Length([
+                    'maxMessage'=> 'La descripción puede tener 250  caracteres como máximo',
+                    'max' => 250,
                 ]),
             ],])
 

@@ -74,7 +74,7 @@ class SolicitudController extends AbstractController
             $email = (new Email())
             ->from('GSQInteractive@yopmail.com')
             ->to($solicitado->getEmail())
-            ->subject('Bienvenido a YateMate!')
+            ->subject('Información de Intercambios!')
             ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa tu perfil para más detalles');
             $mailer->send($email);
 
@@ -128,14 +128,14 @@ class SolicitudController extends AbstractController
         
        // if ($this->isCsrfTokenValid('delete'.$solicitud->getId(), $request->request->get('_token'))) {
             
-            $this->addFlash('success', 'Acabas de borrar una solicitud');
+            $this->addFlash('success', 'Acabas de cancelar una solicitud');
             
             $solicitado=$solicitud->getSolicitado();
             $solicitante=$solicitud->getSolicitante();
             $embarcacion=$solicitud->getEmbarcacion();
 
 
-            $mensaje='La solicitud de intercambio de la embarcacion'.''.$embarcacion->getNombre().'ha sido cancelada';
+            $mensaje='La solicitud de intercambio de la embarcacion'.' '.$embarcacion->getNombre().' ha sido cancelada';
             $email = (new Email())
             ->from('GSQInteractive@yopmail.com')
             ->to($solicitado->getEmail())
@@ -173,8 +173,10 @@ class SolicitudController extends AbstractController
 
         $solicitante=$solicitud->getSolicitante();
         $embarcacion=$solicitud->getEmbarcacion();
-
-        $mensaje='La solicitud de intercambio de la embarcacion'.''.$embarcacion->getNombre().'ha sido aceptada por el dueño de la embarcacion';
+        $date = new \DateTime();
+        $date->modify('+2 days');
+        $dateString = $date->format('d/m/Y');
+        $mensaje = 'La solicitud del intercambio de la embarcacion ' . $embarcacion->getNombre() . ' ha sido aceptada.  Por favor asistan a la empresa el día ' . $dateString . ' a las 17:00';
         $email = (new Email())
         ->from('GSQInteractive@yopmail.com')
         ->to($solicitante->getEmail())

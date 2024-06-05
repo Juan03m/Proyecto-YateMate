@@ -96,8 +96,12 @@ class SolicitudCrudController extends AbstractCrudController
             $solicitante->setRoles(['ROlE_USER', 'ROLE_CLIENT']);
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
+            $entity->setAceptada(false);
+            $date = new \DateTime();
+            $date->modify('+2 days');
 
-            $mensaje = 'Felicidades, tu intercambio de la embarcación ' . $embarcacion->getNombre() . ' ha sido aprobado';
+            $dateString = $date->format('d/m/Y');
+            $mensaje = 'Felicidades, tu intercambio de la embarcación ' . $embarcacion->getNombre() . ' ha sido aprobado. Por favor asistan el día ' . $dateString . ' a las 17:00';
             $email = (new Email())
                 ->from('GSQInteractive@yopmail.com')
                 ->to($solicitado->getEmail())

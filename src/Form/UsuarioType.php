@@ -23,15 +23,10 @@ class UsuarioType extends AbstractType
             //->add('roles')
             ->add('dni', TypeIntegerType::class, [ 
                 'required'=>false,
-                'constraints' => [
-                    new Length([
-                        'min' => 8,
-                        'exactMessage' => 'Tu número de identificación debe tener al menos {{ limit }} caracteres',
-                        'max' => 8,
-                    ]),
-                ],
             ])
-            ->add('cuil')
+            ->add('cuil', TypeIntegerType::class, [ 
+                'required'=>false,
+            ])
             ->add('nombre')
             ->add('apellido')
             ->add('telefono')

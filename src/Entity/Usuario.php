@@ -61,7 +61,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $embarcaciones;
     
  
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 8, nullable: true)]
     #[Assert\Length(
         exactMessage: "El dni debe tener exactamente 8 caracteres",
         min: 8,
@@ -69,8 +69,13 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     )]
 
     private ?string $dni = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    
+    #[Assert\Length(
+        exactMessage: "El cuil debe tener exactamente 11 caracteres",
+        min: 11,
+        max: 11
+    )]
+    #[ORM\Column(length: 11, nullable: true)]
     private ?string $cuil = null;
 
     #[ORM\Column(length: 255, nullable: true)]
