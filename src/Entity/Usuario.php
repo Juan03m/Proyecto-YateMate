@@ -79,20 +79,20 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[ORM\Column(length: 11, nullable: true)]
     private ?string $cuil = null;
-
+    
+    #[Assert\NotBlank(message: "Por favor, introduzca un nombre.")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nombre = null;
+    
 
+    #[Assert\NotBlank(message: "Por favor, introduzca un apellido.")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apellido = null;
 
-    #[Assert\Length(
-        exactMessage: "El telefono debe tener al menos 7 caracteres",
-        min: 7
-    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telefono = null;
-
+    
+    #[Assert\NotBlank(message: "Por favor, introduzca una direccion.")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $direccion = null;
 

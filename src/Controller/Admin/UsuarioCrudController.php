@@ -56,6 +56,9 @@ class UsuarioCrudController extends AbstractCrudController
             TextField::new('nombre')->hideWhenUpdating(),
             TextField::new('apellido')->hideWhenUpdating(),
             TextField::new('dni')->hideWhenUpdating(),
+            TextField::new('cuil')->hideWhenUpdating(),
+            TextField::new('telefono')->hideWhenUpdating(),
+            TextField::new('direccion')->hideWhenUpdating(),
             ChoiceField::new('roles')
                 ->setFormTypeOptions([
                     'multiple' => true, // Permite seleccionar varios roles

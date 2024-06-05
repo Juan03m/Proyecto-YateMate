@@ -150,7 +150,7 @@ class SolicitudController extends AbstractController
             ->to($solicitante->getEmail())
             ->subject('Informe de solicitudes!')
             ->text($mensaje);
-            $mailer->send($email);
+            //$mailer->send($email);
 
 
 
@@ -182,7 +182,7 @@ class SolicitudController extends AbstractController
         ->to($solicitante->getEmail())
         ->subject('Informe de solicitudes!')
         ->text($mensaje);
-        $mailer->send($email);
+       // $mailer->send($email);
 
 
 
