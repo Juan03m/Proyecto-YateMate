@@ -127,10 +127,10 @@
                                 <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
                                 <p class="card-text">Estado: {% if solicitud.aceptada %}Aceptada{% else %}Pendiente{% endif %}</p>     
                                 {% if solicitud.embarcacion.hasAcceptedSolicitud() %}
-                                    <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% elseif not solicitud.aprobado %}Rechazada {% else %} Pendiente {% endif %}</p>
+                                    <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% elseif solicitud.aprobado == null %}Pendiente {% else %} Rechazada {% endif %}</p>
                                 {% elseif solicitud.bien.hasAcceptedSolicitud() %}
                                     <small id="descripcionHelp" class="form-text text-muted">No puedes aceptar o rechazar esta solicitud ya que el bien se encuentra comprometido con otro intercambio</small>
-                                {% elseif solicitud.aprobado == false %}
+                                {% elseif solicitud.aprobado != null %}
                                     <p class="card-text">Aprobación: Rechazada
                                     <small id="descripcionHelp" class="form-text text-muted">Esta solicitud fue rechazada por un administrador, ante un inconveniente revisa nuestra pagina de contacto</small>
                                 {% else %}

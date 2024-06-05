@@ -153,6 +153,8 @@ class SolicitudCrudController extends AbstractCrudController
                 ->text($mensaje);
             $mailer->send($email);
 
+
+            $entityManager->remove($entity);
             $entityManager->flush();
 
             $this->addFlash('danger', $this->translator->trans('El intercambio ha sido rechazado.'));

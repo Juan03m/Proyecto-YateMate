@@ -23,6 +23,8 @@ use Symfony\Component\Validator\Constraints\Email;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity('email','El mail ya se encuentra registrado')]
 #[UniqueEntity('dni','Este dni ya se encuentra registrado')]
+#[UniqueEntity('cuil','Este cuil ya se encuentra registrado')]
+#[UniqueEntity('telefono','Este telefono ya se encuentra registrado')]
 class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -84,6 +86,10 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apellido = null;
 
+    #[Assert\Length(
+        exactMessage: "El telefono debe tener al menos 7 caracteres",
+        min: 7
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telefono = null;
 
