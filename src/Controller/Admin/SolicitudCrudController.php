@@ -96,7 +96,6 @@ class SolicitudCrudController extends AbstractCrudController
             $solicitante->setRoles(['ROlE_USER', 'ROLE_CLIENT']);
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
-            $entity->setAceptada(false);
             $date = new \DateTime();
             $date->modify('+2 days');
 

@@ -213,7 +213,7 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
 
 
 
-        /*
+        
         // Filtrar los bienes para mostrar solo aquellos que no han sido ofrecidos en las solicitudes de esta publicación
         $bienesDisponibles = [];
         foreach ($bienes as $bien) {
@@ -233,7 +233,7 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
            
 
         }
- */
+
 
         return $this->render('publicacion/seleccionar_bien.html.twig', [
             'publicacion' => $publicacion,
