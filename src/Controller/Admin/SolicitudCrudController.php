@@ -92,10 +92,11 @@ class SolicitudCrudController extends AbstractCrudController
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
-
-            $solicitante->setRoles(['ROlE_USER', 'ROLE_CLIENT']);
+            $solicitante->setRoles(['ROLE_USER', 'ROLE_CLIENT']);
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
+            $entityManager->remove($embarcacion->getPublicacion());
+            $embarcacion->borrarSolicitudes();
             $date = new \DateTime();
             $date->modify('+2 days');
 

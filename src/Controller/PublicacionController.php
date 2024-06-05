@@ -207,37 +207,39 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
 
         // Obtener todas las solicitudes relacionadas con la publicación actual
         $solicitudes = $publicacion->getEmbarcacion()->getSolicitudes();
+   
 
         // Obtener todos los bienes del usuario
         $bienes = $br->traerBienenNoOfrecidos($usuario);
 
 
 
-        
+       
         // Filtrar los bienes para mostrar solo aquellos que no han sido ofrecidos en las solicitudes de esta publicación
         $bienesDisponibles = [];
-        foreach ($bienes as $bien) {
-            $ofrecido = false;
-            foreach ($solicitudes as $solicitud) {
-                $bienaux = $solicitud->getBien();
-                // Verificar si el bien ha sido ofrecido en alguna solicitud relacionada con esta publicación
-                if ($bienaux === $bien or $bienaux->hasAcceptedSolicitud()) {
-                    $ofrecido = true;
-                    break;
-                }
-                if (!$ofrecido) {
-                    $bienesDisponibles[] = $bien;
+        if (count($solicitudes)==0){
+            $bienesDisponibles = $bienes;
+        }else{
+            foreach ($bienes as $bien) {
+                $ofrecido = false;
+                
+                foreach ($solicitudes as $solicitud) {
+                    $bienaux = $solicitud->getBien();
+                    // Verificar si el bien ha sido ofrecido en alguna solicitud relacionada con esta publicación
+                    if ($bienaux === $bien or $bienaux->hasAcceptedSolicitud()) {
+                        $ofrecido = true;
+                        break;
+                    }
+                    if (!$ofrecido) {
+                        $bienesDisponibles[] = $bien;
+                    }
                 }
             }
-
-           
-
-        }
-
+    }
 
         return $this->render('publicacion/seleccionar_bien.html.twig', [
             'publicacion' => $publicacion,
-            'bienes' => $bienes,
+            'bienes' => $bienesDisponibles,
         ]);
     }
     

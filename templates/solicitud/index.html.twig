@@ -2,26 +2,31 @@
 {% block title %}Solicitud index{% endblock %}
 
 {% block body %}
-{# mensajes flash success #}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Éxito!</strong> {{ message }}
-            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-    {% endfor %}
-    {# mensajes flash failed #}
-    {% for message in app.flashes('failed') %}
+{# Mensajes flash de éxito #}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Éxito!</strong> {{ message }}
+        <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+{% endfor %}
+{# Mensajes flash de error #}
+{% for message in app.flashes('failed') %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>¡Error!</strong> {{ message }}
         <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
             <span aria-hidden="true">×</span>
         </button>
     </div>
-    {% endfor %}
-    <div style="text-align: center; color: #c2a26b;">
-        <h1>Solicitudes</h1>
+{% endfor %}
+<div style="text-align: center; color: #c2a26b;">
+    <h1>Solicitudes</h1>
+    {% if not app.user %}
+        <script type="text/javascript">
+            window.location.href = "{{ path('app_login') }}";
+        </script>
+    {% else %}
         {% if 'ROLE_CLIENT' in app.user.roles %}
         <div class="row">
             <div class="col-lg-6">
@@ -113,105 +118,104 @@
                 {% endfor %}
             </div>
         {% endif %}
+        
+        {% if 'ROLE_CLIENT' in app.user.roles %}
+        <div class="col-lg-6">
+            <h2>Solicitudes Recibidas</h2>
+            {% for solicitud in solicitudesRecibidas %}
+                <div class="col-md-12 mb-4 px-3">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Solicitud n°: {{ solicitud.id }}</h5>
+                            <p class="card-text">Bien: <a href="{{ path('app_bien_show', {'id': solicitud.bien.id}) }}"><strong>{{ solicitud.bien.nombre }}</strong></a></p>
+                            <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
+                            <p class="card-text">Estado: {% if solicitud.aceptada %}Aceptada{% else %}Pendiente{% endif %}</p>     
+                            {% if solicitud.embarcacion.hasAcceptedSolicitud() %}
+                                <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% elseif solicitud.aprobado == null %}Pendiente {% else %} Rechazada {% endif %}</p>
+                            {% elseif solicitud.bien.hasAcceptedSolicitud() %}
+                                <small id="descripcionHelp" class="form-text text-muted">No puedes aceptar o rechazar esta solicitud ya que el bien se encuentra comprometido con otro intercambio</small>
+                            {% elseif solicitud.aprobado != null %}
+                                <p class="card-text">Aprobación: Rechazada
+                                <small id="descripcionHelp" class="form-text text-muted">Esta solicitud fue rechazada por un administrador, ante un inconveniente revisa nuestra pagina de contacto</small>
+                            {% else %}
+                                <div style="display: flex; justify-content: space-between;">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal{{ solicitud.id }}">Aceptar</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal{{ solicitud.id }}">Rechazar</button>
+                                </div>
+                            {% endif %}
+                            <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
 
-            
-            {% if 'ROLE_CLIENT' in app.user.roles %}
-            <div class="col-lg-6">
-                <h2>Solicitudes Recibidas</h2>
-                {% for solicitud in solicitudesRecibidas %}
-                    <div class="col-md-12 mb-4 px-3">
-                        <div class="card mx-auto" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Solicitud n°: {{ solicitud.id }}</h5>
-                                <p class="card-text">Bien: <a href="{{ path('app_bien_show', {'id': solicitud.bien.id}) }}"><strong>{{ solicitud.bien.nombre }}</strong></a></p>
-                                <p class="card-text">Embarcación: <a href="{{ path('app_publicacion_show', {'id': solicitud.embarcacion.publicacion.id}) }}"><strong>{{ solicitud.embarcacion.publicacion.Titulo }}</strong></a></p>
-                                <p class="card-text">Estado: {% if solicitud.aceptada %}Aceptada{% else %}Pendiente{% endif %}</p>     
-                                {% if solicitud.embarcacion.hasAcceptedSolicitud() %}
-                                    <p class="card-text">Aprobación: {% if solicitud.aprobado %}Aceptada{% elseif solicitud.aprobado == null %}Pendiente {% else %} Rechazada {% endif %}</p>
-                                {% elseif solicitud.bien.hasAcceptedSolicitud() %}
-                                    <small id="descripcionHelp" class="form-text text-muted">No puedes aceptar o rechazar esta solicitud ya que el bien se encuentra comprometido con otro intercambio</small>
-                                {% elseif solicitud.aprobado != null %}
-                                    <p class="card-text">Aprobación: Rechazada
-                                    <small id="descripcionHelp" class="form-text text-muted">Esta solicitud fue rechazada por un administrador, ante un inconveniente revisa nuestra pagina de contacto</small>
-                                {% else %}
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal{{ solicitud.id }}">Aceptar</button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal{{ solicitud.id }}">Rechazar</button>
-                                    </div>
-                                {% endif %}
-                                <a href="{{ path('app_solicitud_show', {'id': solicitud.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                {# Modal para aceptar la solicitud #}
+                <div class="modal fade" id="acceptModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel{{ solicitud.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="acceptModalLabel{{ solicitud.id }}">Confirmar Aceptación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro que quieres aceptar esta solicitud?
+                                Un administrador evaluara el intercambio y seras notificado de la decisión.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <a href="{{ path('app_solicitud_accept', {'id': solicitud.id}) }}" class="btn btn-success">Sí</a>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {# Modal para aceptar la solicitud #}
-                    <div class="modal fade" id="acceptModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel{{ solicitud.id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="acceptModalLabel{{ solicitud.id }}">Confirmar Aceptación</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Estás seguro que quieres aceptar esta solicitud?
-                                    Un administrador evaluara el intercambio y seras notificado de la decisión.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                    <a href="{{ path('app_solicitud_accept', {'id': solicitud.id}) }}" class="btn btn-success">Sí</a>
-                                </div>
+                {# Modal para rechazar la solicitud #}
+                <div class="modal fade" id="rejectModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel{{ solicitud.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="rejectModalLabel{{ solicitud.id }}">Confirmar Rechazo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro que quieres rechazar esta solicitud?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {# Modal para rechazar la solicitud #}
-                    <div class="modal fade" id="rejectModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel{{ solicitud.id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="rejectModalLabel{{ solicitud.id }}">Confirmar Rechazo</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Estás seguro que quieres rechazar esta solicitud?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                    <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
-                                </div>
+                {# Modal para cancelar la solicitud #}
+                <div class="modal fade" id="cancelModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel{{ solicitud.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cancelModalLabel{{ solicitud.id }}">Cancelar solicitud</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro que quieres cancelar esta solicitud?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
                             </div>
                         </div>
                     </div>
-
-                    {# Modal para cancelar la solicitud #}
-                    <div class="modal fade" id="cancelModal{{ solicitud.id }}" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel{{ solicitud.id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="cancelModalLabel{{ solicitud.id }}">Cancelar solicitud</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Estás seguro que quieres cancelar esta solicitud?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                    <a href="{{ path('app_solicitud_delete', {'id': solicitud.id}) }}" class="btn btn-danger">Sí</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <p>No se encontraron solicitudes recibidas.</p>
-                {% endfor %}
-            </div>
-            {% endif %}
+                </div>
+            {% else %}
+                <p>No se encontraron solicitudes recibidas.</p>
+            {% endfor %}
         </div>
+        {% endif %}
     </div>
+{% endif %}
 {% endblock %}
