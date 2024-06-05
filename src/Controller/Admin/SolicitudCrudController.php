@@ -92,7 +92,11 @@ class SolicitudCrudController extends AbstractCrudController
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
-            $solicitante->setRoles(['ROLE_USER', 'ROLE_CLIENT']);
+            if (!in_array('ROLE_CLIENT', $solicitante->getRoles(), true)) {
+                $roles = $solicitante->getRoles();
+                $roles[] = 'ROLE_CLIENT';
+                $solicitante->setRoles($roles);
+            }
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
             $entityManager->remove($embarcacion->getPublicacion());
