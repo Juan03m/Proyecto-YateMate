@@ -37,15 +37,15 @@ class EmbarcacionCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
-            TextField::new('matricula')->hideWhenUpdating(),
-            TextField::new('nombre'),
-            CountryField::new('bandera'),
+            TextField::new('matricula')->hideWhenUpdating()->setRequired(true),
+            TextField::new('nombre')->setRequired(true),
+            CountryField::new('bandera')->setRequired(true),
             Field::new('manga')->setHelp('Mts'),
             Field::new('eslora')->setHelp('Mts'),
             Field::new('puntal')->setHelp('Mts'),
             TextField::new('tipo')->onlyOnIndex(),
             ChoiceField::new('tipo')->hideOnIndex()
-            ->setFormTypeOptions([ // Permite seleccionar varios roles
+            ->setFormTypeOptions([
                 'choices' => [
                     'Yate' => 'Yate',
                     'Lancha' => 'Lancha',
@@ -55,19 +55,16 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Catamaran' => 'Catamaran',
                     'Barcaza' => 'Barcaza',
                 ],
-        ]),
-            AssociationField::new('usuario')
-            ->autocomplete()
+                'required' => true, // Set tipo as required
+            ]),
+            AssociationField::new('usuario')->autocomplete()
             ->formatValue(function ($value) {
                 return $value ?? 'No tiene';
-            })
-             ->hideWhenUpdating(),
-            AssociationField::new('amarra')
-            ->autocomplete()
+            })->hideWhenUpdating(),
+            AssociationField::new('amarra')->autocomplete()
             ->formatValue(function ($value) {
                 return $value ?? 'No tiene';
-            })
-            -> hideWhenUpdating()
+            })-> hideWhenUpdating()
             ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
                 $queryBuilder
                 ->andWhere('entity.embarcacion IS NULL');

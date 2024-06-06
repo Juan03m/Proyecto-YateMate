@@ -25,7 +25,7 @@ class AmarraCrudController extends AbstractCrudController
     {   
         return [
             IdField::new('id')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex(),
-            IntegerField::new('numero'),
+            IntegerField::new('numero')->setRequired(true),
             IntegerField::new('sector'),
             ChoiceField::new('marina')->setChoices([
                 'Norte' => 'Norte',
@@ -37,11 +37,12 @@ class AmarraCrudController extends AbstractCrudController
                 'Bahia' => 'Bahia',
                 'Atlantico' => 'Atlantico',
             ]),
-            ChoiceField::new('tamano')->setChoices([
-                'Chica' => 'Chica',
-                'Mediana' => 'Mediana',
-                'Grande' => 'Grande',
-            ]),
+            ChoiceField::new('tamano')
+                ->setChoices([
+                    'Chica' => 'Chica',
+                    'Mediana' => 'Mediana',
+                    'Grande' => 'Grande',
+                ]),
             AssociationField::new('embarcacion')
                 ->autocomplete()
                 ->formatValue(function ($value) {
