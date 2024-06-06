@@ -56,8 +56,18 @@ class EmbarcacionCrudController extends AbstractCrudController
                     'Barcaza' => 'Barcaza',
                 ],
         ]),
-            AssociationField::new('usuario')->autocomplete() ->hideWhenUpdating(),
-            AssociationField::new('amarra')->autocomplete()-> hideWhenUpdating()
+            AssociationField::new('usuario')
+            ->autocomplete()
+            ->formatValue(function ($value) {
+                return $value ?? 'No tiene';
+            })
+             ->hideWhenUpdating(),
+            AssociationField::new('amarra')
+            ->autocomplete()
+            ->formatValue(function ($value) {
+                return $value ?? 'No tiene';
+            })
+            -> hideWhenUpdating()
             ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
                 $queryBuilder
                 ->andWhere('entity.embarcacion IS NULL');

@@ -43,7 +43,8 @@ class UsuarioCrudController extends AbstractCrudController
     {
         // Remove the 'new' action from the index view
         return $actions
-            ->disable(Action::NEW);
+            ->disable(Action::NEW)
+            ->disable(Action::DELETE);
     }
 
     public function configureFields(string $pageName): iterable
