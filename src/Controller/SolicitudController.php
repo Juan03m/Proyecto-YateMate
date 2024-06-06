@@ -150,7 +150,7 @@ class SolicitudController extends AbstractController
             ->to($solicitante->getEmail())
             ->subject('Informe de solicitudes!')
             ->text($mensaje);
-            //$mailer->send($email);
+            $mailer->send($email);
 
 
 
@@ -172,6 +172,7 @@ class SolicitudController extends AbstractController
         $solicitud->setAceptada(true);
 
         $solicitante=$solicitud->getSolicitante();
+        $solicitado=$solicitud->getSolicitado();
         $embarcacion=$solicitud->getEmbarcacion();
         $date = new \DateTime();
         $date->modify('+2 days');
@@ -182,8 +183,14 @@ class SolicitudController extends AbstractController
         ->to($solicitante->getEmail())
         ->subject('Informe de solicitudes!')
         ->text($mensaje);
-       // $mailer->send($email);
+        $mailer->send($email);
 
+        $email = (new Email())
+        ->from('GSQInteractive@yopmail.com')
+        ->to($solicitado->getEmail())
+        ->subject('Informe de solicitudes!')
+        ->text($mensaje);
+        $mailer->send($email);
 
 
 
