@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class SolicitudType extends AbstractType
 {
@@ -24,6 +25,10 @@ class SolicitudType extends AbstractType
             'constraints' => [
                 new NotBlank([
                     'message' => 'La descripcion no puede estar vacia',
+                ]),
+                new Length([
+                    'max' => 250,
+                    'maxMessage' => 'La descripcion no puede tener más de {{ limit }} caracteres',
                 ]),
             ],
          ])
