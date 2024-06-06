@@ -29,7 +29,7 @@ class BienController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $bien = new Bien();
-        $opciones=['Vehiculo','Inmueble'];
+        $opciones=['Vehiculo','Inmueble','Tecnologia','Herramientas','Otros'];
         $form = $this->createForm(BienType::class, $bien,[
             'bienes'=> array_flip($opciones)
         ]);
