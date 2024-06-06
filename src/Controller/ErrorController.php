@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //use Throwable; // Add this line
 
@@ -26,7 +27,7 @@ class ErrorController extends AbstractController
             return $this->render('error/accesoDenegado.html.twig');
         }
         catch(Exception){
-            return $this->render('error/default_error.html.twig');
+            return new RedirectResponse('/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CSolicitudCrudController');
         }
     }
 
@@ -47,7 +48,7 @@ class ErrorController extends AbstractController
 public function show404Action(): Response
 {
     // Renderizar la plantilla para el error 404
-    return $this->render('error/error404.html.twig');
+    return $this->render('admin/index.html.twig');
 }
 
 public function show500Action(): Response

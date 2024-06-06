@@ -14,6 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityNotFoundException;
+
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -87,6 +89,9 @@ class SolicitudCrudController extends AbstractCrudController
 
     public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
+        try{
+
+      
         $entity = $context->getEntity()->getInstance();
         if ($entity && $entity->isAprobado() === null) {
             $embarcacion = $entity->getEmbarcacion();
@@ -99,13 +104,14 @@ class SolicitudCrudController extends AbstractCrudController
             }
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
+            $embarcacion->borrarSolicitudes();
             $entityManager->remove($embarcacion->getPublicacion());
-            //$embarcacion->borrarSolicitudes();
+            
             $date = new \DateTime();
             $date->modify('+2 days');
 
             $dateString = $date->format('d/m/Y');
-            $mensaje = 'Felicidades, tu intercambio de la embarcación ' . $embarcacion->getNombre() . ' ha sido aprobado. Por favor asistan el día ' . $dateString . ' a las 17:00';
+            $mensaje = 'Felicidades, tu intercambio de la embarcación ' . $embarcacion->getNombre() . ' ha sido aprobado';
             $email = (new Email())
                 ->from('GSQInteractive1@yopmail.com')
                 ->to($solicitado->getEmail())
@@ -130,6 +136,13 @@ class SolicitudCrudController extends AbstractCrudController
             ->generateUrl();
 
         return $this->redirect($url);
+        }catch (EntityNotFoundException $exception) {
+            // Manejo de la excepción
+            $this->addFlash('danger', 'La solicitud no existe.');
+            
+            // Redirigir a otra página
+            return $this->redirectToRoute('/admin');
+        }
     }
 
     public function cancelarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
@@ -172,24 +185,34 @@ class SolicitudCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $aceptar = Action::new('Aceptar Intercambio', 'Aceptar intercambio')
-            ->linkToCrudAction('aceptarIntercambio')
-            ->setCssClass('btn btn-success')
-            ->displayIf(static function ($entity) {
-                return $entity->isAprobado() === null;
-            });
-
-        $cancelar = Action::new('Rechazar Intercambio', 'Rechazar intercambio')
-            ->linkToCrudAction('cancelarIntercambio')
-            ->setCssClass('btn btn-danger')
-            ->displayIf(static function ($entity) {
-                return $entity->isAprobado() === null;
-            });
-
-        return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::NEW, Action::DELETE, Action::EDIT)
-            ->add(Crud::PAGE_DETAIL, $aceptar)
-            ->add(Crud::PAGE_DETAIL, $cancelar);
+        try {
+            $aceptar = Action::new('Aceptar Intercambio', 'Aceptar intercambio')
+                ->linkToCrudAction('aceptarIntercambio')
+                ->setCssClass('btn btn-success')
+                ->displayIf(static function ($entity) {
+                    // Verifica si $entity no es nulo antes de llamar a isAprobado()
+                    return $entity !== null && $entity->isAprobado() === null;
+                });
+    
+            $cancelar = Action::new('Rechazar Intercambio', 'Rechazar intercambio')
+                ->linkToCrudAction('cancelarIntercambio')
+                ->setCssClass('btn btn-danger')
+                ->displayIf(static function ($entity) {
+                    // Verifica si $entity no es nulo antes de llamar a isAprobado()
+                    return $entity !== null && $entity->isAprobado() === null;
+                });
+    
+            return $actions
+                ->add(Crud::PAGE_INDEX, Action::DETAIL)
+                ->disable(Action::NEW, Action::DELETE, Action::EDIT)
+                ->add(Crud::PAGE_DETAIL, $aceptar)
+                ->add(Crud::PAGE_DETAIL, $cancelar);
+        } catch (EntityNotFoundException $exception) {
+            // Manejo de la excepción
+            $this->addFlash('danger', 'La solicitud no existe.');
+            
+            // Redirigir a otra página
+            return $this->redirect($this->generateUrl('/admin'));
+        }
     }
 }
