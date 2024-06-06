@@ -88,7 +88,7 @@ class SolicitudCrudController extends AbstractCrudController
     public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
         $entity = $context->getEntity()->getInstance();
-        if ($entity && $entity->getAprobado() === null) {
+        if ($entity && $entity->isAprobado() === null) {
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
@@ -100,21 +100,21 @@ class SolicitudCrudController extends AbstractCrudController
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
             $entityManager->remove($embarcacion->getPublicacion());
-            $embarcacion->borrarSolicitudes();
+            //$embarcacion->borrarSolicitudes();
             $date = new \DateTime();
             $date->modify('+2 days');
 
             $dateString = $date->format('d/m/Y');
             $mensaje = 'Felicidades, tu intercambio de la embarcación ' . $embarcacion->getNombre() . ' ha sido aprobado. Por favor asistan el día ' . $dateString . ' a las 17:00';
             $email = (new Email())
-                ->from('GSQInteractive@yopmail.com')
+                ->from('GSQInteractive1@yopmail.com')
                 ->to($solicitado->getEmail())
                 ->subject('Información de Intercambios!')
                 ->text($mensaje);
             $mailer->send($email);
 
             $email = (new Email())
-                ->from('GSQInteractive@yopmail.com')
+                ->from('GSQInteractive1@yopmail.com')
                 ->to($solicitante->getEmail())
                 ->subject('Información de Intercambios!')
                 ->text($mensaje);
@@ -126,8 +126,7 @@ class SolicitudCrudController extends AbstractCrudController
         }
 
         $url = $adminUrlGenerator->setController(self::class)
-            ->setAction(Crud::PAGE_DETAIL)
-            ->setEntityId($entity->getId())
+            ->setAction(Crud::PAGE_INDEX) // Redirigir al listado de solicitudes
             ->generateUrl();
 
         return $this->redirect($url);
@@ -136,7 +135,7 @@ class SolicitudCrudController extends AbstractCrudController
     public function cancelarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
         $entity = $context->getEntity()->getInstance();
-        if ($entity && $entity->getAprobado() === null) {
+        if ($entity && $entity->isAprobado() === null) {
             $entity->setAprobado(false);
             $entity->setAceptada(false);
             $embarcacion = $entity->getEmbarcacion();
@@ -145,19 +144,18 @@ class SolicitudCrudController extends AbstractCrudController
 
             $mensaje = 'Lamentamos informarte que el intercambio pendiente de la embarcación ' . $embarcacion->getNombre() . ' ha sido rechazado';
             $email = (new Email())
-                ->from('GSQInteractive@yopmail.com')
+                ->from('GSQInteractive1@yopmail.com')
                 ->to($solicitado->getEmail())
                 ->subject('Información de Intercambios!')
                 ->text($mensaje);
             $mailer->send($email);
 
             $email = (new Email())
-                ->from('GSQInteractive@yopmail.com')
+                ->from('GSQInteractive1@yopmail.com')
                 ->to($solicitante->getEmail())
                 ->subject('Información de Intercambios!')
                 ->text($mensaje);
             $mailer->send($email);
-
 
             $entityManager->remove($entity);
             $entityManager->flush();
@@ -166,8 +164,7 @@ class SolicitudCrudController extends AbstractCrudController
         }
 
         $url = $adminUrlGenerator->setController(self::class)
-            ->setAction(Crud::PAGE_DETAIL)
-            ->setEntityId($entity->getId())
+            ->setAction(Crud::PAGE_INDEX) // Redirigir al listado de solicitudes
             ->generateUrl();
 
         return $this->redirect($url);
@@ -177,11 +174,17 @@ class SolicitudCrudController extends AbstractCrudController
     {
         $aceptar = Action::new('Aceptar Intercambio', 'Aceptar intercambio')
             ->linkToCrudAction('aceptarIntercambio')
-            ->setCssClass('btn btn-success');
+            ->setCssClass('btn btn-success')
+            ->displayIf(static function ($entity) {
+                return $entity->isAprobado() === null;
+            });
 
         $cancelar = Action::new('Rechazar Intercambio', 'Rechazar intercambio')
             ->linkToCrudAction('cancelarIntercambio')
-            ->setCssClass('btn btn-danger');
+            ->setCssClass('btn btn-danger')
+            ->displayIf(static function ($entity) {
+                return $entity->isAprobado() === null;
+            });
 
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)

@@ -72,7 +72,7 @@ class SolicitudController extends AbstractController
 
 
             $email = (new Email())
-            ->from('MS_H5wEzI@trial-pxkjn41pwvp4z781.mlsender.net')
+            ->from('GSQinteractive1@yopmail.com')
             ->to($solicitado->getEmail())
             ->subject('Información de Intercambios de YateMate!')
             ->text('Has recibido una solicitud de intercambio de embarcación, por favor revisa la pestaña de solicitudes');
@@ -137,7 +137,7 @@ class SolicitudController extends AbstractController
 
             $mensaje='La solicitud de intercambio de la embarcacion'.' '.$embarcacion->getNombre().' ha sido cancelada';
             $email = (new Email())
-            ->from('GSQInteractive@yopmail.com')
+            ->from('GSQInteractive1@yopmail.com')
             ->to($solicitado->getEmail())
             ->subject('Informe de solicitudes!')
             ->text($mensaje);
@@ -146,7 +146,7 @@ class SolicitudController extends AbstractController
 
 
             $email = (new Email())
-            ->from('GSQInteractive@yopmail.com')
+            ->from('GSQInteractive1@yopmail.com')
             ->to($solicitante->getEmail())
             ->subject('Informe de solicitudes!')
             ->text($mensaje);
@@ -179,14 +179,14 @@ class SolicitudController extends AbstractController
         $dateString = $date->format('d/m/Y');
         $mensaje = 'La solicitud del intercambio de la embarcacion ' . $embarcacion->getNombre() . ' ha sido aceptada.  Por favor asistan a la empresa el día ' . $dateString . ' a las 17:00';
         $email = (new Email())
-        ->from('GSQInteractive@yopmail.com')
+        ->from('GSQInteractive1@yopmail.com')
         ->to($solicitante->getEmail())
         ->subject('Informe de solicitudes!')
         ->text($mensaje);
         $mailer->send($email);
 
         $email = (new Email())
-        ->from('GSQInteractive@yopmail.com')
+        ->from('GSQInteractive1@yopmail.com')
         ->to($solicitado->getEmail())
         ->subject('Informe de solicitudes!')
         ->text($mensaje);
