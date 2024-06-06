@@ -88,11 +88,15 @@ class SolicitudCrudController extends AbstractCrudController
     public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
         $entity = $context->getEntity()->getInstance();
-        if ($entity) {
+        if ($entity && $entity->getAprobado() === null) {
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
-            $solicitante->setRoles(['ROLE_USER', 'ROLE_CLIENT']);
+            if (!in_array('ROLE_CLIENT', $solicitante->getRoles(), true)) {
+                $roles = $solicitante->getRoles();
+                $roles[] = 'ROLE_CLIENT';
+                $solicitante->setRoles($roles);
+            }
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
             $entityManager->remove($embarcacion->getPublicacion());
@@ -132,7 +136,7 @@ class SolicitudCrudController extends AbstractCrudController
     public function cancelarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
         $entity = $context->getEntity()->getInstance();
-        if ($entity) {
+        if ($entity && $entity->getAprobado() === null) {
             $entity->setAprobado(false);
             $entity->setAceptada(false);
             $embarcacion = $entity->getEmbarcacion();
