@@ -45,12 +45,12 @@ class SolicitudCrudController extends AbstractCrudController
         return Solicitud::class;
     }
 
-    public function configureFilters(Filters $filters): Filters
+    /*public function configureFilters(Filters $filters): Filters
     {
         return $filters
             ->add(BooleanFilter::new('aprobado'));
     }
-
+*/
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, CollectionFilterCollection $filters): ORMQueryBuilder
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -97,6 +97,7 @@ class SolicitudCrudController extends AbstractCrudController
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
+
             if (!in_array('ROLE_CLIENT', $solicitante->getRoles(), true)) {
                 $roles = $solicitante->getRoles();
                 $roles[] = 'ROLE_CLIENT';
@@ -106,6 +107,9 @@ class SolicitudCrudController extends AbstractCrudController
             $entity->setAprobado(true);
             $embarcacion->borrarSolicitudes();
             $entityManager->remove($embarcacion->getPublicacion());
+
+            $bien = $entity->getBien();
+            $bien->setOwner($solicitado);
             
             $date = new \DateTime();
             $date->modify('+2 days');
