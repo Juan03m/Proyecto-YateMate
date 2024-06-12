@@ -40,9 +40,9 @@ class EmbarcacionCrudController extends AbstractCrudController
             TextField::new('matricula')->hideWhenUpdating()->setRequired(true),
             TextField::new('nombre')->setRequired(true),
             CountryField::new('bandera')->setRequired(true),
-            Field::new('manga')->setHelp('Mts'),
-            Field::new('eslora')->setHelp('Mts'),
-            Field::new('puntal')->setHelp('Mts'),
+            Field::new('manga')->setHelp('Fts'),
+            Field::new('eslora')->setHelp('Fts'),
+            Field::new('puntal')->setHelp('Fts'),
             TextField::new('tipo')->onlyOnIndex(),
             ChoiceField::new('tipo')->hideOnIndex()
             ->setFormTypeOptions([

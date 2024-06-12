@@ -19,6 +19,8 @@ final class Version20240604150724 extends AbstractMigration
 
     public function up(Schema $schema): void
     {   
+        $this->addSql('DELETE FROM publicacion');
+        $this->addSql('DELETE FROM solicitud');
         $this->addSql('DELETE FROM embarcacion');
         $this->addSql('DELETE FROM amarra');
         $this->addSql('DELETE FROM bien');
