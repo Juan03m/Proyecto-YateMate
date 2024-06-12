@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PublicacionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +42,17 @@ class Publicacion
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $marina = null;
+
+    /**
+     * @var Collection<int, Solicitud>
+     */
+    #[ORM\OneToMany(targetEntity: Solicitud::class, mappedBy: 'publicacion')]
+    private Collection $solicitudes;
+
+    public function __construct()
+    {
+        $this->solicitudes = new ArrayCollection();
+    }
 
 
     
@@ -143,6 +156,36 @@ class Publicacion
     public function setMarina(?string $marina): static
     {
         $this->marina = $marina;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Solicitud>
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): static
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes->add($solicitude);
+            $solicitude->setPublicacion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): static
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getPublicacion() === $this) {
+                $solicitude->setPublicacion(null);
+            }
+        }
 
         return $this;
     }

@@ -90,23 +90,25 @@ class SolicitudCrudController extends AbstractCrudController
     public function aceptarIntercambio(AdminContext $context, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer): Response
     {
         try{
-
-      
         $entity = $context->getEntity()->getInstance();
         if ($entity && $entity->isAprobado() === null) {
             $embarcacion = $entity->getEmbarcacion();
             $solicitado = $entity->getSolicitado();
             $solicitante = $entity->getSolicitante();
+            $bien= $entity->getBien();
 
             if (!in_array('ROLE_CLIENT', $solicitante->getRoles(), true)) {
                 $roles = $solicitante->getRoles();
                 $roles[] = 'ROLE_CLIENT';
                 $solicitante->setRoles($roles);
             }
+
+
             $embarcacion->setUsuario($solicitante);
             $entity->setAprobado(true);
-            $embarcacion->borrarSolicitudes();
-            $entityManager->remove($embarcacion->getPublicacion());
+
+            //$embarcacion->borrarSolicitudes();
+       
 
             $bien = $entity->getBien();
             $bien->setOwner($solicitado);
@@ -130,16 +132,43 @@ class SolicitudCrudController extends AbstractCrudController
                 ->text($mensaje);
             $mailer->send($email);
 
+
+
+            $publicacion=$entity->getPublicacion();
+            $entityManager->remove($publicacion);
+
+            $solicitudesRelacionadasEmbarcacion= $embarcacion->getSolicitudes();
+            $solicitudesRelacionadasBien= $bien->getSolicitudes();
+
+            foreach ($solicitudesRelacionadasEmbarcacion as $solicitudRelacionada) {
+                $entityManager->remove($solicitudRelacionada);
+            }
+
+            foreach ($solicitudesRelacionadasBien as $solicitudBien) {
+                $entityManager->remove($solicitudBien);
+            }
+
+
+
+
+
+
+
+
             $entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('El intercambio ha sido aceptado con éxito.'));
         }
 
-        $url = $adminUrlGenerator->setController(self::class)
-            ->setAction(Crud::PAGE_INDEX) // Redirigir al listado de solicitudes
+        $url = $adminUrlGenerator->setController(DashboardController::class)
+            ->setAction(Crud::PAGE_INDEX) // Redirigir al index
             ->generateUrl();
 
         return $this->redirect($url);
+
+
+
+
         }catch (EntityNotFoundException $exception) {
             // Manejo de la excepción
             $this->addFlash('danger', 'La solicitud no existe.');
@@ -174,14 +203,15 @@ class SolicitudCrudController extends AbstractCrudController
                 ->text($mensaje);
             $mailer->send($email);
 
+
             $entityManager->remove($entity);
             $entityManager->flush();
 
             $this->addFlash('danger', $this->translator->trans('El intercambio ha sido rechazado.'));
         }
 
-        $url = $adminUrlGenerator->setController(self::class)
-            ->setAction(Crud::PAGE_INDEX) // Redirigir al listado de solicitudes
+        $url = $adminUrlGenerator->setController(DashboardController::class)
+            ->setAction(Crud::PAGE_INDEX) // Redirigir al dashboard
             ->generateUrl();
 
         return $this->redirect($url);

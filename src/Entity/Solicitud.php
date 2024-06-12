@@ -39,6 +39,9 @@ class Solicitud
     #[ORM\Column(nullable: true)]
     private ?bool $aprobado = null;
 
+    #[ORM\ManyToOne(inversedBy: 'solicitudes')]
+    private ?Publicacion $publicacion = null;
+
 
     public function getId(): ?int
     {
@@ -125,6 +128,18 @@ class Solicitud
     public function setAprobado(?bool $aprobado): static
     {
         $this->aprobado = $aprobado;
+
+        return $this;
+    }
+
+    public function getPublicacion(): ?Publicacion
+    {
+        return $this->publicacion;
+    }
+
+    public function setPublicacion(?Publicacion $publicacion): static
+    {
+        $this->publicacion = $publicacion;
 
         return $this;
     }

@@ -154,5 +154,16 @@ class Bien
         return false;
     }
 
+    public function fueOfrecido($publicacionId): bool {
+        foreach ($this->solicitudes as $solicitud) {
+            if ($solicitud->getPublicacion()->getId() === $publicacionId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
+
+

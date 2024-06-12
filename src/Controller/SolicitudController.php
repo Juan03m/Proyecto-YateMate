@@ -51,6 +51,7 @@ class SolicitudController extends AbstractController
         }
 
         $publicacion = $pr->find($idPublicacion);
+        
         $bien = $br->find($idBien);
 
         $form = $this->createForm(SolicitudType::class, $solicitud, [
@@ -67,6 +68,7 @@ class SolicitudController extends AbstractController
             $solicitud->setSolicitado($solicitado);
             $solicitud->setSolicitante($solicitante);
             $solicitud->setEmbarcacion($embarcacion);
+            $solicitud->setPublicacion($publicacion);
             $solicitud->setBien($bien);
             $solicitud->setAceptada(false);  // cambiar a false, lo puse solo para mostrar algo 
 
@@ -99,7 +101,7 @@ class SolicitudController extends AbstractController
     {
         return $this->render('solicitud/show.html.twig', [
             'solicitud' => $solicitud,
-            'publicacion' => $solicitud->getEmbarcacion()->getPublicacion(),
+            'publicacion' => $solicitud->getPublicacion(),
             'bien' => $solicitud->getBien()
         ]);
     }
@@ -132,7 +134,7 @@ class SolicitudController extends AbstractController
             
             $solicitado=$solicitud->getSolicitado();
             $solicitante=$solicitud->getSolicitante();
-            $embarcacion=$solicitud->getEmbarcacion();
+            $embarcacion=$solicitud->getPublicacion()->getEmbarcacion();
 
 
             $mensaje='La solicitud de intercambio de la embarcacion'.' '.$embarcacion->getNombre().' ha sido cancelada';

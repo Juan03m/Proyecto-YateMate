@@ -199,6 +199,19 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
     }
 
 
+
+    public function buscarBienesParaOfrecer($bienes,$publicacion)
+    {
+        $resul=[];
+        foreach($bienes as $bien){
+            if (!$bien->hasAcceptedSolicitud()  && !$bien->fueOfrecido($publicacion->getId()) ){
+                $resul[]=$bien;
+            }
+        }
+        return $resul;
+    }
+
+
     #[Route('/seleccionar-bien/{idPublicacion}', name: 'app_seleccionar_bien')]
     public function seleccionarBien($idPublicacion, PublicacionRepository $pr, BienRepository $br): Response
     {
@@ -206,36 +219,22 @@ public function edit(Request $request, Publicacion $publicacion, EntityManagerIn
         $usuario = $this->getUser();
 
         // Obtener todas las solicitudes relacionadas con la publicación actual
-        $solicitudes = $publicacion->getEmbarcacion()->getSolicitudes();
+        $solicitudes = $publicacion->getSolicitudes();
    
 
         // Obtener todos los bienes del usuario
-        $bienes = $br->traerBienenNoOfrecidos($usuario);
+        $bienes = $br->buscarPorUsuario($usuario);
+
 
 
 
        
         // Filtrar los bienes para mostrar solo aquellos que no han sido ofrecidos en las solicitudes de esta publicación
-        $bienesDisponibles = [];
-        if (count($solicitudes)==0){
-            $bienesDisponibles = $bienes;
-        }else{
-            foreach ($bienes as $bien) {
-                $ofrecido = false;
-                
-                foreach ($solicitudes as $solicitud) {
-                    $bienaux = $solicitud->getBien();
-                    // Verificar si el bien ha sido ofrecido en alguna solicitud relacionada con esta publicación
-                    if ($bienaux === $bien or $bienaux->hasAcceptedSolicitud()) {
-                        $ofrecido = true;
-                        break;
-                    }
-                    if (!$ofrecido) {
-                        $bienesDisponibles[] = $bien;
-                    }
-                }
-            }
-    }
+        $bienesDisponibles =$this->buscarBienesParaOfrecer($bienes,$publicacion);
+        
+        // si el bien no tiene solicitudes aceptadas y no se ofrecio a esta publicacion entra 
+
+
 
         return $this->render('publicacion/seleccionar_bien.html.twig', [
             'publicacion' => $publicacion,
