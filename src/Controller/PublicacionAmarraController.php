@@ -35,14 +35,18 @@ class PublicacionAmarraController extends AbstractController
         }
     
         $publicacionAmarra = new PublicacionAmarra();
-        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra, [
-            'user' => $usuario,
-        ]);
+        $user = $this->getUser();
+        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra);
         $form->handleRequest($request);
-    
         if ($form->isSubmitted() && $form->isValid()) {
-            $publicacionAmarra->setUsuario($usuario);
-    
+            $data = $form->getData();
+            $amarra=$data->getAmarra();
+            if($amarra){
+                $publicacionAmarra->setNumero($amarra->getNumero());
+                $publicacionAmarra->setMarina($amarra->getMarina());
+                $publicacionAmarra->setSector($amarra->getSector());
+                $publicacionAmarra->setTamano($amarra->getTamano());
+            }
             $entityManager->persist($publicacionAmarra);
             $entityManager->flush();
     

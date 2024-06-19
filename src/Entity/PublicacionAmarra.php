@@ -14,7 +14,7 @@ class PublicacionAmarra
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'publicacionAmarra', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'publicacionAmarra', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Amarra $Amarra = null;
 
@@ -22,10 +22,10 @@ class PublicacionAmarra
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fechaDesde = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fechaHasta = null;
 
     #[ORM\Column(nullable:true)]

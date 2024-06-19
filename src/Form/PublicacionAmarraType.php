@@ -24,7 +24,7 @@ class PublicacionAmarraType extends AbstractType
             ->add('fechaHasta', null, [
                 'widget' => 'single_text',
             ])
-            ->add('Amarra', EntityType::class, [
+            ->add('amarra', EntityType::class, [
                 'class' => Amarra::class,
                 'choice_label' => 'id',
                 /*
