@@ -63,10 +63,6 @@ class PublicacionAmarraType extends AbstractType
                     ]),
                 ],
                 */
-            ])
-            ->add('usuario', EntityType::class, [
-                'class' => Usuario::class,
-                'choice_label' => 'id',
             ]);
 
         // Añadir la validación personalizada para las fechas
@@ -80,14 +76,9 @@ class PublicacionAmarraType extends AbstractType
                 $fechaHasta = $data->getFechaHasta();
 
                 if ($fechaDesde && $fechaHasta) {
-                    $interval = $fechaDesde->diff($fechaHasta);
 
                     if ($fechaHasta <= $fechaDesde) {
                         $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
-                    }
-
-                    if ($interval->days < 1) {
-                        $form->get('fechaHasta')->addError(new FormError('La diferencia entre las fechas debe ser de al menos 1 día.'));
                     }
                 }
             }
