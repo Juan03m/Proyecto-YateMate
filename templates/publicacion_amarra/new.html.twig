@@ -1,11 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New PublicacionAmarra{% endblock %}
+{% block title %}Nueva Publicación Amarra{% endblock %}
 
 {% block body %}
-    <h1>Create new PublicacionAmarra</h1>
+    {# mensajes flash success #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>¡Éxito!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    {% endfor %}
+    {# mensajes flash failed #}
+    {% for message in app.flashes('failed') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>¡Error!</strong> {{ message }}
+        <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    {% endfor %}
+    <div class="centered-form">
+        <h3 style="text-align: center;">Crear nueva Publicación Amarra</h3>
 
-    {{ include('publicacion_amarra/_form.html.twig') }}
-
-    <a href="{{ path('app_publicacion_amarra_index') }}">back to list</a>
+        {{ form_start(form, {'attr': {'class': 'form-group'}})}}
+            {{ form_row(form.fechaDesde, {
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde'}
+            }) }}
+            {{ form_row(form.fechaHasta, {
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta'}
+            }) }}
+            {{ form_row(form.Amarra, {
+                'attr': {'class': 'form-control', 'placeholder': 'Amarra'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Publicar</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

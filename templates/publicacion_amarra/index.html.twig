@@ -1,45 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PublicacionAmarra index{% endblock %}
-
+{% block title %}Publicaciones de Amarras{% endblock %}
+{#
+{% block search %}
+    {{ form_start(form) }}
+        <div class="d-flex">
+            {{ form_widget(form.fechaDesde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
+            {{ form_widget(form.fechaHasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
+            {{ form_widget(form.Buscar, {'attr': {'class': 'btn btn-outline-primary'}}) }}
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+#}
 {% block body %}
-    <h1>PublicacionAmarra index</h1>
+    {# mensajes flash success #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>¡Éxito!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    {% endfor %}
+    {# mensajes flash failed #}
+    {% for message in app.flashes('failed') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>¡Error!</strong> {{ message }}
+        <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    {% endfor %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>FechaDesde</th>
-                <th>FechaHasta</th>
-                <th>Numero</th>
-                <th>Sector</th>
-                <th>Marina</th>
-                <th>Tamano</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for publicacion_amarra in publicacion_amarras %}
-            <tr>
-                <td>{{ publicacion_amarra.id }}</td>
-                <td>{{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ publicacion_amarra.numero }}</td>
-                <td>{{ publicacion_amarra.sector }}</td>
-                <td>{{ publicacion_amarra.marina }}</td>
-                <td>{{ publicacion_amarra.tamano }}</td>
-                <td>
-                    <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}">show</a>
-                    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div style="text-align: center; color: #c2a26b;">
+        <h1>Publicaciones de Amarras</h1>
 
-    <a href="{{ path('app_publicacion_amarra_new') }}">Create new</a>
+        <div class="row">
+            {% for publicacion_amarra in publicacion_amarras %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Amarra #{{ publicacion_amarra.numero }}</h5>
+                            <p class="card-text">Sector: {{ publicacion_amarra.sector }}</p>
+                            <p class="card-text">Marina: {{ publicacion_amarra.marina }}</p>
+                            <p class="card-text">Tamaño: {{ publicacion_amarra.tamano }}</p>
+                            <p class="card-text">Desde: {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('Y-m-d H:i:s') : 'N/A' }}</p>
+                            <p class="card-text">Hasta: {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('Y-m-d H:i:s') : 'N/A' }}</p>
+                            <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                            {% if app.user %}
+                                {% if app.user.id == publicacion_amarra.usuario.id %}
+                                    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Editar</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="width: 100%; text-align: center;">
+                    <p>No se encontraron publicaciones de amarras.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;">
+        <a href="{{ path('app_publicacion_amarra_new') }}" class="btn btn-secondary">Publicar amarra</a>
+    </div>
 {% endblock %}
