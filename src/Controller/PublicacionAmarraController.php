@@ -35,8 +35,8 @@ class PublicacionAmarraController extends AbstractController
         }
     
         $publicacionAmarra = new PublicacionAmarra();
-        $user = $this->getUser();
         $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra);
+        $publicacionAmarra->setUsuario($usuario);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
