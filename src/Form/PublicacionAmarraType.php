@@ -25,19 +25,16 @@ class PublicacionAmarraType extends AbstractType
             ->add('fechaHasta', null, [
                 'widget' => 'single_text',
             ])
-            ->add('Amarra', EntityType::class, [
+            ->add('amarra', EntityType::class, [
                 'class' => Amarra::class,
-                'choice_label' => 'id',
-               /*
-               Arreglar query!!!!!!!!!!!!!!!!
-
-                'query_builder' => function(AmarraRepository $ar) use ($usuario){
+              
+              /*  'choice_label' => 'id',
+                'query_builder' => function (AmarraRepository $ar) use ($usuario) {
                     return $ar->createQueryBuilder('a')
-                    ->leftJoin('a.publicacionAmarra', 'pa')
-                    ->where('a.usuario = :usuario')
-                    ->andWhere('pa.id IS NULL')
-                    ->setParameter('usuario', $usuario);
-
+                        ->leftJoin('a.publicacionAmarra', 'pa')
+                        ->where('a.usuario = :usuario')
+                        ->andWhere('pa.id IS NULL')
+                        ->setParameter('usuario', $usuario);
                 },
                 'constraints' => [
                     new NotBlank([

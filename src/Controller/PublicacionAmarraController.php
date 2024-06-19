@@ -26,11 +26,18 @@ class PublicacionAmarraController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $publicacionAmarra = new PublicacionAmarra();
+        $user = $this->getUser();
         $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $data = $form->getData();
+            $amarra=$data->getAmarra();
+            if($amarra){
+                $publicacionAmarra->setNumero($amarra->getNumero());
+                $publicacionAmarra->setMarina($amarra->getMarina());
+                $publicacionAmarra->setSector($amarra->getSector());
+                $publicacionAmarra->setTamano($amarra->getTamano());
+            }
             $entityManager->persist($publicacionAmarra);
             $entityManager->flush();
             
