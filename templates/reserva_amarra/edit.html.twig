@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ReservaAmarra{% endblock %}
+
+{% block body %}
+    <h1>Edit ReservaAmarra</h1>
+
+    {{ include('reserva_amarra/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_reserva_amarra_index') }}">back to list</a>
+
+    {{ include('reserva_amarra/_delete_form.html.twig') }}
+{% endblock %}

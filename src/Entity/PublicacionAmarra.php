@@ -40,6 +40,9 @@ class PublicacionAmarra
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $tamano = null;
 
+    #[ORM\OneToOne(mappedBy: 'publicacionAmarra', cascade: ['persist', 'remove'])]
+    private ?ReservaAmarra $reservaAmarra = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,5 +142,27 @@ class PublicacionAmarra
         $this->tamano = $tamano;
 
         return $this;
+    }
+
+    public function getReservaAmarra(): ?ReservaAmarra
+    {
+        return $this->reservaAmarra;
+    }
+
+    public function setReservaAmarra(ReservaAmarra $reservaAmarra): static
+    {
+        // set the owning side of the relation if necessary
+        if ($reservaAmarra->getPublicacionAmarra() !== $this) {
+            $reservaAmarra->setPublicacionAmarra($this);
+        }
+
+        $this->reservaAmarra = $reservaAmarra;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        $amarra=$this->getAmarra();
+        return $amarra->__toString();
     }
 }

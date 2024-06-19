@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ReservaAmarra index{% endblock %}
+
+{% block body %}
+    <h1>ReservaAmarra index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Aceptada</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reserva_amarra in reserva_amarras %}
+            <tr>
+                <td>{{ reserva_amarra.id }}</td>
+                <td>{{ reserva_amarra.aceptada ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_reserva_amarra_show', {'id': reserva_amarra.id}) }}">show</a>
+                    <a href="{{ path('app_reserva_amarra_edit', {'id': reserva_amarra.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reserva_amarra_new') }}">Create new</a>
+{% endblock %}

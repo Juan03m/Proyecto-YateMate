@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ReservaAmarra{% endblock %}
+
+{% block body %}
+    <h1>Create new ReservaAmarra</h1>
+
+    {{ include('reserva_amarra/_form.html.twig') }}
+
+    <a href="{{ path('app_reserva_amarra_index') }}">back to list</a>
+{% endblock %}
