@@ -30,12 +30,13 @@ class PublicacionAmarraController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($publicacionAmarra);
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->render('publicacion_amarra/new.html.twig', [
             'publicacion_amarra' => $publicacionAmarra,
             'form' => $form,

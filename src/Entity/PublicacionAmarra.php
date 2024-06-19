@@ -28,16 +28,16 @@ class PublicacionAmarra
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $fechaHasta = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?int $numero = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?int $sector = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $marina = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $tamano = null;
 
     public function getId(): ?int
