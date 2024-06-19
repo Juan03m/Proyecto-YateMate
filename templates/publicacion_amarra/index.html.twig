@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublicacionAmarra index{% endblock %}
+
+{% block body %}
+    <h1>PublicacionAmarra index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FechaDesde</th>
+                <th>FechaHasta</th>
+                <th>Numero</th>
+                <th>Sector</th>
+                <th>Marina</th>
+                <th>Tamano</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for publicacion_amarra in publicacion_amarras %}
+            <tr>
+                <td>{{ publicacion_amarra.id }}</td>
+                <td>{{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ publicacion_amarra.numero }}</td>
+                <td>{{ publicacion_amarra.sector }}</td>
+                <td>{{ publicacion_amarra.marina }}</td>
+                <td>{{ publicacion_amarra.tamano }}</td>
+                <td>
+                    <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}">show</a>
+                    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_publicacion_amarra_new') }}">Create new</a>
+{% endblock %}

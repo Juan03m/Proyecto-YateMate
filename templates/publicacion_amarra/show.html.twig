@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublicacionAmarra{% endblock %}
+
+{% block body %}
+    <h1>PublicacionAmarra</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ publicacion_amarra.id }}</td>
+            </tr>
+            <tr>
+                <th>FechaDesde</th>
+                <td>{{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>FechaHasta</th>
+                <td>{{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ publicacion_amarra.numero }}</td>
+            </tr>
+            <tr>
+                <th>Sector</th>
+                <td>{{ publicacion_amarra.sector }}</td>
+            </tr>
+            <tr>
+                <th>Marina</th>
+                <td>{{ publicacion_amarra.marina }}</td>
+            </tr>
+            <tr>
+                <th>Tamano</th>
+                <td>{{ publicacion_amarra.tamano }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_publicacion_amarra_index') }}">back to list</a>
+
+    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}">edit</a>
+
+    {{ include('publicacion_amarra/_delete_form.html.twig') }}
+{% endblock %}

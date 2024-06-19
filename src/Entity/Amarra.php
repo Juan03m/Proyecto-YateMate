@@ -38,6 +38,9 @@ class Amarra
     #[ORM\ManyToOne(inversedBy: 'amarras')]
     private ?Usuario $usuario = null;
 
+    #[ORM\OneToOne(mappedBy: 'Amarra', cascade: ['persist', 'remove'])]
+    private ?PublicacionAmarra $publicacionAmarra = null;
+
 
     public function getId(): ?int
     {
@@ -122,6 +125,23 @@ class Amarra
     public function setUsuario(?Usuario $usuario): static
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    public function getPublicacionAmarra(): ?PublicacionAmarra
+    {
+        return $this->publicacionAmarra;
+    }
+
+    public function setPublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
+    {
+        // set the owning side of the relation if necessary
+        if ($publicacionAmarra->getAmarra() !== $this) {
+            $publicacionAmarra->setAmarra($this);
+        }
+
+        $this->publicacionAmarra = $publicacionAmarra;
 
         return $this;
     }

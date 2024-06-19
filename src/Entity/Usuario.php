@@ -118,6 +118,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Amarra::class, mappedBy: 'usuario')]
     private Collection $amarras;
 
+    /**
+     * @var Collection<int, PublicacionAmarra>
+     */
+    #[ORM\OneToMany(targetEntity: PublicacionAmarra::class, mappedBy: 'usuario', orphanRemoval: true)]
+    private Collection $publicacionAmarras;
+
     public function __construct()
     {
         $this->bienes = new ArrayCollection();
@@ -125,6 +131,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         $this->publicaciones = new ArrayCollection();
         $this->solicitudes = new ArrayCollection();
         $this->amarras = new ArrayCollection();
+        $this->publicacionAmarras = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -463,6 +470,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($amarra->getUsuario() === $this) {
                 $amarra->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PublicacionAmarra>
+     */
+    public function getPublicacionAmarras(): Collection
+    {
+        return $this->publicacionAmarras;
+    }
+
+    public function addPublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
+    {
+        if (!$this->publicacionAmarras->contains($publicacionAmarra)) {
+            $this->publicacionAmarras->add($publicacionAmarra);
+            $publicacionAmarra->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
+    {
+        if ($this->publicacionAmarras->removeElement($publicacionAmarra)) {
+            // set the owning side to null (unless already changed)
+            if ($publicacionAmarra->getUsuario() === $this) {
+                $publicacionAmarra->setUsuario(null);
             }
         }
 
