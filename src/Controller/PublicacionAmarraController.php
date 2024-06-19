@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PublicacionAmarra;
 use App\Form\PublicacionAmarraType;
+use App\Repository\AmarraRepository;
 use App\Repository\PublicacionAmarraRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,23 +24,36 @@ class PublicacionAmarraController extends AbstractController
     }
 
     #[Route('/new', name: 'app_publicacion_amarra_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(AmarraRepository $amarraRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $usuario = $this->getUser();
+        $amarras = $amarraRepository->findBy(['usuario' => $usuario]);
+    
+        if (empty($amarras)) {
+            $this->addFlash('failed', 'No tienes amarras registradas a tu nombre. Si crees que esto es un error, comunícate con nosotros en nuestra página de contacto.');
+            return $this->redirectToRoute('app_publicacion_amarra_index');
+        }
+    
         $publicacionAmarra = new PublicacionAmarra();
-        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra);
+        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra, [
+            'user' => $usuario,
+        ]);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $publicacionAmarra->setUsuario($usuario);
+    
             $entityManager->persist($publicacionAmarra);
             $entityManager->flush();
-            
+    
+            $this->addFlash('success', 'Publicación creada con éxito.');
+    
             return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
         }
-        
+    
         return $this->render('publicacion_amarra/new.html.twig', [
             'publicacion_amarra' => $publicacionAmarra,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
