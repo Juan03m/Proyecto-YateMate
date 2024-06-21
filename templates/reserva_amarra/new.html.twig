@@ -1,11 +1,27 @@
+{# templates/reserva_amarra/new.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}New ReservaAmarra{% endblock %}
-
 {% block body %}
-    <h1>Create new ReservaAmarra</h1>
+    <h1>Crear Reserva de Amarra</h1>
 
-    {{ include('reserva_amarra/_form.html.twig') }}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
 
-    <a href="{{ path('app_reserva_amarra_index') }}">back to list</a>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.publicacionAmarra) }}
+        {{ form_row(form.fechaDesde) }}
+        {{ form_row(form.fechaHasta) }}
+
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
 {% endblock %}

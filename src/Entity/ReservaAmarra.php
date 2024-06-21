@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ReservaAmarraRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservaAmarraRepository::class)]
@@ -23,6 +24,12 @@ class ReservaAmarra
     #[ORM\ManyToOne(inversedBy: 'reservaAmarras')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $solicitante = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $fechaDesde = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $fechaHasta = null;
 
     public function getId(): ?int
     {
@@ -61,6 +68,30 @@ class ReservaAmarra
     public function setSolicitante(?Usuario $solicitante): static
     {
         $this->solicitante = $solicitante;
+
+        return $this;
+    }
+
+    public function getFechaDesde(): ?\DateTimeInterface
+    {
+        return $this->fechaDesde;
+    }
+
+    public function setFechaDesde(\DateTimeInterface $fechaDesde): static
+    {
+        $this->fechaDesde = $fechaDesde;
+
+        return $this;
+    }
+
+    public function getFechaHasta(): ?\DateTimeInterface
+    {
+        return $this->fechaHasta;
+    }
+
+    public function setFechaHasta(\DateTimeInterface $fechaHasta): static
+    {
+        $this->fechaHasta = $fechaHasta;
 
         return $this;
     }
