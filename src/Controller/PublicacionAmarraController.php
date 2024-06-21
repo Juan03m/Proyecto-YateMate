@@ -42,6 +42,8 @@ class PublicacionAmarraController extends AbstractController
             $data = $form->getData();
             $amarra=$data->getAmarra();
             if($amarra){
+                $publicacionAmarra->setEstaAlquilada(false);
+                $publicacionAmarra->setEstaVigente(false);
                 $publicacionAmarra->setNumero($amarra->getNumero());
                 $publicacionAmarra->setMarina($amarra->getMarina());
                 $publicacionAmarra->setSector($amarra->getSector());

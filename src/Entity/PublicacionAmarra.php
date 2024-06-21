@@ -45,6 +45,12 @@ class PublicacionAmarra
     #[ORM\OneToMany(mappedBy: 'publicacionAmarra', targetEntity: ReservaAmarra::class, cascade: ['persist', 'remove'])]
     private Collection $reservaAmarra;
 
+    #[ORM\Column]
+    private ?bool $estaVigente = null;
+
+    #[ORM\Column]
+    private ?bool $estaAlquilada = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -179,5 +185,29 @@ class PublicacionAmarra
     {
         $amarra=$this->getAmarra();
         return $amarra->__toString();
+    }
+
+    public function isEstaVigente(): ?bool
+    {
+        return $this->estaVigente;
+    }
+
+    public function setEstaVigente(bool $estaVigente): static
+    {
+        $this->estaVigente = $estaVigente;
+
+        return $this;
+    }
+
+    public function isEstaAlquilada(): ?bool
+    {
+        return $this->estaAlquilada;
+    }
+
+    public function setEstaAlquilada(bool $estaAlquilada): static
+    {
+        $this->estaAlquilada = $estaAlquilada;
+
+        return $this;
     }
 }
