@@ -13,7 +13,7 @@ class ReservaAmarra
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservaAmarra', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'reservaAmarra', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?PublicacionAmarra $publicacionAmarra = null;
 

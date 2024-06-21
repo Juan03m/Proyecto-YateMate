@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PublicacionAmarraRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,8 +42,8 @@ class PublicacionAmarra
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $tamano = null;
 
-    #[ORM\OneToOne(mappedBy: 'publicacionAmarra', cascade: ['persist', 'remove'])]
-    private ?ReservaAmarra $reservaAmarra = null;
+    #[ORM\OneToMany(mappedBy: 'publicacionAmarra', targetEntity: ReservaAmarra::class, cascade: ['persist', 'remove'])]
+    private Collection $reservaAmarra;
 
     public function getId(): ?int
     {
@@ -144,22 +146,35 @@ class PublicacionAmarra
         return $this;
     }
 
-    public function getReservaAmarra(): ?ReservaAmarra
+        /**
+     * @return Collection<int, ReservaAmarra>
+     */
+    public function getReservaAmarra(): Collection
     {
         return $this->reservaAmarra;
     }
-
-    public function setReservaAmarra(ReservaAmarra $reservaAmarra): static
+    public function addReservaAmarra(ReservaAmarra $reservaAmarra): static
     {
-        // set the owning side of the relation if necessary
-        if ($reservaAmarra->getPublicacionAmarra() !== $this) {
+        if (!$this->reservaAmarra->contains($reservaAmarra)) {
+            $this->reservaAmarra->add($reservaAmarra);
             $reservaAmarra->setPublicacionAmarra($this);
         }
 
-        $this->reservaAmarra = $reservaAmarra;
+        return $this;
+    }
+    /*
+    public function removeReservaAmarra(ReservaAmarra $reservaAmarra): static
+    {
+        if ($this->reservaAmarra->removeElement($reservaAmarra)) {
+            // set the owning side to null (unless already changed)
+            if ($reservaAmarra->getPublicacionAmarra() === $this) {
+                $reservaAmarra->setPublicacionAmarra(null);
+            }
+        }
 
         return $this;
     }
+        */
     public function __toString()
     {
         $amarra=$this->getAmarra();
