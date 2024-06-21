@@ -46,6 +46,8 @@
                             <p class="card-text">Tamaño: {{ publicacion_amarra.tamano }}</p>
                             <p class="card-text">Desde: {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('Y-m-d H:i:s') : 'N/A' }}</p>
                             <p class="card-text">Hasta: {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('Y-m-d H:i:s') : 'N/A' }}</p>
+                            <p class="card-text">Alquilada: {% if publicacion_amarra.estaAlquilada %}Alquilada{% else %}Sin Alquilar{% endif %}</p>
+                            <p class="card-text">Vigente: {% if publicacion_amarra.estaVigente %}Vigente{% else %}No vigente{% endif %}</p>
                             <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
                             {% if app.user %}
                                 {% if app.user.id == publicacion_amarra.usuario.id %}

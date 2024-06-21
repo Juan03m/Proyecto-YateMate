@@ -15,6 +15,14 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PublicacionAmarra::class);
     }
+    public function findPublicacionesTerminadas($hoy): array
+    {
+        return $this->createQueryBuilder('p')
+          ->andWhere('p.estaAlquilada = false')
+           ->getQuery()
+           ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return PublicacionAmarra[] Returns an array of PublicacionAmarra objects
