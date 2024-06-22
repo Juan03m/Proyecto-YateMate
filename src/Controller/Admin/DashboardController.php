@@ -7,6 +7,7 @@ use App\Entity\Embarcacion;
 use App\Entity\Usuario;
 use App\Entity\Bien;
 use App\Entity\Solicitud;
+use App\Entity\ReservaAmarra;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Amarras', 'fas fa-list', Amarra::class);
         yield MenuItem::linkToCrud('Usuarios', 'fas fa-list', Usuario::class);
         yield MenuItem::linkToCrud('Intercambios Pendientes', 'fas fa-list', Solicitud::class);
+        yield MenuItem::linkToCrud('Reservas de Amarras', 'fas fa-list', ReservaAmarra::class);
       //  yield MenuItem::linkToCrud('Bienes', 'fas fa-list', Bien::class);
     }
 }
