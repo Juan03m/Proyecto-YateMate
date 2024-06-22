@@ -32,18 +32,21 @@ class ReservaAmarraController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reservaAmarra->setSolicitante($usuario);
+            $reservaAmarra->getPublicacionAmarra()->setEstaAlquilada(true);
             $entityManager->persist($reservaAmarra);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reserva_amarra_index', [], Response::HTTP_SEE_OTHER);
+            // Añadir mensaje flash de éxito
+            $this->addFlash('success', 'Has realizado una reserva de amarra.');
+
+            return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('reserva_amarra/new.html.twig', [
             'reserva_amarra' => $reservaAmarra,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
-
     #[Route('/{id}', name: 'app_reserva_amarra_show', methods: ['GET'])]
     public function show(ReservaAmarra $reservaAmarra): Response
     {
