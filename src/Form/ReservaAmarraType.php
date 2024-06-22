@@ -76,6 +76,7 @@ class ReservaAmarraType extends AbstractType
 
                         foreach ($publicacionAmarra->getReservaAmarra() as $existingReserva) {
                             if (
+                                
                                 ($fechaDesde >= $existingReserva->getFechaDesde() && $fechaDesde <= $existingReserva->getFechaHasta()) ||
                                 ($fechaHasta >= $existingReserva->getFechaDesde() && $fechaHasta <= $existingReserva->getFechaHasta()) ||
                                 ($fechaDesde <= $existingReserva->getFechaDesde() && $fechaHasta >= $existingReserva->getFechaHasta())
