@@ -80,6 +80,7 @@ class ReservaAmarraType extends AbstractType
                     }
                 }
             }
+        }
         );
     }
 
