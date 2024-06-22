@@ -19,6 +19,14 @@ class ReservaAmarraType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('publicacionAmarra', EntityType::class, [
+                'class' => PublicacionAmarra::class,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Selecciona una publicación de amarra',
+                    ]),
+                ],
+            ])
             ->add('fechaDesde', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
@@ -60,7 +68,6 @@ class ReservaAmarraType extends AbstractType
                             $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
                         }
                         if ($fechaDesde < $publicacionAmarra->getFechaDesde()) {
-                        if ($fechaDesde < $publicacionAmarra->getFechaDesde()) {
                             $form->get('fechaDesde')->addError(new FormError('La fecha de INICIO de la reserva debe estar dentro del rango de fechas de la publicación de amarra.'));
                         }
                         if ($fechaHasta > $publicacionAmarra->getFechaHasta()) {
@@ -80,7 +87,6 @@ class ReservaAmarraType extends AbstractType
                     }
                 }
             }
-        }
         );
     }
 
