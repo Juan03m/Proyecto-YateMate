@@ -45,9 +45,12 @@ class PublicacionAmarraController extends AbstractController
                 $rutaImagen = match ($amarra->getMarina()) {
                     'Norte' => 'images/amarra_norte.png',
                     'Sur' => 'images/amarra_sur.png',
-                    'Este' => 'images/amarra_este.jpg',
-                    'Oeste' => 'images/amarra_oeste.jpg',
-                    default => 'images/default.jpg',
+                    'Este' => 'images/amarra_este.png',
+                    'Oeste' => 'images/amarra_oeste.png',
+                    'Centro' => 'images/amarra_centro.png',
+                    'Delta' => 'images/amarra_delta.png',
+                    'Bahia' => 'images/amarra_bahia.png',
+                    'Atlantico' => 'images/amarra_atlantico.png',
                 };
             
                 $publicacionAmarra->setImagen($rutaImagen);
