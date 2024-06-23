@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\ReservaAmarra;
+use App\Entity\PublicacionAmarra;
 use App\Form\ReservaAmarraType;
+use App\Controller\PublicacionAmarraController;
 use App\Repository\ReservaAmarraRepository;
+use App\Repository\PublicacionAmarraRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,38 +25,37 @@ class ReservaAmarraController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_reserva_amarra_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {   
-        $usuario = $this->getUser();
-        $reservaAmarra = new ReservaAmarra();
-        $form = $this->createForm(ReservaAmarraType::class, $reservaAmarra);
-        $form->handleRequest($request);
+    #[Route('/new/{idPublicacion}', name: 'app_reserva_amarra_new', methods: ['GET', 'POST'])]
+public function new(Request $request, EntityManagerInterface $entityManager, int $idPublicacion = null): Response
+{
+    $usuario = $this->getUser();
+    $reservaAmarra = new ReservaAmarra();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $reservaAmarra->setSolicitante($usuario);
-            $reservaAmarra->getPublicacionAmarra()->setEstaAlquilada(true);
-            $entityManager->persist($reservaAmarra);
-            $entityManager->flush();
-
-            // Añadir mensaje flash de éxito
-            $this->addFlash('success', 'Has realizado una reserva de amarra.');
-
-            return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('reserva_amarra/new.html.twig', [
-            'reserva_amarra' => $reservaAmarra,
-            'form' => $form->createView(),
-        ]);
+    if ($idPublicacion) {
+        $publicacionAmarra = $entityManager->getRepository(PublicacionAmarra::class)->find($idPublicacion);
+        $reservaAmarra->setPublicacionAmarra($publicacionAmarra);
     }
-    #[Route('/{id}', name: 'app_reserva_amarra_show', methods: ['GET'])]
-    public function show(ReservaAmarra $reservaAmarra): Response
-    {
-        return $this->render('reserva_amarra/show.html.twig', [
-            'reserva_amarra' => $reservaAmarra,
-        ]);
+
+    $form = $this->createForm(ReservaAmarraType::class, $reservaAmarra, ['idPublicacion' => $idPublicacion]);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $reservaAmarra->setSolicitante($usuario);
+        $reservaAmarra->getPublicacionAmarra()->setEstaAlquilada(true);
+        $entityManager->persist($reservaAmarra);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Has realizado una reserva de amarra.');
+
+        return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('reserva_amarra/new.html.twig', [
+        'reserva_amarra' => $reservaAmarra,
+        'form' => $form->createView(),
+    ]);
+}
+
 
     #[Route('/{id}/edit', name: 'app_reserva_amarra_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ReservaAmarra $reservaAmarra, EntityManagerInterface $entityManager): Response

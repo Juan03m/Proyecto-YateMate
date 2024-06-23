@@ -18,15 +18,23 @@ class ReservaAmarraType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $idPublicacion = $options['idPublicacion'] ?? null;
+
+        $publicacionOptions = [
+            'class' => PublicacionAmarra::class,
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Selecciona una publicación de amarra',
+                ]),
+            ],
+        ];
+
+        if ($idPublicacion) {
+            $publicacionOptions['disabled'] = true;
+        }
+
         $builder
-            ->add('publicacionAmarra', EntityType::class, [
-                'class' => PublicacionAmarra::class,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Selecciona una publicación de amarra',
-                    ]),
-                ],
-            ])
+            ->add('publicacionAmarra', EntityType::class, $publicacionOptions)
             ->add('fechaDesde', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
@@ -94,6 +102,7 @@ class ReservaAmarraType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ReservaAmarra::class,
+            'idPublicacion' => null,
         ]);
     }
 }

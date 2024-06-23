@@ -2,26 +2,41 @@
 
 {% extends 'base.html.twig' %}
 
+{% block title %}Nueva Reserva de Amarra{% endblock %}
+
 {% block body %}
-    <h1>Crear Reserva de Amarra</h1>
-
+    {# mensajes flash success #}
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>¡Éxito!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
     {% endfor %}
-
+    {# mensajes flash error #}
     {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ message }}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>¡Error!</strong> {{ message }}
+            <button type="button" class="close" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
     {% endfor %}
+    <div class="centered-form">
+        <h3 style="text-align: center;">Crear Reserva de Amarra</h3>
 
-    {{ form_start(form) }}
-        {{ form_row(form.publicacionAmarra) }}
-        {{ form_row(form.fechaDesde) }}
-        {{ form_row(form.fechaHasta) }}
-
-        <button type="submit">Guardar</button>
-    {{ form_end(form) }}
+        {{ form_start(form, {'attr': {'class': 'form-group'}}) }}
+            {{ form_row(form.publicacionAmarra, {
+                'attr': {'class': 'form-control', 'placeholder': 'Publicación de Amarra', 'disabled': 'disabled'}
+            }) }}
+            {{ form_row(form.fechaDesde, {
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde'}
+            }) }}
+            {{ form_row(form.fechaHasta, {
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta'}
+            }) }}
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Guardar</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

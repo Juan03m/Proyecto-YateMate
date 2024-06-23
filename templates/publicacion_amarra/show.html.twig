@@ -3,38 +3,45 @@
 {% block title %}Detalles de Publicación de Amarra{% endblock %}
 
 {% block body %}
-    <h1>Detalles de Publicación de Amarra</h1>
+<div style="text-align: center; color: #c2a26b; margin-top:20px">
+    
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Amarra de</th>
-                <td>{{ publicacion_amarra.id }}</td>
-            </tr>
-            <tr>
-                <th>Fecha Desde</th>
-                <td>{{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Fecha Hasta</th>
-                <td>{{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Número</th>
-                <td>{{ publicacion_amarra.numero }}</td>
-            </tr>
-            <tr>
-                <th>Sector</th>
-                <td>{{ publicacion_amarra.sector }}</td>
-            </tr>
-            <tr>
-                <th>Marina</th>
-                <td>{{ publicacion_amarra.marina }}</td>
-            </tr>
-            <tr>
-                <th>Tamaño</th>
-                <td>{{ publicacion_amarra.tamano }}</td>
-            </tr>
+    <div style="display: flex;">
+        <div style="flex: 50%;">
+            {# Espacio reservado para la imagen futura #}
+            <img src="{{ asset('images/placeholder.png') }}" alt="Imagen futura de la amarra" style="max-width: 100%;">
+        </div>
+        <div style="flex: 50%; position: relative;">
+            <table class="table publication-data"> 
+                <tbody>
+                    <tr>
+                        <th>Amarra de</th>
+                        <td>{{ publicacion_amarra.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Desde</th>
+                        <td>{{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Hasta</th>
+                        <td>{{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Número</th>
+                        <td>{{ publicacion_amarra.numero }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sector</th>
+                        <td>{{ publicacion_amarra.sector }}</td>
+                    </tr>
+                    <tr>
+                        <th>Marina</th>
+                        <td>{{ publicacion_amarra.marina }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tamaño</th>
+                        <td>{{ publicacion_amarra.tamano }}</td>
+                    </tr>
             <tr>
                 <th>Imagen</th>
                 <td>
@@ -43,16 +50,27 @@
                     </div>
                 </td>
             </tr>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-    <a href="{{ path('app_publicacion_amarra_index') }}">Volver al listado</a>
-
-    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}">Editar</a>
-
-    {{ include('publicacion_amarra/_delete_form.html.twig') }}
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
+            {% if app.user and publicacion_amarra.usuario.id != app.user.id %}
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Reservar esta Amarra</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
+</div>
+
+<div style="display: flex; justify-content: flex-start; margin-top: 20px;">
+    {% if app.user %}
+        {% if app.user.id == publicacion_amarra.usuario.id %}
+                    
+            <div style="margin-right: 10px;">
+                {{ include('publicacion_amarra/_delete_form.html.twig') }}
+            </div>
+        {% endif %}
+    {% endif %}
+    <a href="{{ path('app_publicacion_amarra_index') }}" class="btn btn-3">Volver al listado</a>
+</div>
 {% endblock %}
