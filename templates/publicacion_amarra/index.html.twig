@@ -50,8 +50,10 @@
                             <p class="card-text">Vigente: {% if publicacion_amarra.estaVigente %}Vigente{% else %}No vigente{% endif %}</p>
                             <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
                             {% if app.user %}
-                                {% if app.user.id == publicacion_amarra.usuario.id %}
-                                    <a href="{{ path('app_publicacion_amarra_edit', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Editar</a>
+                                {% if app.user.id != publicacion_amarra.usuario.id %}
+                                    <div style="text-align: center; margin-top: 20px;">
+                                        <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
+                                    </div>
                                 {% endif %}
                             {% endif %}
                         </div>
