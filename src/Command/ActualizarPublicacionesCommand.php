@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PublicacionAmarraRepository;
+use App\Repository\ReservaAmarraRepository;
 
 #[AsCommand(
     name: 'app:actualizar-publicaciones',
@@ -20,12 +21,14 @@ class ActualizarPublicacionesCommand extends Command
 {
     private $publicacionAmarraRepository;
     private $entityManager;
+    private $reservaAmarraRepository;
 
-    public function __construct(PublicacionAmarraRepository $publicacionAmarraRepository, EntityManagerInterface $entityManager)
+    public function __construct(PublicacionAmarraRepository $publicacionAmarraRepository, EntityManagerInterface $entityManager, ReservaAmarraRepository $reservaAmarraRepository)
     {
         parent::__construct();
         $this->publicacionAmarraRepository = $publicacionAmarraRepository;
         $this->entityManager = $entityManager;
+        $this->reservaAmarraRepository = $reservaAmarraRepository;
     }
 
     protected function configure(): void
@@ -41,10 +44,15 @@ class ActualizarPublicacionesCommand extends Command
 
         // Obtener todas las publicaciones que han finalizado y están marcadas como no alquiladas
         $publicaciones = $this->publicacionAmarraRepository->findPublicacionesTerminadas($hoy);
-
+        $reservasViejas = $this->reservaAmarraRepository->findReservasTerminadas($hoy);
+        
+        foreach ($reservasViejas as $reserva){
+            $this->entityManager->remove($reserva);
+        }
         foreach ($publicaciones as $publicacion) {
             $this->entityManager->remove($publicacion);
         }
+        
 
         $this->entityManager->flush();
 
