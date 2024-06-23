@@ -16,6 +16,15 @@ class ReservaAmarraRepository extends ServiceEntityRepository
         parent::__construct($registry, ReservaAmarra::class);
     }
 
+
+    public function findReservasTerminadas(\DateTime $hoy): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.fechaHasta <= :hoy')
+            ->setParameter('hoy', $hoy)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return ReservaAmarra[] Returns an array of ReservaAmarra objects
 //     */
