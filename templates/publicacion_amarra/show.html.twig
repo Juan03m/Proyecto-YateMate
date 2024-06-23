@@ -9,7 +9,7 @@
     <div style="display: flex;">
         <div style="flex: 50%;">
             {# Espacio reservado para la imagen futura #}
-            <img src="{{ asset('images/placeholder.png') }}" alt="Imagen futura de la amarra" style="max-width: 100%;">
+            <img src="{{ asset(publicacion_amarra.imagen) }}" alt="Imagen de la amarra" style="max-width: 100%;">
         </div>
         <div style="flex: 50%; position: relative;">
             <table class="table publication-data"> 
@@ -43,12 +43,6 @@
                         <td>{{ publicacion_amarra.tamano }}</td>
                     </tr>
             <tr>
-                <th>Imagen</th>
-                <td>
-                    <div style="flex: 50%;">
-                        <img src="{{ asset(publicacion_amarra.imagen) }}" alt="Imagen de la amarra" style="max-width: 100%;">
-                    </div>
-                </td>
             </tr>
                 </tbody>
             </table>
