@@ -8,7 +8,7 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>Amarra de</th>
                 <td>{{ publicacion_amarra.id }}</td>
             </tr>
             <tr>
@@ -34,6 +34,14 @@
             <tr>
                 <th>Tamaño</th>
                 <td>{{ publicacion_amarra.tamano }}</td>
+            </tr>
+            <tr>
+                <th>Imagen</th>
+                <td>
+                    <div style="flex: 50%;">
+                        <img src="{{ asset(publicacion_amarra.imagen) }}" alt="Imagen de la amarra" style="max-width: 100%;">
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>

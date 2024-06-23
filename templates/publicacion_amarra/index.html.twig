@@ -40,7 +40,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
                     <div class="card mx-auto" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">Amarra #{{ publicacion_amarra.numero }}</h5>
+                            <h5 class="card-title">Amarra de {{ publicacion_amarra.usuario.nombre }} {{ publicacion_amarra.usuario.apellido }}</h5>
+                            <div class="card-image-container">
+                            <img src="{{ asset(publicacion_amarra.imagen) }}" class="card-img-top fixed-size-image" alt="Imagen de la amarra">
+                            </div>
                             <p class="card-text">Sector: {{ publicacion_amarra.sector }}</p>
                             <p class="card-text">Marina: {{ publicacion_amarra.marina }}</p>
                             <p class="card-text">Tamaño: {{ publicacion_amarra.tamano }}</p>
@@ -56,6 +59,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    
                 </div>
             {% else %}
                 <div style="width: 100%; text-align: center;">

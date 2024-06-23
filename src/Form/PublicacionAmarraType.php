@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PublicacionAmarraType extends AbstractType
 {
@@ -46,6 +47,7 @@ class PublicacionAmarraType extends AbstractType
                 ]),
             ],
         ])
+        
             ->add('amarra', EntityType::class, [
                 'class' => Amarra::class,
              /*
