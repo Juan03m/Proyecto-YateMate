@@ -57,6 +57,8 @@
                                     <div style="text-align: center; margin-top: 20px;">
                                         <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
                                     </div>
+                                {% elseif not publicacion_amarra.estaAlquilada %}
+                                    {{ include('publicacion_amarra/_delete_form.html.twig') }}
                                 {% endif %}
                             {% endif %}
                         </div>

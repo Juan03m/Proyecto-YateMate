@@ -58,11 +58,12 @@
 
 <div style="display: flex; justify-content: flex-start; margin-top: 20px;">
     {% if app.user %}
-        {% if app.user.id == publicacion_amarra.usuario.id %}
-                    
-            <div style="margin-right: 10px;">
-                {{ include('publicacion_amarra/_delete_form.html.twig') }}
+        {% if app.user.id != publicacion_amarra.usuario.id %}
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
             </div>
+        {% elseif not publicacion_amarra.estaAlquilada %}
+            {{ include('publicacion_amarra/_delete_form.html.twig') }}
         {% endif %}
     {% endif %}
     <a href="{{ path('app_publicacion_amarra_index') }}" class="btn btn-3">Volver al listado</a>
