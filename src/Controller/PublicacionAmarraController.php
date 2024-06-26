@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PublicacionAmarra;
+use App\Form\OfertasTemporalesType;
 use App\Form\PublicacionAmarraType;
 use App\Repository\AmarraRepository;
 use App\Repository\PublicacionAmarraRepository;
@@ -15,11 +16,49 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/publicacion/amarra')]
 class PublicacionAmarraController extends AbstractController
 {
-    #[Route('/', name: 'app_publicacion_amarra_index', methods: ['GET'])]
-    public function index(PublicacionAmarraRepository $publicacionAmarraRepository): Response
+    #[Route('/', name: 'app_publicacion_amarra_index', methods: ['GET','POST'])]
+    public function index(PublicacionAmarraRepository $publicacionAmarraRepository,PublicacionAmarraRepository $ofertasTemporales,Request $request): Response
     {
+
+        
+        $marinas=['Norte','Centro','Sur','Este','Oeste','Delta','Bahia','Atlantico'];
+
+        $tamaños=['Chica','Mediana','Grande'];
+
+
+
+        
+
+        $form = $this->createForm(OfertasTemporalesType::class);
+        $form->handleRequest($request);
+
+
+      
+        $publicaciones=$publicacionAmarraRepository->findAll();
+        if($form->isSubmitted()){
+
+            $data=$form->getData();
+           // dd($data);
+            $desde=$data['desde'];
+            $hasta=$data['hasta'];
+            $tamaño=$data['tamano'];
+            $marina=$data['marinas'];
+
+
+            $ofertas=$ofertasTemporales->filtrar($desde,$hasta,$marina,$tamaño);
+
+            $publicaciones=$ofertas;
+         
+
+            
+
+        } 
+
+
+
         return $this->render('publicacion_amarra/index.html.twig', [
-            'publicacion_amarras' => $publicacionAmarraRepository->findAll(),
+            'publicacion_amarras' => $publicaciones,
+            'filtrado'=>$form,
         ]);
     }
 
@@ -35,8 +74,12 @@ class PublicacionAmarraController extends AbstractController
         }
     
         $publicacionAmarra = new PublicacionAmarra();
-        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra);
+        $form = $this->createForm(PublicacionAmarraType::class, $publicacionAmarra,[
+            'user'=>$usuario
+        ]);
         $publicacionAmarra->setUsuario($usuario);
+
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();

@@ -48,8 +48,6 @@ class PublicacionAmarraType extends AbstractType
         ])
             ->add('amarra', EntityType::class, [
                 'class' => Amarra::class,
-             /*
-                'choice_label' => 'id',
                 'query_builder' => function (AmarraRepository $ar) use ($usuario) {
                     return $ar->createQueryBuilder('a')
                         ->leftJoin('a.publicacionAmarra', 'pa')
@@ -62,7 +60,7 @@ class PublicacionAmarraType extends AbstractType
                         'message' => 'No tienes amarras para publicar',
                     ]),
                 ],
-                */
+                
             ]);
 
         // Añadir la validación personalizada para las fechas

@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-
+    /*
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UsuarioRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
@@ -89,4 +89,7 @@ class RegistrationController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_home_page');
     }
+
+    */
+
 }

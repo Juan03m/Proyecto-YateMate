@@ -26,7 +26,7 @@ class ReservaAmarraController extends AbstractController
     }
 
     #[Route('/new/{idPublicacion}', name: 'app_reserva_amarra_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager, int $idPublicacion = null): Response
+public function new(Request $request, EntityManagerInterface $entityManager, int $idPublicacion ): Response
 {
     $usuario = $this->getUser();
     $reservaAmarra = new ReservaAmarra();
@@ -36,7 +36,12 @@ public function new(Request $request, EntityManagerInterface $entityManager, int
         $reservaAmarra->setPublicacionAmarra($publicacionAmarra);
     }
 
-    $form = $this->createForm(ReservaAmarraType::class, $reservaAmarra, ['idPublicacion' => $idPublicacion]);
+
+
+    $form = $this->createForm(ReservaAmarraType::class, $reservaAmarra,
+     ['idPublicacion' => $idPublicacion,
+     'publicacion' => $publicacionAmarra,
+]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {

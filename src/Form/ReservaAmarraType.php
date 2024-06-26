@@ -4,8 +4,11 @@ namespace App\Form;
 
 use App\Entity\PublicacionAmarra;
 use App\Entity\ReservaAmarra;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,9 +19,32 @@ use Symfony\Component\Form\FormError;
 
 class ReservaAmarraType extends AbstractType
 {
+     private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $idPublicacion = $options['idPublicacion'] ?? null;
+
+        $publicacionAmarra=$options['publicacion'];
+
+
+       // dd($this->entityManager->getRepository(PublicacionAmarra::class));
+
+        $rp = $this->entityManager->getRepository(PublicacionAmarra::class);
+
+       // $fechasOcupadas=$rp->getFechasOcupadas($idPublicacion);
+        
+
+
+
+
 
         $publicacionOptions = [
             'class' => PublicacionAmarra::class,
@@ -34,10 +60,14 @@ class ReservaAmarraType extends AbstractType
         }
 
         $builder
+
+    
+
             ->add('publicacionAmarra', EntityType::class, $publicacionOptions)
             ->add('fechaDesde', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
+               
                 'attr' => [
                     'min' => (new \DateTime())->format('Y-m-d'),
                 ],
@@ -50,6 +80,7 @@ class ReservaAmarraType extends AbstractType
             ->add('fechaHasta', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
+               // 'disable_dates'=>$fechasOcupadas,
                 'attr' => [
                     'min' => (new \DateTime())->format('Y-m-d'),
                 ],
@@ -103,6 +134,7 @@ class ReservaAmarraType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ReservaAmarra::class,
             'idPublicacion' => null,
+            'publicacion'=>null,
         ]);
     }
 }

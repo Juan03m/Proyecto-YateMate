@@ -38,6 +38,17 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         return $this->findOneBy(['email' => $email]);
     }
 
+
+
+    public function findFirstUsuarioWithAmarra(): ?Usuario
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.amarra IS NOT NULL')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Usuario[] Returns an array of Usuario objects
     //     */
