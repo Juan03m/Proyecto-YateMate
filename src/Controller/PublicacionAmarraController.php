@@ -84,7 +84,19 @@ class PublicacionAmarraController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $amarra=$data->getAmarra();
-            if($amarra){
+            if ($amarra) {
+                $rutaImagen = match ($amarra->getMarina()) {
+                    'Norte' => 'images/amarra_norte.png',
+                    'Sur' => 'images/amarra_sur.png',
+                    'Este' => 'images/amarra_este.png',
+                    'Oeste' => 'images/amarra_oeste.png',
+                    'Centro' => 'images/amarra_centro.png',
+                    'Delta' => 'images/amarra_delta.png',
+                    'Bahia' => 'images/amarra_bahia.png',
+                    'Atlantico' => 'images/amarra_atlantico.png',
+                };
+            
+                $publicacionAmarra->setImagen($rutaImagen);
                 $publicacionAmarra->setEstaAlquilada(false);
                 $publicacionAmarra->setEstaVigente(false);
                 $publicacionAmarra->setNumero($amarra->getNumero());

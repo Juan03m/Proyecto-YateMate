@@ -51,6 +51,9 @@ class PublicacionAmarra
     #[ORM\Column]
     private ?bool $estaAlquilada = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $imagen = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -207,6 +210,18 @@ class PublicacionAmarra
     public function setEstaAlquilada(bool $estaAlquilada): static
     {
         $this->estaAlquilada = $estaAlquilada;
+
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(string $imagen): static
+    {
+        $this->imagen = $imagen;
 
         return $this;
     }
