@@ -16,6 +16,21 @@ class AmarraRepository extends ServiceEntityRepository
         parent::__construct($registry, Amarra::class);
     }
 
+    /**
+     * @return Amarra[] Returns an array of Bien objects
+     */
+    public function buscarPorUsuario($usuario): array
+    {
+        return $this->createQueryBuilder('e')
+        ->andWhere('e.usuario = :val')
+        ->setParameter('val', $usuario)
+        ->orderBy('e.id', 'ASC')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
 //    /**
 //     * @return Amarra[] Returns an array of Amarra objects
 //     */

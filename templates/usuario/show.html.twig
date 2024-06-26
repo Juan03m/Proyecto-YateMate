@@ -20,7 +20,7 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h3>Embarcaciones</h3>
                 {% if embarcaciones is empty %}
                     <p>No tienes embarcaciones registradas.</p>
@@ -31,13 +31,23 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h3>Bienes</h3>
                 {% if bienes is empty %}
                     <p>No tienes bienes registrados.</p>
                 {% else %}
                     {% for bien in bienes %}
                         <p>{{ bien.nombre }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <h3>Amarras</h3>
+                {% if amarras is empty %}
+                    <p>No tienes amarras registradas.</p>
+                {% else %}
+                    {% for amarra in amarras %}
+                        <p>{{ amarra }}</p>
                     {% endfor %}
                 {% endif %}
             </div>
