@@ -34,7 +34,7 @@
                             <p class="card-text">Amarra: {{ reserva_amarra.publicacionAmarra }}</p>
                             <p class="card-text">Desde: {{ reserva_amarra.fechaDesde ? reserva_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
                             <p class="card-text">Hasta: {{ reserva_amarra.fechaHasta ? reserva_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
-                            <p class="card-text">Aceptada: {{ reserva_amarra.aceptada ? 'Sí' : 'No' }}</p>
+                            <p class="card-text">Estado: {{ reserva_amarra.aceptada ? 'Asistió' : 'Pendiente' }}</p>
                             {% if app.user and app.user.id == reserva_amarra.solicitante.id %}
                             <div style="margin-right: 10px;">
                                 {{ include('reserva_amarra/_delete_form.html.twig') }}

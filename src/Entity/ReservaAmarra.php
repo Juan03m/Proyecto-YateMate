@@ -31,6 +31,9 @@ class ReservaAmarra
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fechaHasta = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $descripcion = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class ReservaAmarra
     public function setFechaHasta(\DateTimeInterface $fechaHasta): static
     {
         $this->fechaHasta = $fechaHasta;
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): static
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }
