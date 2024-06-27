@@ -28,14 +28,6 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
 
 
 
-    public function findReservasTerminadas(\DateTime $hoy): array
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.fechaHasta <= :hoy')
-            ->setParameter('hoy', $hoy)
-            ->getQuery()
-            ->getResult();
-    }
 
     /*
     public function getFechasOcupadas($publicacionAmarraId): array
@@ -93,10 +85,28 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
         }
 
         return $qb->orderBy('p.id', 'ASC')
+
                   ->setMaxResults(10)
                   ->getQuery()
                   ->getResult();
     }
+/**
+ * @param \DateTimeInterface $fechaDesde
+ * @param \DateTimeInterface $fechaHasta
+ * @return PublicacionAmarra[]
+ */
+public function findPublicacionesDisponiblesEnPeriodo(\DateTimeInterface $fechaDesde, \DateTimeInterface $fechaHasta): array
+{
+    $qb = $this->createQueryBuilder('p')
+        ->leftJoin('p.reservaAmarra', 'r')
+        ->where('p.fechaDesde <= :fechaHasta')
+        ->andWhere('p.fechaHasta >= :fechaDesde')
+        ->andWhere('(r.id IS NULL OR (r.fechaDesde > :fechaHasta OR r.fechaHasta < :fechaDesde))')
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+    return $qb->getQuery()->getResult();
+}
 
 
 
