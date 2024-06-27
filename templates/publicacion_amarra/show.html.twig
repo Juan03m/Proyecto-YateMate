@@ -4,11 +4,8 @@
 
 {% block body %}
 <div style="text-align: center; color: #c2a26b; margin-top:20px">
-    
-
     <div style="display: flex;">
         <div style="flex: 50%;">
-            {# Espacio reservado para la imagen futura #}
             <img src="{{ asset(publicacion_amarra.imagen) }}" alt="Imagen de la amarra" style="max-width: 100%;">
         </div>
         <div style="flex: 50%; position: relative;">
@@ -42,13 +39,13 @@
                         <th>Tamaño</th>
                         <td>{{ publicacion_amarra.tamano }}</td>
                     </tr>
-            <tr>
-            </tr>
                 </tbody>
             </table>
 
             {% if app.user and publicacion_amarra.usuario.id != app.user.id %}
                 <div style="text-align: center; margin-top: 20px;">
+                    <input type="text" id="datepicker" placeholder="Selecciona fecha de inicio">
+                    <input type="text" id="datepicker2" placeholder="Selecciona fecha de fin">
                     <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-3" style="background-color: #c2a26b;">Reservar esta Amarra</a>
                 </div>
             {% endif %}
@@ -59,7 +56,6 @@
 <div style="display: flex; justify-content: flex-start; margin-top: 20px;">
     {% if app.user %}
         {% if app.user.id == publicacion_amarra.usuario.id %}
-                    
             <div style="margin-right: 10px;">
                 {{ include('publicacion_amarra/_delete_form.html.twig') }}
             </div>
@@ -67,4 +63,30 @@
     {% endif %}
     <a href="{{ path('app_publicacion_amarra_index') }}" class="btn btn-3">Volver al listado</a>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fechasOcupadas = {{ fechas_ocupadas|json_encode|raw }};
+        var inicioPublicacion = new Date("{{ publicacion_amarra.fechaDesde|date('Y-m-d') }}");
+        var finPublicacion = new Date("{{ publicacion_amarra.fechaHasta|date('Y-m-d') }}");
+
+        var datepicker = new Pikaday({
+            field: document.getElementById('datepicker'),
+            format: 'YYYY-MM-DD',
+            disableDayFn: function(date) {
+                var formattedDate = moment(date).format('YYYY-MM-DD');
+                return fechasOcupadas.includes(formattedDate) || date < inicioPublicacion || date > finPublicacion;
+            }
+        });
+
+        var datepicker2 = new Pikaday({
+            field: document.getElementById('datepicker2'),
+            format: 'YYYY-MM-DD',
+            disableDayFn: function(date) {
+                var formattedDate = moment(date).format('YYYY-MM-DD');
+                return fechasOcupadas.includes(formattedDate) || date < inicioPublicacion || date > finPublicacion;
+            }
+        });
+    });
+</script>
 {% endblock %}
