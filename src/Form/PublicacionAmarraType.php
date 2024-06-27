@@ -52,9 +52,7 @@ class PublicacionAmarraType extends AbstractType
                 'class' => Amarra::class,
                 'query_builder' => function (AmarraRepository $ar) use ($usuario) {
                     return $ar->createQueryBuilder('a')
-                        ->leftJoin('a.publicacionAmarra', 'pa')
                         ->where('a.usuario = :usuario')
-                        ->andWhere('pa.id IS NULL')
                         ->setParameter('usuario', $usuario);
                 },
                 'constraints' => [
