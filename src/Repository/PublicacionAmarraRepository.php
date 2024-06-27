@@ -109,7 +109,32 @@ public function findPublicacionesDisponiblesEnPeriodo(\DateTimeInterface $fechaD
 }
 
 
+    public function getFechasOcupadas($publicacionAmarraId): array
+{
+    $qb = $this->createQueryBuilder('p')
+        ->select('r.fechaDesde, r.fechaHasta')
+        ->leftJoin('p.reservaAmarra', 'r')
+        ->where('p.id = :id')
+        ->setParameter('id', $publicacionAmarraId)
+        ->getQuery();
 
+    $reservas = $qb->getResult();
+
+    $fechasOcupadas = [];
+    foreach ($reservas as $reserva) {
+        $period = new \DatePeriod(
+            new \DateTime($reserva['fechaDesde']->format('Y-m-d')),
+            new \DateInterval('P1D'),
+            (new \DateTime($reserva['fechaHasta']->format('Y-m-d')))->modify('+1 day')
+        );
+
+        foreach ($period as $date) {
+            $fechasOcupadas[] = $date->format('Y-m-d');
+        }
+    }
+
+    return $fechasOcupadas;
+}
     
 
 //    public function findOneBySomeField($value): ?PublicacionAmarra

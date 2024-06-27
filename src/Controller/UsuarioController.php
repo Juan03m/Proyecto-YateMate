@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Amarra;
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
+use App\Repository\AmarraRepository;
 use App\Repository\BienRepository;
 use App\Repository\EmbarcacionRepository;
 use App\Repository\UsuarioRepository;
@@ -45,11 +47,12 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(Usuario $usuario,EmbarcacionRepository $er,BienRepository $br): Response
+    public function show(Usuario $usuario,EmbarcacionRepository $er, AmarraRepository $ar,BienRepository $br): Response
     {
 
         $embarcaciones=$er->buscarPorUsuario($usuario);
         $bienes=$br->buscarPorUsuario($usuario);
+        $amarras=$ar->buscarPorUsuario($usuario);
         
         
 
@@ -57,7 +60,8 @@ class UsuarioController extends AbstractController
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
             'embarcaciones' => $embarcaciones,
-            'bienes'=>$bienes
+            'bienes'=>$bienes,
+            'amarras'=>$amarras
         ]);
     }
 
