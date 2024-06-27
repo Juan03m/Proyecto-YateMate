@@ -122,7 +122,12 @@ class PublicacionAmarraController extends AbstractController
     #[Route('/{id}', name: 'app_publicacion_amarra_show', methods: ['GET'])]
     public function show(PublicacionAmarra $publicacionAmarra, PublicacionAmarraRepository $publicacionAmarraRepository): Response
     {
-        $fechasOcupadas = $publicacionAmarraRepository->getFechasOcupadas($publicacionAmarra->getId());
+
+        $fechasOcupadas = [];
+        if (!$publicacionAmarra->getReservaAmarra()->isEmpty()){
+            $fechasOcupadas = $publicacionAmarraRepository->getFechasOcupadas($publicacionAmarra->getId());
+        }
+        
 
         return $this->render('publicacion_amarra/show.html.twig', [
             'publicacion_amarra' => $publicacionAmarra,
