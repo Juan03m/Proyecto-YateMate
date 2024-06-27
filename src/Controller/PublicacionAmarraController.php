@@ -45,7 +45,7 @@ class PublicacionAmarraController extends AbstractController
             $marina=$data['marinas'];
 
 
-            $ofertas=$ofertasTemporales->filtrar($desde,$hasta,$marina,$tamaño);
+            $ofertas=$ofertasTemporales->findPublicacionesDisponiblesEnPeriodo($desde,$hasta);
 
             $publicaciones=$ofertas;
          
