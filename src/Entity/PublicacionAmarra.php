@@ -16,11 +16,11 @@ class PublicacionAmarra
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'publicacionAmarras', cascade: ['persist'])]
+    #[ORM\OneToOne(inversedBy: 'publicacionAmarra', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Amarra $amarra = null;
+    private ?Amarra $Amarra = null;
 
-    #[ORM\ManyToOne(inversedBy: 'publicacionAmarra')]
+    #[ORM\ManyToOne(inversedBy: 'publicacionAmarras')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
@@ -54,11 +54,6 @@ class PublicacionAmarra
     #[ORM\Column(length: 255)]
     private ?string $imagen = null;
 
-    public function __construct()
-    {
-        $this->reservaAmarra = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -66,12 +61,12 @@ class PublicacionAmarra
 
     public function getAmarra(): ?Amarra
     {
-        return $this->amarra;
+        return $this->Amarra;
     }
 
-    public function setAmarra(Amarra $amarra): static
+    public function setAmarra(Amarra $Amarra): static
     {
-        $this->amarra = $amarra;
+        $this->Amarra = $Amarra;
 
         return $this;
     }
@@ -160,20 +155,39 @@ class PublicacionAmarra
         return $this;
     }
 
-    /**
+        /**
      * @return Collection<int, ReservaAmarra>
      */
     public function getReservaAmarra(): Collection
     {
         return $this->reservaAmarra;
     }
-
-    public function addReservaAmarra(ReservaAmarra $reservaAmarra): void
+    public function addReservaAmarra(ReservaAmarra $reservaAmarra): static
     {
         if (!$this->reservaAmarra->contains($reservaAmarra)) {
             $this->reservaAmarra->add($reservaAmarra);
             $reservaAmarra->setPublicacionAmarra($this);
         }
+
+        return $this;
+    }
+    /*
+    public function removeReservaAmarra(ReservaAmarra $reservaAmarra): static
+    {
+        if ($this->reservaAmarra->removeElement($reservaAmarra)) {
+            // set the owning side to null (unless already changed)
+            if ($reservaAmarra->getPublicacionAmarra() === $this) {
+                $reservaAmarra->setPublicacionAmarra(null);
+            }
+        }
+
+        return $this;
+    }
+        */
+    public function __toString()
+    {
+        $amarra=$this->getAmarra();
+        return $amarra->__toString();
     }
 
     public function isEstaVigente(): ?bool

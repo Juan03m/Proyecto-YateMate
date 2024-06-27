@@ -3,14 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\AmarraRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AmarraRepository::class)]
-#[UniqueEntity('embarcacion', 'Ya existe una embarcacion en esa amarra')]
+#[UniqueEntity('embarcacion','Ya existe una embarcacion en esa amarra')]
 #[UniqueEntity(fields: ['Numero', 'sector', 'marina'], message: 'Ya existe una amarra con ese número, sector y marina')]
 class Amarra
 {
@@ -28,8 +26,10 @@ class Amarra
     #[ORM\Column(length: 255)]
     private ?string $marina = null;
 
+
     #[ORM\OneToOne(inversedBy: 'amarra', cascade: ['persist'])]
     private ?Embarcacion $embarcacion = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'Por favor, seleccione un tamaño para la amarra')]
@@ -38,13 +38,9 @@ class Amarra
     #[ORM\ManyToOne(inversedBy: 'amarras')]
     private ?Usuario $usuario = null;
 
-    #[ORM\OneToMany(mappedBy: 'amarra', targetEntity: PublicacionAmarra::class, cascade: ['persist', 'remove'])]
-    private Collection $publicacionAmarras;
+    #[ORM\OneToOne(mappedBy: 'Amarra', cascade: ['persist', 'remove'])]
+    private ?PublicacionAmarra $publicacionAmarra = null;
 
-    public function __construct()
-    {
-        $this->publicacionAmarras = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -87,6 +83,7 @@ class Amarra
         return $this;
     }
 
+   
     public function getEmbarcacion(): ?Embarcacion
     {
         return $this->embarcacion;
@@ -98,6 +95,15 @@ class Amarra
 
         return $this;
     }
+
+
+    public function __toString()
+    {
+        $string = 'Nro: ' . $this->getNumero() . ',  ' . 'Sector: ' . $this->getSector() . ',  ' . 'Marina: ' . $this->getMarina();
+        return $string;
+    }
+
+
 
     public function getTamano(): ?string
     {
@@ -123,37 +129,21 @@ class Amarra
         return $this;
     }
 
-    /**
-     * @return Collection<int, PublicacionAmarra>
-     */
-    public function getPublicacionAmarras(): Collection
+    public function getPublicacionAmarra(): ?PublicacionAmarra
     {
-        return $this->publicacionAmarras;
+        return $this->publicacionAmarra;
     }
 
-    public function addPublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
+    public function setPublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
     {
-        if (!$this->publicacionAmarras->contains($publicacionAmarra)) {
-            $this->publicacionAmarras[] = $publicacionAmarra;
+        // set the owning side of the relation if necessary
+        if ($publicacionAmarra->getAmarra() !== $this) {
             $publicacionAmarra->setAmarra($this);
         }
 
-        return $this;
-    }
-
-    public function removePublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
-    {
-        $this->publicacionAmarras->removeElement($publicacionAmarra);
-        // set the owning side to null (unless already changed)
-        if ($publicacionAmarra->getAmarra() === $this) {
-            //$publicacionAmarra->setAmarra(null);
-        }
+        $this->publicacionAmarra = $publicacionAmarra;
 
         return $this;
     }
 
-    public function __toString()
-    {
-        return 'Nro: ' . $this->getNumero() . ', Sector: ' . $this->getSector() . ', Marina: ' . $this->getMarina();
-    }
 }
