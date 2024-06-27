@@ -83,7 +83,20 @@ class PublicacionAmarraController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $amarra=$data->getAmarra();
+            $fechaDesde = $data->getFechaDesde();
+            $fechaHasta = $data->getFechaHasta();
+            $amarraSeleccionada = $data->getAmarra();
+
+            // Verificar si ya existe una publicación para esta amarra en el mismo rango de fechas
+            foreach ($amarras as $amarra) {
+                foreach ($amarra->getPublicacionAmarras() as $existingPublicacion) {
+                    // Si la amarra es la misma y hay solapamiento de fechas, mostrar error
+                    if ($existingPublicacion->getAmarra() === $amarraSeleccionada && $this->fechasSeSolapan($fechaDesde, $fechaHasta, $existingPublicacion->getFechaDesde(), $existingPublicacion->getFechaHasta())) {
+                        $this->addFlash('failed', 'Ya existe una publicación de amarra para esta misma amarra que se solapa con las fechas seleccionadas.');
+                        return $this->redirectToRoute('app_publicacion_amarra_new');
+                    }
+                }
+            }
             if ($amarra) {
                 $rutaImagen = match ($amarra->getMarina()) {
                     'Norte' => 'images/amarra_norte.png',
@@ -118,6 +131,22 @@ class PublicacionAmarraController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    private function fechasSeSolapan(\DateTimeInterface $fechaDesde1, \DateTimeInterface $fechaHasta1, \DateTimeInterface $fechaDesde2, \DateTimeInterface $fechaHasta2): bool
+{
+    // Verificar si hay solapamiento de fechas
+    if (
+        ($fechaDesde1 >= $fechaDesde2 && $fechaDesde1 <= $fechaHasta2) ||
+        ($fechaHasta1 >= $fechaDesde2 && $fechaHasta1 <= $fechaHasta2) ||
+        ($fechaDesde1 <= $fechaDesde2 && $fechaHasta1 >= $fechaHasta2)
+    ) {
+        return true; // Hay solapamiento
+    }
+
+    return false; // No hay solapamiento
+}
+
+    
 
     #[Route('/{id}', name: 'app_publicacion_amarra_show', methods: ['GET'])]
     public function show(PublicacionAmarra $publicacionAmarra, PublicacionAmarraRepository $publicacionAmarraRepository): Response
