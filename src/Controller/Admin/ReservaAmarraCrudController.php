@@ -142,10 +142,10 @@ class ReservaAmarraCrudController extends AbstractCrudController
     $qb->select('entity')
         ->from($entityDto->getFqcn(), 'entity')
         ->andWhere(
-            $qb->expr()->orX(
+            $qb->expr()->andX(
                 $qb->expr()->eq('entity.fechaDesde', ':today'),
                 $qb->expr()->gt('entity.fechaDesde', ':today'),
-                $qb->expr()->lt('entity.fechaHasta', ':today')
+                $qb->expr()->lt('entity.fechaHasta', ':today'),
             )
         )
         ->setParameter('today', $today->format('Y-m-d'));
