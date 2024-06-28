@@ -50,6 +50,11 @@ class PublicacionAmarraController extends AbstractController
             $publicaciones=$ofertas;
          
 
+           return  $this->render('publicacion_amarra/listado.html.twig',[
+                'publicacion_amarras' => $publicaciones,
+                'fecha_desde'=>$desde,
+                'fecha_hasta'=>$hasta,
+           ]);
             
 
         } 
@@ -61,6 +66,26 @@ class PublicacionAmarraController extends AbstractController
             'filtrado'=>$form,
         ]);
     }
+
+
+    #[Route('/listado', name: 'app_publicacion_amarra_filtro')]
+    public function action(): Response
+    {
+
+        
+
+
+
+        return $this->render('template.html.twig');
+    }
+
+
+
+
+
+
+
+
 
     #[Route('/new', name: 'app_publicacion_amarra_new', methods: ['GET', 'POST'])]
     public function new(AmarraRepository $amarraRepository, Request $request, EntityManagerInterface $entityManager): Response
@@ -118,6 +143,9 @@ class PublicacionAmarraController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+
 
     #[Route('/{id}', name: 'app_publicacion_amarra_show', methods: ['GET'])]
     public function show(PublicacionAmarra $publicacionAmarra, PublicacionAmarraRepository $publicacionAmarraRepository): Response

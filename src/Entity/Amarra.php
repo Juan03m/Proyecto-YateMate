@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AmarraRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,8 +40,16 @@ class Amarra
     #[ORM\ManyToOne(inversedBy: 'amarras')]
     private ?Usuario $usuario = null;
 
-    #[ORM\OneToOne(mappedBy: 'Amarra', cascade: ['persist', 'remove'])]
-    private ?PublicacionAmarra $publicacionAmarra = null;
+    /**
+     * @var Collection<int, PublicacionAmarra>
+     */
+    #[ORM\OneToMany(targetEntity: PublicacionAmarra::class, mappedBy: 'amarra')]
+    private Collection $publicaciones;
+
+    public function __construct()
+    {
+        $this->publicaciones = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -129,21 +139,36 @@ class Amarra
         return $this;
     }
 
-    public function getPublicacionAmarra(): ?PublicacionAmarra
+    /**
+     * @return Collection<int, PublicacionAmarra>
+     */
+    public function getPublicaciones(): Collection
     {
-        return $this->publicacionAmarra;
+        return $this->publicaciones;
     }
 
-    public function setPublicacionAmarra(PublicacionAmarra $publicacionAmarra): static
+    public function addPublicacione(PublicacionAmarra $publicacione): static
     {
-        // set the owning side of the relation if necessary
-        if ($publicacionAmarra->getAmarra() !== $this) {
-            $publicacionAmarra->setAmarra($this);
+        if (!$this->publicaciones->contains($publicacione)) {
+            $this->publicaciones->add($publicacione);
+            $publicacione->setAmarra($this);
         }
-
-        $this->publicacionAmarra = $publicacionAmarra;
 
         return $this;
     }
 
+    public function removePublicacione(PublicacionAmarra $publicacione): static
+    {
+        if ($this->publicaciones->removeElement($publicacione)) {
+            // set the owning side to null (unless already changed)
+            if ($publicacione->getAmarra() === $this) {
+                $publicacione->setAmarra(null);
+            }
+        }
+
+        return $this;
+    }
+    
+
+    
 }

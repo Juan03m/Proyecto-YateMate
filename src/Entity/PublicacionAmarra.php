@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PublicacionAmarraRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,9 +17,6 @@ class PublicacionAmarra
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'publicacionAmarra', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Amarra $Amarra = null;
 
     #[ORM\ManyToOne(inversedBy: 'publicacionAmarras')]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,6 +52,9 @@ class PublicacionAmarra
     #[ORM\Column(length: 255)]
     private ?string $imagen = null;
 
+    #[ORM\ManyToOne(inversedBy: 'publicaciones')]
+    private ?Amarra $amarra = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,12 +62,12 @@ class PublicacionAmarra
 
     public function getAmarra(): ?Amarra
     {
-        return $this->Amarra;
+        return $this->amarra;
     }
 
-    public function setAmarra(Amarra $Amarra): static
+    public function setAmarra(Amarra $amarra): static
     {
-        $this->Amarra = $Amarra;
+        $this->amarra = $amarra;
 
         return $this;
     }
@@ -224,5 +225,9 @@ class PublicacionAmarra
         $this->imagen = $imagen;
 
         return $this;
+
+
     }
+
+   
 }
