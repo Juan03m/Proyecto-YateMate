@@ -69,14 +69,8 @@ class PublicacionAmarraController extends AbstractController
 
 
 
-
-
-
-
-
-
     #[Route('/new', name: 'app_publicacion_amarra_new', methods: ['GET', 'POST'])]
-    public function new(AmarraRepository $amarraRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(AmarraRepository $amarraRepository, Request $request, EntityManagerInterface $entityManager, PublicacionAmarraRepository $publicacionAmarraRepository): Response
     {
         $usuario = $this->getUser();
         $amarras = $amarraRepository->findBy(['usuario' => $usuario]);
@@ -98,6 +92,18 @@ class PublicacionAmarraController extends AbstractController
             $data = $form->getData();
             $amarra=$data->getAmarra();
             if ($amarra) {
+                $existingPublicaciones = $publicacionAmarraRepository->findBy(['amarra' => $amarra]);
+
+                foreach ($existingPublicaciones as $existingPublicacion) {
+                    if (
+                        ($data->getFechaDesde() >= $existingPublicacion->getFechaDesde() && $data->getFechaDesde() <= $existingPublicacion->getFechaHasta()) ||
+                        ($data->getFechaHasta() >= $existingPublicacion->getFechaDesde() && $data->getFechaHasta() <= $existingPublicacion->getFechaHasta()) ||
+                        ($data->getFechaDesde() <= $existingPublicacion->getFechaDesde() && $data->getFechaHasta() >= $existingPublicacion->getFechaHasta())
+                    ) {
+                        $this->addFlash('failed', 'La amarra ya tiene una publicación en el período seleccionado.');
+                        return $this->redirectToRoute('app_publicacion_amarra_new');
+                    }
+                }
                 $rutaImagen = match ($amarra->getMarina()) {
                     'Norte' => 'images/amarra_norte.png',
                     'Sur' => 'images/amarra_sur.png',
