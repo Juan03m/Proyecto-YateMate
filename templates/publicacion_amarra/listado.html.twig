@@ -21,7 +21,7 @@
                     <p class="card-text"><strong>Marina:</strong> {{ publicacion_amarra.marina }}</p>
                     <p class="card-text"><strong>Desde:</strong> {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
                     <p class="card-text"><strong>Hasta:</strong> {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
-                    <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                  
                     {% if app.user %}
                         {% if app.user.id != publicacion_amarra.usuario.id %}
                         <div style="text-align: center; margin-top: 20px;">
