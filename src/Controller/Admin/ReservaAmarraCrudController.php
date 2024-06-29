@@ -3,22 +3,28 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ReservaAmarra;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection as CollectionFilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityNotFoundException;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 class ReservaAmarraCrudController extends AbstractCrudController
 {
     private EntityManagerInterface $entityManager;
@@ -123,5 +129,20 @@ class ReservaAmarraCrudController extends AbstractCrudController
                 ],
             ]),
         ];
+    }
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, CollectionFilterCollection $filters): ORMQueryBuilder
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        // Obtener la fecha de hoy como un objeto DateTime
+        $today = new \DateTime();
+
+        $qb->select('entity')
+            ->from($entityDto->getFqcn(), 'entity')
+            // Comparar las fechas usando parámetros para evitar problemas de formato
+            ->andWhere($qb->expr()->eq('entity.fechaDesde', ':today'))
+            ->setParameter('today', $today->format('Y-m-d'));
+
+        return $qb;
     }
 }
