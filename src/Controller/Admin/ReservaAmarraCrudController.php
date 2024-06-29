@@ -106,7 +106,7 @@ class ReservaAmarraCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('descripción de la reserva') // Cambia el nombre singular de la entidad
+            ->setEntityLabelInSingular('Descripción de la reserva') // Cambia el nombre singular de la entidad
             ->setEntityLabelInPlural('Reservas de amarras'); // Cambia el nombre plural de la entidad
     }
     public function configureFields(string $pageName): iterable
@@ -128,21 +128,28 @@ class ReservaAmarraCrudController extends AbstractCrudController
                     ]),
                 ],
             ]),
+            BooleanField::new('aceptada')->hideWhenUpdating()
+            ->setLabel('Asistió')->renderAsSwitch(false),
         ];
     }
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, CollectionFilterCollection $filters): ORMQueryBuilder
-    {
-        $qb = $this->entityManager->createQueryBuilder();
+{
+    $qb = $this->entityManager->createQueryBuilder();
 
-        // Obtener la fecha de hoy como un objeto DateTime
-        $today = new \DateTime();
+    // Obtener la fecha de hoy como un objeto DateTime
+    $today = new \DateTime();
 
-        $qb->select('entity')
-            ->from($entityDto->getFqcn(), 'entity')
-            // Comparar las fechas usando parámetros para evitar problemas de formato
-            ->andWhere($qb->expr()->eq('entity.fechaDesde', ':today'))
-            ->setParameter('today', $today->format('Y-m-d'));
+    $qb->select('entity')
+        ->from($entityDto->getFqcn(), 'entity')
+        ->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->eq('entity.fechaDesde', ':today'),
+                $qb->expr()->gt('entity.fechaDesde', ':today'),
+                $qb->expr()->lt('entity.fechaHasta', ':today')
+            )
+        )
+        ->setParameter('today', $today->format('Y-m-d'));
 
-        return $qb;
-    }
+    return $qb;
+}
 }
