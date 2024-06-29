@@ -25,10 +25,6 @@ class PublicacionAmarraController extends AbstractController
 
         $tamaños=['Chica','Mediana','Grande'];
 
-
-
-        
-
         $form = $this->createForm(OfertasTemporalesType::class);
         $form->handleRequest($request);
 
@@ -58,9 +54,6 @@ class PublicacionAmarraController extends AbstractController
             
 
         } 
-
-
-
         return $this->render('publicacion_amarra/index.html.twig', [
             'publicacion_amarras' => $publicaciones,
             'filtrado'=>$form,
@@ -71,12 +64,7 @@ class PublicacionAmarraController extends AbstractController
     #[Route('/listado', name: 'app_publicacion_amarra_filtro')]
     public function action(): Response
     {
-
-        
-
-
-
-        return $this->render('template.html.twig');
+        return $this->render('publicacion_amarra/listado.html.twig');
     }
 
 

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado Publicaciones{% endblock %}
+
+{% block body %}
+<div style="text-align: center; color: #c2a26b;">
+        <h1>Publicaciones de Amarras Disponibles</h1>
+
+        <div class="row">
+            {% for publicacion_amarra in publicacion_amarras %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Amarra de {{ publicacion_amarra.usuario.nombre }} {{ publicacion_amarra.usuario.apellido }}</h5>
+                            <div class="card-image-container">
+                            <img src="{{ asset(publicacion_amarra.imagen) }}" class="card-img-top fixed-size-image" alt="Imagen de la amarra">
+                            </div>
+                    <p class="card-text"><strong>Tamaño:</strong> {{ publicacion_amarra.tamano }}</p>
+                    <p class="card-text"><strong>Sector:</strong> {{ publicacion_amarra.sector }}</p>
+                    <p class="card-text"><strong>Marina:</strong> {{ publicacion_amarra.marina }}</p>
+                    <p class="card-text"><strong>Desde:</strong> {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
+                    <p class="card-text"><strong>Hasta:</strong> {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
+                    <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                    {% if app.user %}
+                        {% if app.user.id != publicacion_amarra.usuario.id %}
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="width: 100%; text-align: center;">
+            <p>No se encontraron publicaciones de amarras, prueba con otros filtros.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

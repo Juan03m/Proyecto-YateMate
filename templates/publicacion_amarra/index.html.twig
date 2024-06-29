@@ -1,18 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Publicaciones de Amarras{% endblock %}
-{#
-{% block search %}
-    {{ form_start(form) }}
-        <div class="d-flex">
-            {{ form_widget(form.fechaDesde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
-            {{ form_widget(form.fechaHasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
-            {{ form_widget(form.Buscar, {'attr': {'class': 'btn btn-outline-primary'}}) }}
-        </div>
-    {{ form_end(form) }}
-{% endblock %}
-#}
+
 {% block body %}
+<div style="text-align: center;style=margin-top: 20px">
+    <h1>Filtros de Amarras</h1>
+<div/>
     {# mensajes flash success #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -33,27 +26,22 @@
     {% endfor %}
 
     {# Formulario de filtros #}
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: ;">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <form class="d-flex mx-auto" method="POST" action="{{ path('app_publicacion_amarra_index') }}">
-                        {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
-                        {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
-                        {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control me-2', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
-                        {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control me-2', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
-                        <button class="btn btn-outline-success" type="submit">Filtrar</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="container centered-form2" style="margin-top: 170px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
+    <form class="d-flex justify-content-center" method="POST" action="{{ path('app_publicacion_amarra_index') }}">
+        {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
+        {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
+        {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control me-2', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
+        {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control me-2', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
+        <button class="btn btn-secondary" type="submit">Filtrar</button>
+    </form>
+</div>
 
-    <div style="text-align: center; color: #c2a26b;">
+
+    <div style="text-align: center; color: #c2a26b; margin-top: 300px;">
         <h1>Publicaciones de Amarras</h1>
 
         <div class="row">
-            {% for publicacion_amarra in publicacion_amarras %}
+             {% for publicacion_amarra in publicacion_amarras %}
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
                     <div class="card mx-auto" style="width: 18rem;">
                         <div class="card-body">
@@ -61,26 +49,25 @@
                             <div class="card-image-container">
                             <img src="{{ asset(publicacion_amarra.imagen) }}" class="card-img-top fixed-size-image" alt="Imagen de la amarra">
                             </div>
-                            <p class="card-text">Sector: {{ publicacion_amarra.sector }}</p>
-                            <p class="card-text">Marina: {{ publicacion_amarra.marina }}</p>
-                            <p class="card-text">Tamaño: {{ publicacion_amarra.tamano }}</p>
-                            <p class="card-text">Desde: {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
-                            <p class="card-text">Hasta: {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
-                            <p class="card-text">Alquilada: {% if publicacion_amarra.estaAlquilada %}Alquilada{% else %}Sin Alquilar{% endif %}</p>
-                            <p class="card-text">Vigente: {% if publicacion_amarra.estaVigente %}Vigente{% else %}No vigente{% endif %}</p>
-                            <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
-                            {% if app.user %}
-                                {% if app.user.id != publicacion_amarra.usuario.id %}
-                                    <div style="text-align: center; margin-top: 20px;">
-                                        <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
-                                    </div>
-                                {% endif %}
-                            {% endif %}
+                    <p class="card-text"><strong>Tamaño:</strong> {{ publicacion_amarra.tamano }}</p>
+                    <p class="card-text"><strong>Sector:</strong> {{ publicacion_amarra.sector }}</p>
+                    <p class="card-text"><strong>Marina:</strong> {{ publicacion_amarra.marina }}</p>
+                    <p class="card-text"><strong>Desde:</strong> {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
+                    <p class="card-text"><strong>Hasta:</strong> {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
+                    <a href="{{ path('app_publicacion_amarra_show', {'id': publicacion_amarra.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                    {% if app.user %}
+                        {% if app.user.id != publicacion_amarra.usuario.id %}
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
                         </div>
-                    </div>
-                    
+                        {% endif %}
+                    {% endif %}
                 </div>
-            {% else %}
+            </div>
+        </div>
+        {% else %}
+    
+
                 <div style="width: 100%; text-align: center;">
                     <p>No se encontraron publicaciones de amarras.</p>
                 </div>
