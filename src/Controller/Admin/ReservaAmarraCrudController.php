@@ -11,12 +11,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ReservaAmarraCrudController extends AbstractCrudController
 {
@@ -110,8 +111,17 @@ class ReservaAmarraCrudController extends AbstractCrudController
             DateField::new('fechaDesde')->setDisabled(true)->hideWhenUpdating(),
             DateField::new('fechaHasta')->setDisabled(true)->hideWhenUpdating(),
             TextField::new('descripcion')->formatValue(static function ($value, $entity) {
-                return $value ?: 'No tiene';
-            }),
+                $maxLength = 50;
+                return $value ? (strlen($value) > $maxLength ? substr($value, 0, $maxLength) . '...' : $value) : 'No tiene';
+            })->setFormTypeOptions([
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Por favor, ingrese una descripción']),
+                    new Assert\Length([
+                        'max' => 255,
+                        'maxMessage' => 'La descripción puede tener 255 caracteres como máximo',
+                    ]),
+                ],
+            ]),
         ];
     }
 }

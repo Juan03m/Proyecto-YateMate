@@ -28,9 +28,17 @@ class OfertasTemporalesType extends AbstractType
         $builder
             ->add('desde',TypeDateType::class,[
                 'required'=> false,
+                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
+                'attr' => [
+                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+            ],
             ])
             ->add('hasta',TypeDateType::class,[
                 'required'=>false,
+                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
+                'attr' => [
+                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+            ],
             ])
             ->add('tamano',ChoiceType::class, [
                 'choices' => $tamañosAsociativo,
