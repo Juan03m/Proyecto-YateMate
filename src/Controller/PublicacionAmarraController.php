@@ -123,6 +123,7 @@ class PublicacionAmarraController extends AbstractController
                 $publicacionAmarra->setSector($amarra->getSector());
                 $publicacionAmarra->setTamano($amarra->getTamano());
                 $publicacionAmarra->setUsuario($amarra->getUsuario());
+                $publicacionAmarra->setAsistio(null);
             }
             $entityManager->persist($publicacionAmarra);
             $entityManager->flush();

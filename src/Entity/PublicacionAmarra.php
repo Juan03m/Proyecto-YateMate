@@ -55,6 +55,9 @@ class PublicacionAmarra
     #[ORM\ManyToOne(inversedBy: 'publicaciones')]
     private ?Amarra $amarra = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $asistio = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -227,6 +230,18 @@ class PublicacionAmarra
         return $this;
 
 
+    }
+
+    public function isAsistio(): ?bool
+    {
+        return $this->asistio;
+    }
+
+    public function setAsistio(?bool $asistio): static
+    {
+        $this->asistio = $asistio;
+
+        return $this;
     }
 
    
