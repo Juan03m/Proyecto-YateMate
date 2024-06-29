@@ -95,16 +95,31 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
  * @param \DateTimeInterface $fechaHasta
  * @return PublicacionAmarra[]
  */
-public function findPublicacionesDisponiblesEnPeriodo(\DateTimeInterface $fechaDesde, \DateTimeInterface $fechaHasta): array
+public function findPublicacionesDisponiblesEnPeriodo($fechaDesde,$fechaHasta,$marina,$tamaño): array
 {
-    $qb = $this->createQueryBuilder('p')
-        ->leftJoin('p.reservaAmarra', 'r')
+    $qb = $this->createQueryBuilder('p');
+
+    if ($tamaño != null) {
+        $qb->andWhere('p.tamano = :tamano')
+           ->setParameter('tamano', $tamaño);
+    }
+
+
+    if ($marina != null) {
+        $qb->andWhere('p.marina = :marina')
+           ->setParameter('marina', $marina);
+    }
+
+
+    if(($fechaDesde!=null) && ($fechaHasta!=null))
+    {
+    $qb->leftJoin('p.reservaAmarra', 'r')
         ->where('p.fechaDesde <= :fechaHasta')
         ->andWhere('p.fechaHasta >= :fechaDesde')
-        ->andWhere('(r.id IS NULL OR (r.fechaDesde > :fechaHasta OR r.fechaHasta < :fechaDesde))')
+        ->andWhere('(r.id IS NULL OR (r.fechaDesde > :fechaHasta AND r.fechaHasta < :fechaDesde))')
         ->setParameter('fechaDesde', $fechaDesde)
         ->setParameter('fechaHasta', $fechaHasta);
-
+    };
     return $qb->getQuery()->getResult();
 }
 
