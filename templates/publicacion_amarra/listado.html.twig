@@ -3,9 +3,10 @@
 {% block title %}Listado Publicaciones{% endblock %}
 
 {% block body %}
+
+
 <div style="text-align: center; color: #c2a26b;">
         <h1>Publicaciones de Amarras Disponibles</h1>
-
         <div class="row">
             {% for publicacion_amarra in publicacion_amarras %}
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
@@ -24,7 +25,8 @@
                     {% if app.user %}
                         {% if app.user.id != publicacion_amarra.usuario.id %}
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id}) }}" class="btn btn-secondary">Reservar esta Amarra</a>
+                            <a href="{{ path('app_reserva_amarra_new', {'idPublicacion': publicacion_amarra.id, 'desde': fecha_desde|date('Y-m-d'), 'hasta': fecha_hasta|date('Y-m-d') }) }}" class="btn btn-secondary">Reservar esta Amarra</a>
+
                         </div>
                         {% endif %}
                     {% endif %}
