@@ -32,6 +32,7 @@
         {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
         {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control me-2', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
         {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control me-2', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
+         {{ form_errors(filtrado) }}
         <button class="btn btn-secondary" type="submit">Filtrar</button>
     </form>
 </div>

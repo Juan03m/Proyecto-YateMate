@@ -11,7 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+
 class OfertasTemporalesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -25,15 +31,15 @@ class OfertasTemporalesType extends AbstractType
         
 
         $builder
-            ->add('desde',TypeDateType::class,[
-                'required'=> false,
-                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
-                'attr' => [
+        ->add('desde', TypeDateType::class, [
+            'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
+            'required' => true,
+            'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
-            ])
+        ])
             ->add('hasta',TypeDateType::class,[
-                'required'=>false,
+                'required'=>true,
                 'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
@@ -57,11 +63,39 @@ class OfertasTemporalesType extends AbstractType
             ->add('Filtrar',SubmitType::class)
        
         ;
+
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+                                
+                $fechaDesde = $form->getData()['desde'];
+                $fechaHasta = $form->getData()['hasta'];
+                
+                if ($fechaDesde && $fechaHasta) {
+                    if ($fechaHasta <= $fechaDesde) {
+                        $form->get('hasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
+                        $form->addError(new FormError('Las fechas de inicio debe ser mayor que la fecha de fin'));
+                    }
+                }
+            }
+            
+        );
+
+
+
+
     }
 
+
+
+    
+
+    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
             // Configure your form options here
         ]);
     }
