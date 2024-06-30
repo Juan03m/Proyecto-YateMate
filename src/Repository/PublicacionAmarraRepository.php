@@ -15,13 +15,15 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PublicacionAmarra::class);
     }
-    public function findPublicacionesTerminadas($hoy): array
+    public function findPublicacionesTerminadas(\DateTime $hoy): array
     {
         return $this->createQueryBuilder('p')
-          ->andWhere('p.estaAlquilada = false')
-           ->getQuery()
-           ->getResult()
-        ;
+            ->andWhere('p.estaAlquilada = :alquilada')
+            ->andWhere('p.fechaHasta <= :hoy')
+            ->setParameter('alquilada', false)
+            ->setParameter('hoy', $hoy->format('Y-m-d')) // Asegúrate de usar el formato correcto
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
