@@ -20,8 +20,12 @@ class ReservaAmarraController extends AbstractController
     #[Route('/', name: 'app_reserva_amarra_index', methods: ['GET'])]
     public function index(ReservaAmarraRepository $reservaAmarraRepository): Response
     {
+        $user=$this->getUser();
+        $reservasUser=$reservaAmarraRepository->findReservasPorUsuario($user->getId());
+
+
         return $this->render('reserva_amarra/index.html.twig', [
-            'reserva_amarras' => $reservaAmarraRepository->findAll(),
+            'reserva_amarras' => $reservasUser,
         ]);
     }
 
