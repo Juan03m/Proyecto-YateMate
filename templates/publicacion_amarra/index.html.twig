@@ -3,10 +3,7 @@
 {% block title %}Publicaciones de Amarras{% endblock %}
 
 {% block body %}
-<div style="text-align: center;style=margin-top: 20px">
-    <h1>Filtros de Amarras</h1>
-<div/>
-    {# mensajes flash success #}
+{# mensajes flash success #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>¡Éxito!</strong> {{ message }}
@@ -25,8 +22,17 @@
     </div>
     {% endfor %}
 
+<div style="text-align: center;style=margin-top: 20px">
+    <h1>Busca tu Amarras</h1>
+<div/>
+<div class="container mt-5 text-center">
+    <p style="text-align: center; font-size: 1.2em; color: #c2a26b;">
+        Por favor ingresa los datos para buscar tu proximo alquiler de amarra
+    </p>
+</div>
+    
     {# Formulario de filtros #}
-    <div class="container centered-form2" style="margin-top: 170px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
+    <div class="container centered-form2" style="margin-top: 140px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
     <form class="d-flex justify-content-center" method="POST" action="{{ path('app_publicacion_amarra_index') }}">
         {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
         {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
@@ -35,15 +41,6 @@
         <button class="btn btn-secondary" type="submit">Filtrar</button>
     </form>
 </div>
-
-
-    <div style="text-align: center; color: #c2a26b; margin-top: 300px;">
-        <h1>Publicaciones de Amarras</h1>
-
-        <div class="row">
-          
-        </div>
-    </div>
     <div style="width: 100%; text-align: center;">
         <a href="{{ path('app_publicacion_amarra_new') }}" class="btn btn-secondary">Publicar amarra</a>
     </div>

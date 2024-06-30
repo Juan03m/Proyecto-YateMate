@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 class OfertasTemporalesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -25,20 +26,32 @@ class OfertasTemporalesType extends AbstractType
         
 
         $builder
-            ->add('desde',TypeDateType::class,[
-                'required'=> false,
-                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
-                'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+        ->add('desde', TypeDateType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'attr' => [
+                'min' => (new \DateTime())->format('Y-m-d'), // Establecer mínimo como fecha actual en formato Y-m-d
             ],
-            ])
-            ->add('hasta',TypeDateType::class,[
-                'required'=>false,
-                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
-                'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Por favor ingresa una fecha de inicio',
+                ]),
             ],
+        
             ])
+            ->add('hasta', TypeDateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'), // Establecer mínimo como fecha actual en formato Y-m-d
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor ingresa una fecha de inicio',
+                    ]),
+                ],
+            
+                ])
             ->add('tamano',ChoiceType::class, [
                 'choices' => $tamañosAsociativo,
                 'required'=>false,
