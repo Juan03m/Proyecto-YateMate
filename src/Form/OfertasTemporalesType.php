@@ -15,9 +15,9 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
+use Symfony\Component\Validator\Constraints\NotBlank;
 class OfertasTemporalesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,7 +44,21 @@ class OfertasTemporalesType extends AbstractType
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
+        
             ])
+            ->add('hasta', TypeDateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'), // Establecer mínimo como fecha actual en formato Y-m-d
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor ingresa una fecha de inicio',
+                    ]),
+                ],
+            
+                ])
             ->add('tamano',ChoiceType::class, [
                 'choices' => $tamañosAsociativo,
                 'required'=>false,
