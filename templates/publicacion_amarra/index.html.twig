@@ -44,14 +44,14 @@
 </div>
 <div class="container mt-5 text-center">
     <p style="text-align: center; font-size: 1.2em; color: #c2a26b;">
-        Tenes una amarra y queres publicarla para un alquiler temporal? hace click acá
+        ¿Tenes una amarra y queres publicarla para un alquiler temporal? hace click acá
     </p>
 </div>
     <div style="width: 100%; text-align: center;">
         <a href="{{ path('app_publicacion_amarra_new') }}" class="btn btn-secondary">Publicar amarra</a>
     </div>
-    <div style="text-align: center; color: #c2a26b;">
-        <h1>Publicaciones de Amarras Disponibles</h1>
+    <div style="text-align: center; color: #c2a26b;margin-top: 185px">
+        <h1>Tus de Amarras Publicadas</h1>
         <div class="row">
             {% for publicacion_amarra in publicacionesDelUser %}
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
@@ -70,6 +70,8 @@
                                 <div style="margin-right: 10px;">
                                     {{ include('publicacion_amarra/_delete_form.html.twig') }}
                                 </div>
+                    {% else %}
+                        <small id="descripcionHelp" class="form-text text-muted">No puedes cancelar esta publicacíon porque la misma se encuentra reservada</small>
                     {% endif %}
                 </div>
             </div>
