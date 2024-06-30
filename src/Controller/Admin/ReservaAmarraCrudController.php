@@ -133,23 +133,23 @@ class ReservaAmarraCrudController extends AbstractCrudController
         ];
     }
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, CollectionFilterCollection $filters): ORMQueryBuilder
-{
-    $qb = $this->entityManager->createQueryBuilder();
+    {
+        $qb = $this->entityManager->createQueryBuilder();
 
-    // Obtener la fecha de hoy como un objeto DateTime
-    $today = new \DateTime();
+        // Obtener la fecha de hoy como un objeto DateTime
+        $today = new \DateTime();
 
-    $qb->select('entity')
-        ->from($entityDto->getFqcn(), 'entity')
-        ->andWhere(
-            $qb->expr()->orX(
-                $qb->expr()->gte('entity.fechaDesde', ':today'),
-                $qb->expr()->gt('entity.fechaHasta', ':today'),
+        $qb->select('entity')
+            ->from($entityDto->getFqcn(), 'entity')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('entity.fechaDesde', ':today'),
+                    $qb->expr()->gt('entity.fechaHasta', ':today'),
+                )
+
             )
+            ->setParameter('today', $today->format('Y-m-d'));
 
-        )
-        ->setParameter('today', $today->format('Y-m-d'));
-
-    return $qb;
-}
+        return $qb;
+    }
 }

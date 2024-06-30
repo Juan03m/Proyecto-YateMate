@@ -43,7 +43,7 @@ class Amarra
     /**
      * @var Collection<int, PublicacionAmarra>
      */
-    #[ORM\OneToMany(targetEntity: PublicacionAmarra::class, mappedBy: 'amarra')]
+    #[ORM\OneToMany(targetEntity: PublicacionAmarra::class, mappedBy: 'amarra',  cascade: ['persist', 'remove'])]
     private Collection $publicaciones;
 
     public function __construct()
@@ -162,7 +162,7 @@ class Amarra
         if ($this->publicaciones->removeElement($publicacione)) {
             // set the owning side to null (unless already changed)
             if ($publicacione->getAmarra() === $this) {
-                $publicacione->setAmarra(null);
+                //$publicacione->setAmarra(null);
             }
         }
 
