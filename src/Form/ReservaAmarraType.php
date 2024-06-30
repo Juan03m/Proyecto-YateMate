@@ -106,22 +106,29 @@ class ReservaAmarraType extends AbstractType
                         if ($fechaHasta <= $fechaDesde) {
                             $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
                         }
-                        if ($fechaDesde < $publicacionAmarra->getFechaDesde()) {
+                        
+                        if ($fechaDesde < $publicacionAmarra->getFechaDesde() ) {
                             $form->get('fechaDesde')->addError(new FormError('La fecha de INICIO de la reserva debe estar dentro del rango de fechas de la publicación de amarra.'));
                         }
                         if ($fechaHasta > $publicacionAmarra->getFechaHasta()) {
                             $form->get('fechaHasta')->addError(new FormError('La fecha de FIN de la reserva debe estar dentro del rango de fechas de la publicación de amarra.'));
                         }
+                        $hasOverlap = false;
 
                         foreach ($publicacionAmarra->getReservaAmarra() as $existingReserva) {
-                            if (
+                            $isOverlapping = 
                                 ($fechaDesde >= $existingReserva->getFechaDesde() && $fechaDesde <= $existingReserva->getFechaHasta()) ||
                                 ($fechaHasta >= $existingReserva->getFechaDesde() && $fechaHasta <= $existingReserva->getFechaHasta()) ||
-                                ($fechaDesde <= $existingReserva->getFechaDesde() && $fechaHasta >= $existingReserva->getFechaHasta())
-                            ) {
-                                $form->get('fechaDesde')->addError(new FormError('Las fechas de la reserva se solapan con una reserva existente.'));
+                                ($fechaDesde <= $existingReserva->getFechaDesde() && $fechaHasta >= $existingReserva->getFechaHasta());
+                        
+                            if ($isOverlapping && $existingReserva->isAceptada() !== false) {
+                                $hasOverlap = true;
                                 break;
                             }
+                        }
+                        
+                        if ($hasOverlap) {
+                            $form->get('fechaDesde')->addError(new FormError('Las fechas de la reserva se solapan con una reserva existente aceptada o pendiente.'));
                         }
                     }
                 }

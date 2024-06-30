@@ -44,6 +44,8 @@ class ReservaAmarraController extends AbstractController
             if ($fechaHasta) {
                 $reservaAmarra->setFechaHasta(new \DateTime($fechaHasta));
             }
+
+            $reservaAmarra->setAceptada(null);
         }
     
         $form = $this->createForm(ReservaAmarraType::class, $reservaAmarra, [

@@ -95,7 +95,7 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
  * @param \DateTimeInterface $fechaHasta
  * @return PublicacionAmarra[]
  */
-public function findPublicacionesDisponiblesEnPeriodo($fechaDesde,$fechaHasta,$marina,$tamaño): array
+public function findPublicacionesDisponiblesEnPeriodo($fechaDesde, $fechaHasta, $marina, $tamaño): array
 {
     $qb = $this->createQueryBuilder('p');
 
@@ -104,22 +104,20 @@ public function findPublicacionesDisponiblesEnPeriodo($fechaDesde,$fechaHasta,$m
            ->setParameter('tamano', $tamaño);
     }
 
-
     if ($marina != null) {
         $qb->andWhere('p.marina = :marina')
            ->setParameter('marina', $marina);
     }
 
+    if ($fechaDesde != null && $fechaHasta != null) {
+        $qb->leftJoin('p.reservaAmarra', 'r')
+            ->andWhere('p.fechaDesde <= :fechaHasta')
+            ->andWhere('p.fechaHasta >= :fechaDesde')
+            ->andWhere('(r.id IS NULL OR (r.fechaHasta < :fechaDesde OR r.fechaDesde > :fechaHasta) OR r.aceptada = false)')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+    }
 
-    if(($fechaDesde!=null) && ($fechaHasta!=null))
-    {
-    $qb->leftJoin('p.reservaAmarra', 'r')
-        ->where('p.fechaDesde <= :fechaHasta')
-        ->andWhere('p.fechaHasta >= :fechaDesde')
-        ->andWhere('(r.id IS NULL OR (r.fechaDesde > :fechaHasta AND r.fechaHasta < :fechaDesde))')
-        ->setParameter('fechaDesde', $fechaDesde)
-        ->setParameter('fechaHasta', $fechaHasta);
-    };
     return $qb->getQuery()->getResult();
 }
 

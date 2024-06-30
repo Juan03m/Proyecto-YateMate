@@ -30,7 +30,7 @@ class PublicacionAmarraController extends AbstractController
 
 
       
-        $publicaciones=$publicacionAmarraRepository->findAll();
+        $publicaciones=[];
         if($form->isSubmitted()){
 
             $data=$form->getData();
