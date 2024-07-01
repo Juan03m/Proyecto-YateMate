@@ -27,7 +27,7 @@ class PublicacionAmarraType extends AbstractType
             'widget' => 'single_text',
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+                'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
             'constraints' => [
                 new NotBlank([
@@ -39,7 +39,7 @@ class PublicacionAmarraType extends AbstractType
             'widget' => 'single_text',
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+                'min' => (new \DateTime())->modify('+3 day')->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
             'constraints' => [
                 new NotBlank([
