@@ -39,7 +39,8 @@ class PublicacionAmarraType extends AbstractType
             'widget' => 'single_text',
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'attr' => [
-                'min' => (new \DateTime())->modify('+3 day')->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+                'min' =>(new \DateTime())->modify('+3 day')->format('Y-m-d'),
+                'max' => (new \DateTime())->modify('+3 month')->format('Y-m-d'), 
             ],
             'constraints' => [
                 new NotBlank([
@@ -74,9 +75,9 @@ class PublicacionAmarraType extends AbstractType
                 $fechaHasta = $data->getFechaHasta();
 
                 if ($fechaDesde && $fechaHasta) {
-
-                    if ($fechaHasta <= $fechaDesde) {
-                        $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
+                    $fechaMinimaHasta = (clone $fechaDesde)->modify('+2 days');
+                    if ($fechaHasta <= $fechaMinimaHasta) {
+                        $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser 3 dias posterior que la fecha de inicio.'));
                     }
                 }
             }
