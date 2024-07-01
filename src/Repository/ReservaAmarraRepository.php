@@ -25,6 +25,15 @@ class ReservaAmarraRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findReservasPorUsuario($idUsuario)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.solicitante', 'u')
+            ->andWhere('u.id = :idUsuario')
+            ->setParameter('idUsuario', $idUsuario)
+            ->getQuery()
+            ->getResult();
+    }
 
 
 

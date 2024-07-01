@@ -26,6 +26,16 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
     }
 
 
+    public function findPublicacionesPorUsuario($idUsuario)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.usuario', 'u')
+            ->andWhere('u.id = :idUsuario')
+            ->setParameter('idUsuario', $idUsuario)
+            ->getQuery()
+            ->getResult();
+    }
+    
 
 
 

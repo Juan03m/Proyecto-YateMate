@@ -27,11 +27,12 @@ class PublicacionAmarraController extends AbstractController
 
         $form = $this->createForm(OfertasTemporalesType::class);
         $form->handleRequest($request);
+        $user=$this->getUser();
+        $publicacionesDelUser=$ofertasTemporales->findPublicacionesPorUsuario($user->getId());
 
-
-      
+        
         $publicaciones=[];
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && ($form->isValid())){
 
             $data=$form->getData();
            // dd($data);
@@ -56,6 +57,7 @@ class PublicacionAmarraController extends AbstractController
         } 
         return $this->render('publicacion_amarra/index.html.twig', [
             'publicacion_amarras' => $publicaciones,
+            'publicacionesDelUser'=>$publicacionesDelUser,
             'filtrado'=>$form,
         ]);
     }
@@ -185,5 +187,20 @@ class PublicacionAmarraController extends AbstractController
         }
 
         return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+    #[Route('verMisPublicaciones/{id}', name: 'app_publicacion_amarra_verMisPublicaciones')]
+    public function publicacionesPorUsuario($id,PublicacionAmarraRepository $pr): Response
+    {
+
+        $publicaciones=$pr->findPublicacionesPorUsuario($id);
+
+
+
+        return $this->render('template.html.twig',[
+            'publicaciones'=>$publicaciones
+        ]);
     }
 }
