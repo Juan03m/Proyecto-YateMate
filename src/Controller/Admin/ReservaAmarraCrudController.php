@@ -117,10 +117,17 @@ class ReservaAmarraCrudController extends AbstractCrudController
             AssociationField::new('solicitante')->setDisabled(true)->hideWhenUpdating(),
             DateField::new('fechaDesde')->setDisabled(true)->hideWhenUpdating(),
             DateField::new('fechaHasta')->setDisabled(true)->hideWhenUpdating(),
-            TextareaField::new('descripcion')->formatValue(static function ($value, $entity) {
+            TextField::new('descripcion')->formatValue(static function ($value, $entity) {
                 $maxLength = 50;
                 return $value ? (strlen($value) > $maxLength ? substr($value, 0, $maxLength) . '...' : $value) : 'No tiene';
-            }),
+            })->setFormTypeOptions([
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255,
+                        'maxMessage' => 'La descripción puede tener 255 caracteres como máximo',
+                    ]),
+                ],
+            ]),
             BooleanField::new('aceptada')->hideWhenUpdating()
             ->setLabel('Asistió')->renderAsSwitch(false),
         ];
