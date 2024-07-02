@@ -244,5 +244,15 @@ class PublicacionAmarra
         return $this;
     }
 
+    public function tieneReservaActiva(): bool
+    {
+        foreach ($this->reservaAmarra as $reserva) {
+            if ($reserva->isAceptada() == true) {
+                return true;
+            }
+        }
+        return false;
+    
+    }
    
 }

@@ -185,7 +185,7 @@ class PublicacionAmarraController extends AbstractController
             $entityManager->remove($publicacionAmarra);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Publicación eliminada con éxito.');
         return $this->redirectToRoute('app_publicacion_amarra_index', [], Response::HTTP_SEE_OTHER);
     }
 
