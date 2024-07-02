@@ -31,10 +31,10 @@
                 'attr': {'class': 'form-control', 'placeholder': 'Publicación de Amarra', 'disabled': 'disabled'}
             }) }}
             {{ form_row(form.fechaDesde, {
-                'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde', 'disabled': 'disabled'}
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde','readonly': 'readonly'}
             }) }}
             {{ form_row(form.fechaHasta, {
-                'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta', 'disabled': 'disabled'}
+                'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta','readonly': 'readonly'}
             }) }}
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Guardar</button>
             <a href="{{ path('app_publicacion_amarra_index')}}"class="btn btn-3" style="margin-top: 10px;">Cancelar</a>
