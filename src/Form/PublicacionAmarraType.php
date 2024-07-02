@@ -27,7 +27,8 @@ class PublicacionAmarraType extends AbstractType
             'widget' => 'single_text',
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'attr' => [
-                'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+                'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'),
+                'max' =>(new \DateTime())->modify('+2 year')->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
                 'placeholder' => 'Fecha desde dd/mm/AAAA'
             ],
             'constraints' => [
@@ -41,7 +42,7 @@ class PublicacionAmarraType extends AbstractType
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'attr' => [
                 'min' =>(new \DateTime())->modify('+4 day')->format('Y-m-d'),
-                'max' => (new \DateTime())->modify('+3 month')->format('Y-m-d'),
+                'max' =>(new \DateTime())->modify('+2 year')->format('Y-m-d'),
                 'placeholder' => 'Fecha hasta dd/mm/AAAA' 
             ],
             'constraints' => [
@@ -79,12 +80,19 @@ class PublicacionAmarraType extends AbstractType
                 if ($fechaDesde && $fechaHasta) {
                     $fechaMinimaHasta = (clone $fechaDesde)->modify('+2 days');
                     if ($fechaHasta <= $fechaMinimaHasta) {
-                        $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser 3 dias posterior que la fecha de inicio.'));
+                        $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser 3 días posterior que la fecha de inicio.'));
+                    }
+
+                    // Verificar que la diferencia entre fechaDesde y fechaHasta no sea mayor a 3 meses
+                    $fechaMaximaHasta = (clone $fechaDesde)->modify('+3 months');
+                    if ($fechaHasta > $fechaMaximaHasta) {
+                        $form->get('fechaHasta')->addError(new FormError('La diferencia entre la fecha desde y la fecha hasta no puede ser mayor a 3 meses.'));
                     }
                 }
             }
         );
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
