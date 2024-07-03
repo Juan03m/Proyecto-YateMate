@@ -35,9 +35,18 @@ class OfertasTemporalesType extends AbstractType
             'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
             'required' => true,
             'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+                'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'), 
+                'max' => (new \DateTime())->modify('+2 year')->format('Y-m-d') // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
         ])
+            ->add('hasta',TypeDateType::class,[
+                'required'=>true,
+                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
+                'attr' => [
+                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
+            ],
+        
+            ])
             ->add('hasta', TypeDateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
@@ -50,7 +59,7 @@ class OfertasTemporalesType extends AbstractType
                     ]),
                 ],
             
-                ])
+            
             ->add('tamano',ChoiceType::class, [
                 'choices' => $tamañosAsociativo,
                 'required'=>false,
@@ -78,14 +87,23 @@ class OfertasTemporalesType extends AbstractType
                 $fechaDesde = $form->getData()['desde'];
                 $fechaHasta = $form->getData()['hasta'];
                 
+
+                if ($fechaDesde) {
+                    $fechaMaximaHasta = (clone $fechaDesde)->modify('+3 months');
+                    if ($fechaHasta && $fechaHasta > $fechaMaximaHasta) {
+                        $form->get('hasta')->addError(new FormError('La diferencia entre la fecha desde y la fecha hasta no puede ser mayor a 3 meses.'));
+                        $form->addError(new FormError('La diferencia entre la fecha desde y la fecha hasta no puede ser mayor a 3 meses.'));
+                    }
+                }
                 if ($fechaDesde && $fechaHasta) {
                     if ($fechaHasta <= $fechaDesde) {
                         $form->get('hasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
                         $form->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
                     }
                 }
+        
+                
             }
-            
         );
 
 

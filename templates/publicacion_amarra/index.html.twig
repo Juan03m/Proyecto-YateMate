@@ -27,63 +27,75 @@
 <div/>
 <div class="container mt-5 text-center">
     <p style="text-align: center; font-size: 1.2em; color: #c2a26b;">
-        Por favor ingresa los datos para buscar tu proximo alquiler de amarra
+        Por favor ingresa los datos para buscar tu próximo alquiler de amarra
     </p>
 </div>
     
-    {# Formulario de filtros #}
-    <div class="container centered-form2" style="margin-top: 140px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
+{# Formulario de filtros #}
+<div class="container centered-form2" style="margin-top: 140px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
     <form class="d-flex justify-content-center" method="POST" action="{{ path('app_publicacion_amarra_index') }}">
-        {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
-        {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control me-2', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
-        {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control me-2', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
-        {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control me-2', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
+        <div class="form-group me-2">
+            {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
+            <small class="form-text text-muted">Fecha desde</small>
+        </div>
+        <div class="form-group me-2">
+            {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
+            <small class="form-text text-muted">Fecha hasta</small>
+        </div>
+        <div class="form-group me-2">
+            {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
+        </div>
+        <div class="form-group me-2">
+            {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
+        </div>
         
         <button class="btn btn-secondary" type="submit">Filtrar</button>
-        
     </form>
     
     {{ form_errors(filtrado) }}
+
+
 </div>
+
 {% if 'ROLE_CLIENT' in app.user.roles %}
 <div class="container mt-5 text-center">
     <p style="text-align: center; font-size: 1.2em; color: #c2a26b;">
-        ¿Tenes una amarra y queres publicarla para un alquiler temporal? hace click <a href="{{path('app_publicacion_amarra_new')}}">acá</a>
+        ¿Tenes una amarra y queres publicarla para un alquiler temporal? Hace click <a href="{{path('app_publicacion_amarra_new')}}">acá</a>
     </p>
 </div>
 
-    <div style="text-align: center; color: #c2a26b;margin-top: 185px">
-        <h1>Tus Amarras Publicadas</h1>
-        <div class="row">
-            {% for publicacion_amarra in publicacionesDelUser %}
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
-                    <div class="card mx-auto" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Amarra de {{ publicacion_amarra.usuario.nombre }} {{ publicacion_amarra.usuario.apellido }}</h5>
-                            <div class="card-image-container">
+<div style="text-align: center; color: #c2a26b; margin-top: 185px">
+    <h1>Tus Amarras Publicadas</h1>
+    <div class="row">
+        {% for publicacion_amarra in publicacionesDelUser %}
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 px-3 four-cards">
+                <div class="card mx-auto" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Amarra de {{ publicacion_amarra.usuario.nombre }} {{ publicacion_amarra.usuario.apellido }}</h5>
+                        <div class="card-image-container">
                             <img src="{{ asset(publicacion_amarra.imagen) }}" class="card-img-top fixed-size-image" alt="Imagen de la amarra">
+                        </div>
+                        <p class="card-text"><strong>Tamaño:</strong> {{ publicacion_amarra.tamano }}</p>
+                        <p class="card-text"><strong>Sector:</strong> {{ publicacion_amarra.sector }}</p>
+                        <p class="card-text"><strong>Marina:</strong> {{ publicacion_amarra.marina }}</p>
+                        <p class="card-text"><strong>Desde:</strong> {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
+                        <p class="card-text"><strong>Hasta:</strong> {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
+                        {% if not publicacion_amarra.tieneReservaActiva() %}
+                            <div style="margin-right: 10px;">
+                                {{ include('publicacion_amarra/_delete_form.html.twig') }}
                             </div>
-                    <p class="card-text"><strong>Tamaño:</strong> {{ publicacion_amarra.tamano }}</p>
-                    <p class="card-text"><strong>Sector:</strong> {{ publicacion_amarra.sector }}</p>
-                    <p class="card-text"><strong>Marina:</strong> {{ publicacion_amarra.marina }}</p>
-                    <p class="card-text"><strong>Desde:</strong> {{ publicacion_amarra.fechaDesde ? publicacion_amarra.fechaDesde|date('d-m-Y') : 'N/A' }}</p>
-                    <p class="card-text"><strong>Hasta:</strong> {{ publicacion_amarra.fechaHasta ? publicacion_amarra.fechaHasta|date('d-m-Y') : 'N/A' }}</p>
-                    {% if not publicacion_amarra.tieneReservaActiva() %}
-                                <div style="margin-right: 10px;">
-                                    {{ include('publicacion_amarra/_delete_form.html.twig') }}
-                                </div>
-                    {% else %}
-                        <small id="descripcionHelp" class="form-text text-muted">No puedes cancelar esta publicacíon porque la misma se encuentra reservada</small>
-                    {% endif %}
+                        {% else %}
+                            <small id="descripcionHelp" class="form-text text-muted">No puedes cancelar esta publicación porque la misma se encuentra reservada</small>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
         {% else %}
         <div style="width: 100%; text-align: center;">
-            <p>Todavia no tenes amarras publicadas para alquiler temporal.</p>
+            <p>Todavía no tienes amarras publicadas para alquiler temporal.</p>
         </div>
         {% endfor %}
     </div>
-    {% endif %}
 </div>
+{% endif %}
 {% endblock %}
