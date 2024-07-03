@@ -77,7 +77,7 @@ class PublicacionAmarraType extends AbstractType
                 $fechaDesde = $data->getFechaDesde();
                 $fechaHasta = $data->getFechaHasta();
 
-                /*
+                
                 if ($fechaDesde && $fechaHasta) {
                     $fechaMinimaHasta = (clone $fechaDesde)->modify('+2 days');
                     if ($fechaHasta <= $fechaMinimaHasta) {
@@ -90,7 +90,7 @@ class PublicacionAmarraType extends AbstractType
                         $form->get('fechaHasta')->addError(new FormError('La diferencia entre la fecha desde y la fecha hasta no puede ser mayor a 3 meses.'));
                     }
                 }
-                */
+                
             }
         );
     }
