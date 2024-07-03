@@ -76,12 +76,14 @@ class PublicacionAmarraType extends AbstractType
                 $fechaDesde = $data->getFechaDesde();
                 $fechaHasta = $data->getFechaHasta();
 
+                /*
                 if ($fechaDesde && $fechaHasta) {
                     $fechaMinimaHasta = (clone $fechaDesde)->modify('+2 days');
                     if ($fechaHasta <= $fechaMinimaHasta) {
                         $form->get('fechaHasta')->addError(new FormError('La fecha de finalización debe ser 3 dias posterior que la fecha de inicio.'));
                     }
                 }
+                */
             }
         );
     }

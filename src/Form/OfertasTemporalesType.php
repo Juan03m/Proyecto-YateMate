@@ -38,14 +38,6 @@ class OfertasTemporalesType extends AbstractType
                 'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
             ],
         ])
-            ->add('hasta',TypeDateType::class,[
-                'required'=>true,
-                'html5' => true, // Usar tipo de entrada HTML5 para selector de fecha
-                'attr' => [
-                'min' => (new \DateTime())->format('Y-m-d'), // Establecer el mínimo como la fecha actual en formato Y-m-d
-            ],
-        
-            ])
             ->add('hasta', TypeDateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,

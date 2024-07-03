@@ -68,38 +68,6 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
     }
     */
 
-    /**
-     * @return PublicacionAmarra[] Returns an array of PublicacionAmarra objects
-     */
-    public function filtrar($desde, $hasta,$marina,$tamaño): array
-    {
-        $qb = $this->createQueryBuilder('p');
-      
-        if ($desde != null) {
-            $qb->andWhere('p.fechaDesde >= :desde')
-               ->setParameter('desde', $desde);
-        }
-    
-        if ($hasta != null) {
-            $qb->andWhere('p.fechaHasta <= :hasta')
-               ->setParameter('hasta', $hasta);
-        }
-
-        if ($tamaño != null) {
-            $qb->andWhere('p.tamano = :tamano')
-               ->setParameter('tamano', $tamaño);
-        }
-        if ($marina != null) {
-            $qb->andWhere('p.marina = :marina')
-               ->setParameter('marina', $marina);
-        }
-
-        return $qb->orderBy('p.id', 'ASC')
-
-                  ->setMaxResults(10)
-                  ->getQuery()
-                  ->getResult();
-    }
 /**
  * @param \DateTimeInterface $fechaDesde
  * @param \DateTimeInterface $fechaHasta
@@ -107,6 +75,7 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
  */
 public function findPublicacionesDisponiblesEnPeriodo($fechaDesde, $fechaHasta, $marina, $tamaño): array
 {
+
     $qb = $this->createQueryBuilder('p');
 
     if ($tamaño != null) {
@@ -127,6 +96,9 @@ public function findPublicacionesDisponiblesEnPeriodo($fechaDesde, $fechaHasta, 
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);
     }
+    
+
+    
 
     return $qb->getQuery()->getResult();
 }
