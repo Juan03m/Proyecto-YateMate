@@ -89,7 +89,7 @@ class OfertasTemporalesType extends AbstractType
                 if ($fechaDesde && $fechaHasta) {
                     if ($fechaHasta <= $fechaDesde) {
                         $form->get('hasta')->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
-                        $form->addError(new FormError('Las fechas de inicio debe ser mayor que la fecha de fin'));
+                        $form->addError(new FormError('La fecha de finalización debe ser mayor que la fecha de inicio.'));
                     }
                 }
             }

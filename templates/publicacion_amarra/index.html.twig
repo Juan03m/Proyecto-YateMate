@@ -45,14 +45,13 @@
     
     {{ form_errors(filtrado) }}
 </div>
+{% if 'ROLE_CLIENT' in app.user.roles %}
 <div class="container mt-5 text-center">
     <p style="text-align: center; font-size: 1.2em; color: #c2a26b;">
-        ¿Tenes una amarra y queres publicarla para un alquiler temporal? hace click acá
+        ¿Tenes una amarra y queres publicarla para un alquiler temporal? hace click <a href="{{path('app_publicacion_amarra_new')}}">acá</a>
     </p>
 </div>
-    <div style="width: 100%; text-align: center;">
-        <a href="{{ path('app_publicacion_amarra_new') }}" class="btn btn-secondary">Publicar amarra</a>
-    </div>
+
     <div style="text-align: center; color: #c2a26b;margin-top: 185px">
         <h1>Tus de Amarras Publicadas</h1>
         <div class="row">
@@ -85,5 +84,6 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
 </div>
 {% endblock %}
