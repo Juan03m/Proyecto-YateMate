@@ -90,8 +90,8 @@ public function findPublicacionesDisponiblesEnPeriodo($fechaDesde, $fechaHasta, 
 
     if ($fechaDesde != null && $fechaHasta != null) {
         $qb->leftJoin('p.reservaAmarra', 'r')
-            ->andWhere('p.fechaDesde <= :fechaHasta')
-            ->andWhere('p.fechaHasta >= :fechaDesde')
+            ->andWhere('p.fechaDesde <= :fechaDesde')
+            ->andWhere('p.fechaHasta >= :fechaHasta')
             ->andWhere('(r.id IS NULL OR (r.fechaHasta < :fechaDesde OR r.fechaDesde > :fechaHasta) OR r.aceptada = false)')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);

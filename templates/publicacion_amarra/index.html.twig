@@ -32,24 +32,30 @@
 </div>
     
 {# Formulario de filtros #}
-<div class="container centered-form2" style="margin-top: 140px; position: relative; padding: 20px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
+<div class="container centered-form2" style="margin-top: 140px; position: relative; padding: 10px; background-color: #c2a26b; border: 1px solid #000; border-radius: 10px;">
     <form class="d-flex justify-content-center" method="POST" action="{{ path('app_publicacion_amarra_index') }}">
         <div class="form-group me-2">
+        <small class="form-text text-muted">Fecha desde</small>
             {{ form_widget(filtrado.desde, {'attr': {'class': 'form-control', 'placeholder': 'Fecha Desde', 'aria-label': 'Fecha Desde'}}) }}
-            <small class="form-text text-muted">Fecha desde</small>
+            
         </div>
         <div class="form-group me-2">
+        <small class="form-text text-muted">Fecha hasta</small>
             {{ form_widget(filtrado.hasta, {'attr': {'class': 'form-control', 'placeholder': 'Fecha Hasta', 'aria-label': 'Fecha Hasta'}}) }}
-            <small class="form-text text-muted">Fecha hasta</small>
+            
         </div>
         <div class="form-group me-2">
+            <small class="form-text text-muted">Tamaño</small>
             {{ form_widget(filtrado.tamano, {'attr': {'class': 'form-control', 'placeholder': 'Tamaño', 'aria-label': 'Tamaño'}}) }}
         </div>
         <div class="form-group me-2">
+            <small class="form-text text-muted">Marina</small>
             {{ form_widget(filtrado.marinas, {'attr': {'class': 'form-control', 'placeholder': 'Marina', 'aria-label': 'Marina'}}) }}
         </div>
-        
+        <div style="height: 10px;margin-top:23px;">
         <button class="btn btn-secondary" type="submit">Filtrar</button>
+        </div>
+        
     </form>
     
     {{ form_errors(filtrado) }}
