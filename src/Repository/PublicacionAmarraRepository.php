@@ -18,10 +18,8 @@ class PublicacionAmarraRepository extends ServiceEntityRepository
     public function findPublicacionesTerminadas(\DateTime $hoy): array
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.estaAlquilada = :alquilada')
-            ->andWhere('p.fechaHasta <= :hoy')
-            ->setParameter('alquilada', false)
-            ->setParameter('hoy', $hoy->format('Y-m-d')) // Asegúrate de usar el formato correcto
+            ->where('p.fechaHasta <= :hoy')
+            ->setParameter('hoy', $hoy) // Asegúrate de usar el formato correcto
             ->getQuery()
             ->getResult();
     }
