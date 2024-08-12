@@ -152,4 +152,9 @@ class ReservaAmarraCrudController extends AbstractCrudController
 
         return $qb;
     }
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'La descripción de la reserva se ha actualizado correctamente.');
+    }
 }
